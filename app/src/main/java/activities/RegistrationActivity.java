@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -63,15 +62,15 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         }
 
-        Log.d("Ludens", "passowrd: " + password.getText());
-        Log.d("Ludens", "confirmPassword: " + confirmPassword.getText());
+        String passwordText = password.getText().toString();
+        String confirmPasswordText = confirmPassword.getText().toString();
 
-        if(password.getText().length() < 6){
+        if(passwordText.length() < 6){
             showAlert(AlertHelper.AlertType.ALERT_PASSWORD_TOO_SHORT);
             return false;
         }
 
-        if(!password.getText().equals(confirmPassword.getText())){
+        if(!passwordText.equals(confirmPasswordText)){
             showAlert(AlertHelper.AlertType.ALERT_PASSWORD_MISMATCH);
             return false;
         }
