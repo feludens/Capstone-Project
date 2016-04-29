@@ -4,13 +4,13 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
 import com.spadatech.mobile.android.foodframer.R;
 
 import helpers.AlertHelper;
-import io.realm.RealmConfiguration;
 
 public class RegistrationActivity extends AppCompatActivity {
 
@@ -25,7 +25,8 @@ public class RegistrationActivity extends AppCompatActivity {
 
     public void registerNewUser(View v){
         if(validateUser()) {
-            RealmConfiguration config = new RealmConfiguration.Builder(this).build();
+//            RealmConfiguration config = new RealmConfiguration.Builder(this).build();
+            Log.d("Ludens", "Registered!");
         }
     }
 
