@@ -4,15 +4,18 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
 import com.spadatech.mobile.android.foodframer.R;
 
 import helpers.AlertHelper;
+import io.realm.Realm;
+import models.User;
 
 public class RegistrationActivity extends AppCompatActivity {
+
+    private User mNewUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,12 +24,19 @@ public class RegistrationActivity extends AppCompatActivity {
             getSupportActionBar().hide();
         }
         setContentView(R.layout.activity_registration);
+
+        Realm realm = Realm.getDefaultInstance();
+        mNewUser = realm.createObject(User.class);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     public void registerNewUser(View v){
         if(validateUser()) {
-//            RealmConfiguration config = new RealmConfiguration.Builder(this).build();
-            Log.d("Ludens", "Registered!");
+
         }
     }
 
@@ -42,16 +52,19 @@ public class RegistrationActivity extends AppCompatActivity {
             showAlert(AlertHelper.AlertType.ALERT_FIRST_NAME_MISSING);
             return false;
         }
+        mNewUser.setUserFirstName(firstName.getText().toString());
 
         if(lastName.getText().length() < 1){
             showAlert(AlertHelper.AlertType.ALERT_LAST_NAME_MISSING);
             return false;
         }
+        mNewUser.setUserLastName(lastName.getText().toString());
 
         if(username.getText().length() < 6){
             showAlert(AlertHelper.AlertType.ALERT_SHORT_USERNAME);
             return false;
         }
+        mNewUser.setUsername(username.getText().toString());
 
         if(email.getText().length() < 6){
             showAlert(AlertHelper.AlertType.ALERT_INVALID_EMAIL);
@@ -62,6 +75,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 return false;
             }
         }
+        mNewUser.setEmail(email.getText().toString());
 
         String passwordText = password.getText().toString();
         String confirmPasswordText = confirmPassword.getText().toString();
@@ -75,6 +89,7 @@ public class RegistrationActivity extends AppCompatActivity {
             showAlert(AlertHelper.AlertType.ALERT_PASSWORD_MISMATCH);
             return false;
         }
+        mNewUser.setPassword(passwordText);
 
         return true;
     }
