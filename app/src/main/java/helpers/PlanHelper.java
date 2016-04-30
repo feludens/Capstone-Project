@@ -3,6 +3,7 @@ package helpers;
 import com.spadatech.mobile.android.foodframer.R;
 
 import io.realm.Realm;
+import io.realm.RealmList;
 import models.Plan;
 import models.User;
 
@@ -17,8 +18,13 @@ public class PlanHelper {
             Plan samplePlan = realm.createObject(Plan.class);
             samplePlan.setPlanName("Sample Plan");
             samplePlan.setImageRsc(R.drawable.google);
-            samplePlan.setWeekdaysList(WeekdayHelper.newWeekdayList());
+            samplePlan.setWeekdaysList(WeekdayHelper.newWeekdayList(realm));
             realm.commitTransaction();
+
+            RealmList<Plan> planList = new RealmList<>();
+            planList.add(samplePlan);
+
+            user.setPlanList(planList);
         }
     }
 }
