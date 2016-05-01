@@ -34,8 +34,8 @@ public class RVPlanAdapter extends RecyclerView.Adapter<RVPlanAdapter.PlanViewHo
 
     @Override
     public void onBindViewHolder(PlanViewHolder holder, int position) {
-        holder.planName.setText(mPlanList.get(position).getPlanName());
-        holder.planImage.setImageResource(mPlanList.get(position).getImageRsc());
+        holder.planName.setText(mPlanList.get(position).getName());
+        holder.planImage.setImageResource(mPlanList.get(position).getImage());
     }
 
     @Override

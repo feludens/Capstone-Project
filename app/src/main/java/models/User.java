@@ -8,58 +8,58 @@ import io.realm.RealmObject;
  */
 public class User extends RealmObject {
 
-    private String mUsername;
-    private String mUserFirstName;
-    private String mUserLastName;
-    private String mEmail;
-    private String mPassword;
-    private RealmList<Plan> mPlanList;
+    private String username;
+    private String firstname;
+    private String lastname;
+    private String email;
+    private String password;
+    private RealmList<Plan> plans;
 
     public String getUsername() {
-        return mUsername;
+        return username;
     }
 
     public void setUsername(String username) {
-        this.mUsername = username;
+        this.username = username;
     }
 
-    public String getUserFirstName() {
-        return mUserFirstName;
+    public String getFirstName() {
+        return firstname;
     }
 
-    public void setUserFirstName(String userFirstName) {
-        this.mUserFirstName = userFirstName;
+    public void setFirstName(String userFirstName) {
+        this.firstname = userFirstName;
     }
 
-    public String getUserLastName() {
-        return mUserLastName;
+    public String getLastName() {
+        return lastname;
     }
 
-    public void setUserLastName(String userLastName) {
-        this.mUserLastName = userLastName;
+    public void setLastName(String userLastName) {
+        this.lastname = userLastName;
     }
 
     public String getEmail() {
-        return mEmail;
+        return email;
     }
 
     public void setEmail(String email) {
-        this.mEmail = email;
+        this.email = email;
     }
 
     public String getPassword() {
-        return mPassword;
+        return password;
     }
 
     public void setPassword(String password) {
-        this.mPassword = password;
+        this.password = password;
     }
 
     public RealmList<Plan> getPlanList() {
-        return mPlanList;
+        return plans;
     }
 
     public void setPlanList(RealmList<Plan> planList) {
-        this.mPlanList = planList;
+        this.plans = planList;
     }
 }

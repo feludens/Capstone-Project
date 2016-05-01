@@ -7,50 +7,50 @@ import io.realm.RealmObject;
  * Created by Felipe S. Pereira on 4/13/16.
  */
 public class Plan extends RealmObject{
-    private String mPlanName;
-    private String mPlanId;
-    private int mImageRsc;
-    private RealmList<Weekday> mWeekdaysList;
+    private String id;
+    private String name;
+    private int image;
+    private RealmList<Weekday> weekdays;
 
     public Plan() {
     }
 
-    public Plan(String mPlanName, int mImageRsc, String mPlanId, RealmList<Weekday> mWeekdaysList) {
-        this.mPlanName = mPlanName;
-        this.mImageRsc = mImageRsc;
-        this.mPlanId = mPlanId;
-        this.mWeekdaysList = mWeekdaysList;
+    public Plan(String name, int image, String id, RealmList<Weekday> weekdays) {
+        this.name = name;
+        this.image = image;
+        this.id = id;
+        this.weekdays = weekdays;
     }
 
-    public String getPlanName() {
-        return mPlanName;
+    public String getName() {
+        return name;
     }
 
-    public void setPlanName(String planName) {
-        this.mPlanName = planName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public int getImageRsc() {
-        return mImageRsc;
+    public int getImage() {
+        return image;
     }
 
-    public void setImageRsc(int imageRsc) {
-        this.mImageRsc = imageRsc;
+    public void setImage(int image) {
+        this.image = image;
     }
 
-    public String getPlanId() {
-        return mPlanId;
+    public String getId() {
+        return id;
     }
 
-    public void setPlanId(String planId) {
-        this.mPlanId = planId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public RealmList<Weekday> getWeekdaysList() {
-        return mWeekdaysList;
+        return weekdays;
     }
 
     public void setWeekdaysList(RealmList<Weekday> weekdaysList) {
-        this.mWeekdaysList = weekdaysList;
+        this.weekdays = weekdaysList;
     }
 }

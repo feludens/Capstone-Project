@@ -1,3 +1,5 @@
+package activities;
+
 import android.app.Application;
 
 import io.realm.Realm;

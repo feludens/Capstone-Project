@@ -12,13 +12,14 @@ import models.User;
  */
 public class PlanHelper {
 
-    public void addNewPlan(Realm realm, User user){
+    public void addNewPlan(User user){
         if(user.getPlanList().size() == 0){
+            Realm realm = Realm.getDefaultInstance();
             realm.beginTransaction();
             Plan samplePlan = realm.createObject(Plan.class);
-            samplePlan.setPlanName("Sample Plan");
-            samplePlan.setImageRsc(R.drawable.google);
-            samplePlan.setWeekdaysList(WeekdayHelper.newWeekdayList(realm));
+            samplePlan.setName("Sample Plan");
+            samplePlan.setImage(R.drawable.google);
+            samplePlan.setWeekdaysList(WeekdayHelper.newWeekdayList());
             realm.commitTransaction();
 
             RealmList<Plan> planList = new RealmList<>();

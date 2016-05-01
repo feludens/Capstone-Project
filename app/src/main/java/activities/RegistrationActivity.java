@@ -15,7 +15,12 @@ import models.User;
 
 public class RegistrationActivity extends AppCompatActivity {
 
-    private User mNewUser;
+    EditText mFirstName;
+    EditText mLastName;
+    EditText mUsername;
+    EditText mEmail;
+    EditText mPassword;
+    EditText mConfirmPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,8 +30,12 @@ public class RegistrationActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_registration);
 
-        Realm realm = Realm.getDefaultInstance();
-        mNewUser = realm.createObject(User.class);
+        mFirstName = (EditText) findViewById(R.id.et_first_name);
+        mLastName = (EditText) findViewById(R.id.et_last_name);
+        mUsername = (EditText) findViewById(R.id.et_username);
+        mEmail = (EditText) findViewById(R.id.et_email);
+        mPassword = (EditText) findViewById(R.id.et_password);
+        mConfirmPassword = (EditText) findViewById(R.id.et_confirm_password);
     }
 
     @Override
@@ -36,49 +45,48 @@ public class RegistrationActivity extends AppCompatActivity {
 
     public void registerNewUser(View v){
         if(validateUser()) {
-
+            // Create Account
+            // Redirect user to PlanListActivity
+            Realm realm = Realm.getDefaultInstance();
+            realm.beginTransaction();
+            User mNewUser = realm.createObject(User.class);
+            mNewUser.setFirstName(mFirstName.getText().toString());
+            mNewUser.setLastName(mLastName.getText().toString());
+            mNewUser.setUsername(mUsername.getText().toString());
+            mNewUser.setEmail(mEmail.getText().toString());
+            mNewUser.setPassword(mPassword.getText().toString());
+            realm.commitTransaction();
         }
     }
 
     private boolean validateUser(){
-        EditText firstName = (EditText) findViewById(R.id.et_first_name);
-        EditText lastName = (EditText) findViewById(R.id.et_last_name);
-        EditText username = (EditText) findViewById(R.id.et_username);
-        EditText email = (EditText) findViewById(R.id.et_email);
-        EditText password = (EditText) findViewById(R.id.et_password);
-        EditText confirmPassword = (EditText) findViewById(R.id.et_confirm_password);
-
-        if(firstName.getText().length() < 1){
+        if(mFirstName.getText().length() < 1){
             showAlert(AlertHelper.AlertType.ALERT_FIRST_NAME_MISSING);
             return false;
         }
-        mNewUser.setUserFirstName(firstName.getText().toString());
 
-        if(lastName.getText().length() < 1){
+        if(mLastName.getText().length() < 1){
             showAlert(AlertHelper.AlertType.ALERT_LAST_NAME_MISSING);
             return false;
         }
-        mNewUser.setUserLastName(lastName.getText().toString());
 
-        if(username.getText().length() < 6){
+        if(mUsername.getText().length() < 6){
             showAlert(AlertHelper.AlertType.ALERT_SHORT_USERNAME);
             return false;
         }
-        mNewUser.setUsername(username.getText().toString());
 
-        if(email.getText().length() < 6){
+        if(mEmail.getText().length() < 6){
             showAlert(AlertHelper.AlertType.ALERT_INVALID_EMAIL);
             return false;
         }else{
-            if(!AlertHelper.EMAIL_ADDRESS_PATTERN.matcher(email.getText()).matches()){
+            if(!AlertHelper.EMAIL_ADDRESS_PATTERN.matcher(mEmail.getText()).matches()){
                 showAlert(AlertHelper.AlertType.ALERT_INVALID_EMAIL);
                 return false;
             }
         }
-        mNewUser.setEmail(email.getText().toString());
 
-        String passwordText = password.getText().toString();
-        String confirmPasswordText = confirmPassword.getText().toString();
+        String passwordText = mPassword.getText().toString();
+        String confirmPasswordText = mConfirmPassword.getText().toString();
 
         if(passwordText.length() < 6){
             showAlert(AlertHelper.AlertType.ALERT_PASSWORD_TOO_SHORT);
@@ -89,13 +97,11 @@ public class RegistrationActivity extends AppCompatActivity {
             showAlert(AlertHelper.AlertType.ALERT_PASSWORD_MISMATCH);
             return false;
         }
-        mNewUser.setPassword(passwordText);
 
         return true;
     }
 
     private void showAlert(AlertHelper.AlertType alertType) {
-
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         alertDialog.setTitle("Ooopsie!");
         alertDialog.setMessage("Alert message to be shown");

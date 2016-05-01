@@ -15,16 +15,16 @@ public class WeekdayHelper {
     private static Realm mRealm;
     private static List<String> mWeekdayNameList = Arrays.asList("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
 
-    public static RealmList<Weekday> newWeekdayList(Realm realm) {
-        mRealm = realm;
-        realm.beginTransaction();
+    public static RealmList<Weekday> newWeekdayList() {
+        mRealm = Realm.getDefaultInstance();
+        mRealm.beginTransaction();
         RealmList<Weekday> weekdayList = new RealmList<>();
 
         while (weekdayList.size() < 7){
             createNewWeekday(weekdayList.size());
         }
 
-        realm.commitTransaction();
+        mRealm.commitTransaction();
         return weekdayList;
     }
 
