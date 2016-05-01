@@ -1,11 +1,12 @@
 package activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
 import com.spadatech.mobile.android.foodframer.R;
+
+import managers.SessionManager;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
@@ -19,12 +20,13 @@ public class SplashScreenActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_splash_screen);
 
+//        final Context context = this;
+
         new Handler().postDelayed(new Runnable(){
             @Override
             public void run() {
-
-                Intent mainIntent = new Intent(SplashScreenActivity.this, LoginActivity.class);
-                SplashScreenActivity.this.startActivity(mainIntent);
+                SessionManager mSessionManager = new SessionManager(SplashScreenActivity.this);
+                mSessionManager.validateSessionAndNavigate();
                 SplashScreenActivity.this.finish();
             }
         }, SPLASH_SCREEN_DURATION);

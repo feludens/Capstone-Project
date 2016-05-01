@@ -1,6 +1,7 @@
 package activities;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import com.spadatech.mobile.android.foodframer.R;
 
 import helpers.AlertHelper;
 import io.realm.Realm;
+import managers.SessionManager;
 import models.User;
 
 public class RegistrationActivity extends AppCompatActivity {
@@ -56,6 +58,12 @@ public class RegistrationActivity extends AppCompatActivity {
             mNewUser.setEmail(mEmail.getText().toString());
             mNewUser.setPassword(mPassword.getText().toString());
             realm.commitTransaction();
+
+            SessionManager mSessionManager = new SessionManager(this);
+            if(mSessionManager.createSession(mUsername.getText().toString(), mUsername.getText().toString())){
+                Intent intent = new Intent(this, PlanListActivity.class);
+                startActivity(intent);
+            }
         }
     }
 
