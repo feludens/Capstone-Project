@@ -20,8 +20,6 @@ public class SplashScreenActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_splash_screen);
 
-//        final Context context = this;
-
         new Handler().postDelayed(new Runnable(){
             @Override
             public void run() {
