@@ -16,6 +16,7 @@ public class MyApplication extends Application {
         // The realm file will be located in Context.getFilesDir() with name "foodframer.realm"
         RealmConfiguration config = new RealmConfiguration.Builder(this)
                 .name("foodframer.realm")
+                .deleteRealmIfMigrationNeeded()
                 .build();
         Realm.setDefaultConfiguration(config);
     }
