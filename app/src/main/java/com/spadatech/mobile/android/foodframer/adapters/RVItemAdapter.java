@@ -14,14 +14,14 @@ import java.util.List;
 /**
  * Created by Felipe S. Pereira on 4/14/16.
  */
-public class RVPlanAdapter extends RecyclerView.Adapter<PlanViewHolder> implements PlanViewHolder.OnPlanClickListener{
+public class RVItemAdapter extends RecyclerView.Adapter<PlanViewHolder> implements PlanViewHolder.OnItemClickListener {
 
     private List<Plan> mPlanList;
-//    private OnPlanClickListener mListener;
+    private OnPlanClickListener mListener;
 
-    public RVPlanAdapter(List<Plan> planList){
+    public RVItemAdapter(List<Plan> planList, OnPlanClickListener listener){
         this.mPlanList = planList;
-//        this.mListener = listener;
+        this.mListener = listener;
     }
 
     @Override
@@ -48,8 +48,12 @@ public class RVPlanAdapter extends RecyclerView.Adapter<PlanViewHolder> implemen
     }
 
     @Override
-    public void onPlanClicked(int position) {
+    public void onItemClicked(int position) {
+        mListener.onPlanClicked(mPlanList.get(position));
+    }
 
+    public interface OnPlanClickListener {
+        void onPlanClicked(Plan plan);
     }
 
 }

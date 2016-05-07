@@ -6,17 +6,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.spadatech.mobile.android.foodframer.R;
-import com.spadatech.mobile.android.foodframer.adapters.RVPlanAdapter;
+import com.spadatech.mobile.android.foodframer.adapters.RVItemAdapter;
 import com.spadatech.mobile.android.foodframer.models.Plan;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlanListActivity extends AppCompatActivity {
+public class PlanListActivity extends AppCompatActivity implements RVItemAdapter.OnPlanClickListener{
 
     private RecyclerView mRecyclerVIew;
     private List<Plan> mPlanList;
@@ -43,7 +44,7 @@ public class PlanListActivity extends AppCompatActivity {
 
         initializeData();
 
-        RVPlanAdapter adapter = new RVPlanAdapter(mPlanList);
+        RVItemAdapter adapter = new RVItemAdapter(mPlanList, this);
         mRecyclerVIew.setAdapter(adapter);
     }
 
@@ -75,5 +76,10 @@ public class PlanListActivity extends AppCompatActivity {
         mPlanList.add(new Plan("Bulking", R.drawable.google, null, null));
         mPlanList.add(new Plan("Leaning", R.drawable.google, null, null));
         mPlanList.add(new Plan("Chocolate for Days", R.drawable.google, null, null));
+    }
+
+    @Override
+    public void onPlanClicked(Plan plan) {
+        Log.d("Ludens", "plan: " + plan.getName().toString());
     }
 }

@@ -13,24 +13,26 @@ import com.spadatech.mobile.android.foodframer.R;
  */
 public class PlanViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
     CardView cardView;
-    OnPlanClickListener listener;
+    OnItemClickListener listener;
     public TextView planName;
     public ImageView planImage;
 
-    public PlanViewHolder(View itemView, OnPlanClickListener listener) {
+    public PlanViewHolder(View itemView, OnItemClickListener listener) {
         super(itemView);
         cardView = (CardView)itemView.findViewById(R.id.cv_plan_container);
         planName = (TextView)itemView.findViewById(R.id.tv_plan_name);
         planImage = (ImageView)itemView.findViewById(R.id.iv_plan_image);
         this.listener = listener;
+        itemView.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        listener.onPlanClicked(getAdapterPosition());
+        listener.onItemClicked(getAdapterPosition());
+
     }
 
-    public interface OnPlanClickListener {
-        void onPlanClicked(int pposition);
+    public interface OnItemClickListener {
+        void onItemClicked(int position);
     }
 }
