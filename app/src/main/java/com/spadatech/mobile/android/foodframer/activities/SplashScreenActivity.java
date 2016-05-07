@@ -1,4 +1,4 @@
-package activities;
+package com.spadatech.mobile.android.foodframer.activities;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.spadatech.mobile.android.foodframer.R;
 
-import managers.SessionManager;
+import com.spadatech.mobile.android.foodframer.managers.SessionManager;
 
 public class SplashScreenActivity extends AppCompatActivity {
 

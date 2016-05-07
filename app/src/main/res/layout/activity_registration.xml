@@ -9,7 +9,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    tools:context="activities.RegistrationActivity"
+    tools:context=".activities.RegistrationActivity"
     android:background="@color/colorPrimary">
 
     <TextView

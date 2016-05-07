@@ -1,10 +1,10 @@
-package activities;
+package com.spadatech.mobile.android.foodframer.activities;
 
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 
-import fragments.BasePreferenceFragment;
+import com.spadatech.mobile.android.foodframer.fragments.BasePreferenceFragment;
 
 
 public class SettingsActivity extends PreferenceActivity {

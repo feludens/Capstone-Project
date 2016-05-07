@@ -1,4 +1,4 @@
-package models;
+package com.spadatech.mobile.android.foodframer.models;
 
 import io.realm.RealmObject;
 

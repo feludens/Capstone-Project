@@ -1,4 +1,4 @@
-package activities;
+package com.spadatech.mobile.android.foodframer.activities;
 
 import android.app.Application;
 

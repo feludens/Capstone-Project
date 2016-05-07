@@ -1,11 +1,11 @@
-package helpers;
+package com.spadatech.mobile.android.foodframer.helpers;
 
 import com.spadatech.mobile.android.foodframer.R;
 
 import io.realm.Realm;
 import io.realm.RealmList;
-import models.Plan;
-import models.User;
+import com.spadatech.mobile.android.foodframer.models.Plan;
+import com.spadatech.mobile.android.foodframer.models.User;
 
 /**
  * Created by Felipe S. Pereira on 4/29/16.

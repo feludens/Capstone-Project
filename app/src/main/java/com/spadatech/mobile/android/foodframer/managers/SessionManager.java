@@ -1,4 +1,4 @@
-package managers;
+package com.spadatech.mobile.android.foodframer.managers;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,8 +6,8 @@ import android.content.SharedPreferences;
 
 import java.util.HashMap;
 
-import activities.LoginActivity;
-import activities.PlanListActivity;
+import com.spadatech.mobile.android.foodframer.activities.LoginActivity;
+import com.spadatech.mobile.android.foodframer.activities.PlanListActivity;
 
 /**
  * Created by Felipe S. Pereira on 4/30/16.

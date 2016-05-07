@@ -1,4 +1,4 @@
-package fragments;
+package com.spadatech.mobile.android.foodframer.fragments;
 
 import android.os.Bundle;
 import android.preference.Preference;
@@ -6,7 +6,7 @@ import android.preference.PreferenceFragment;
 
 import com.spadatech.mobile.android.foodframer.R;
 
-import managers.SessionManager;
+import com.spadatech.mobile.android.foodframer.managers.SessionManager;
 
 /**
  * Created by pereirf on 5/2/16.

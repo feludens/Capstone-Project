@@ -1,11 +1,11 @@
-package helpers;
+package com.spadatech.mobile.android.foodframer.helpers;
 
 import java.util.Arrays;
 import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmList;
-import models.Weekday;
+import com.spadatech.mobile.android.foodframer.models.Weekday;
 
 /**
  * Created by Felipe S. Pereira on 4/29/16.

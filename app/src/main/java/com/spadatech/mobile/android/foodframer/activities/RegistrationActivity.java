@@ -1,4 +1,4 @@
-package activities;
+package com.spadatech.mobile.android.foodframer.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,10 +10,10 @@ import android.widget.EditText;
 
 import com.spadatech.mobile.android.foodframer.R;
 
-import helpers.AlertHelper;
+import com.spadatech.mobile.android.foodframer.helpers.AlertHelper;
 import io.realm.Realm;
-import managers.SessionManager;
-import models.User;
+import com.spadatech.mobile.android.foodframer.managers.SessionManager;
+import com.spadatech.mobile.android.foodframer.models.User;
 
 public class RegistrationActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package adapters;
+package com.spadatech.mobile.android.foodframer.adapters;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -9,10 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.spadatech.mobile.android.foodframer.R;
+import com.spadatech.mobile.android.foodframer.models.Plan;
 
 import java.util.List;
-
-import models.Plan;
 
 /**
  * Created by Felipe S. Pereira on 4/14/16.

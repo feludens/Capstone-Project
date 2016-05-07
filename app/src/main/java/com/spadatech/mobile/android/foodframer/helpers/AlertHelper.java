@@ -1,4 +1,4 @@
-package helpers;
+package com.spadatech.mobile.android.foodframer.helpers;
 
 import java.util.regex.Pattern;
 

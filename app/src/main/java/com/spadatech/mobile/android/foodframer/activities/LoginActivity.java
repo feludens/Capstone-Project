@@ -1,4 +1,4 @@
-package activities;
+package com.spadatech.mobile.android.foodframer.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,8 +12,8 @@ import com.spadatech.mobile.android.foodframer.R;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
-import managers.SessionManager;
-import models.User;
+import com.spadatech.mobile.android.foodframer.managers.SessionManager;
+import com.spadatech.mobile.android.foodframer.models.User;
 
 public class LoginActivity extends AppCompatActivity {
 
