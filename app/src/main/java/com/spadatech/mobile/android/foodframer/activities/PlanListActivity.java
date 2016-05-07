@@ -16,12 +16,21 @@ import android.view.View;
 import com.spadatech.mobile.android.foodframer.R;
 import com.spadatech.mobile.android.foodframer.adapters.RVItemAdapter;
 import com.spadatech.mobile.android.foodframer.dialogs.NewPlanDialogFragment;
+import com.spadatech.mobile.android.foodframer.helpers.AlertHelper;
+import com.spadatech.mobile.android.foodframer.managers.SessionManager;
 import com.spadatech.mobile.android.foodframer.models.Plan;
+import com.spadatech.mobile.android.foodframer.models.User;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-public class PlanListActivity extends AppCompatActivity implements RVItemAdapter.OnPlanClickListener{
+import io.realm.Realm;
+import io.realm.RealmList;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
+
+public class PlanListActivity extends AppCompatActivity implements RVItemAdapter.OnPlanClickListener, NewPlanDialogFragment.OnCreatePlanClickListener {
 
     private RecyclerView mRecyclerVIew;
     private List<Plan> mPlanList;
@@ -88,5 +97,57 @@ public class PlanListActivity extends AppCompatActivity implements RVItemAdapter
     @Override
     public void onPlanClicked(Plan plan) {
         Log.d("Ludens", "plan: " + plan.getName().toString());
+    }
+
+    @Override
+    public void onCreatePlanClicked(String planName) {
+        if (isNewPlanValid(planName)) {
+            Realm realm = Realm.getDefaultInstance();
+            realm.beginTransaction();
+            Plan newPlan = realm.createObject(Plan.class);
+            newPlan.setName(planName);
+            realm.commitTransaction();
+            Log.d("Ludens", "Plan Created");
+        }
+
+    }
+
+    public boolean isNewPlanValid(String planName) {
+        boolean isValid = false;
+        String alertType;
+
+        if(planName.isEmpty()) {
+//            alertType = AlertHelper.AlertType.ALERT_MISSING_PLAN_NAME;
+            AlertHelper.showAlertDialog(this, "Missing plan name");
+            return isValid;
+        }
+
+        SessionManager sessionManager = new SessionManager(this);
+        HashMap<String, String> userInfo = sessionManager.getUserInfo();
+
+        Realm realm = Realm.getDefaultInstance();
+        RealmQuery<User> query = realm.where(User.class);
+        RealmResults<User> result = realm.where(User.class)
+                .equalTo("username", userInfo.get(SessionManager.KEY_USERNAME))
+                .equalTo("email", userInfo.get(SessionManager.KEY_EMAIL))
+                .findAll();
+
+        if(result != null && !result.isEmpty())
+        {
+            RealmList<Plan> plans = result.first().getPlanList();
+            Plan tempPlan = new Plan();
+            tempPlan.setName(planName);
+            for (Plan plan: plans) {
+                if(plan.getName().equals(planName)){
+                    Log.d("Ludenns", "plan name: " +planName + " -- search result: " + plan.getName());
+//                    alertType = AlertHelper.AlertType.ALERT_MISSING_PLAN_NAME;
+                    AlertHelper.showAlertDialog(this, "Plan already exists");
+                    return isValid;
+                }
+                isValid = true;
+            }
+        }
+
+        return isValid;
     }
 }

@@ -17,12 +17,8 @@ public class BasePreferenceFragment extends PreferenceFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Can retrieve arguments from preference XML.
-
-
         // Load the preferences from an XML resource
         addPreferencesFromResource(R.xml.pref);
-
 
         Preference button = findPreference(getString(R.string.button_logout_key));
         button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
