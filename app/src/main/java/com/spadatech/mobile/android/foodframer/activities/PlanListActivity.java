@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.spadatech.mobile.android.foodframer.R;
 import com.spadatech.mobile.android.foodframer.adapters.RVItemAdapter;
@@ -33,12 +34,14 @@ import io.realm.RealmResults;
 public class PlanListActivity extends AppCompatActivity implements RVItemAdapter.OnPlanClickListener, NewPlanDialogFragment.OnCreatePlanClickListener {
 
     private RecyclerView mRecyclerVIew;
+    private LinearLayout mEmptyPlanListView;
     private List<Plan> mPlanList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plan_list);
+        mEmptyPlanListView = (LinearLayout) findViewById(R.id.ll_plan_lis_empty);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -58,10 +61,23 @@ public class PlanListActivity extends AppCompatActivity implements RVItemAdapter
         LinearLayoutManager llm = new LinearLayoutManager(this);
         mRecyclerVIew.setLayoutManager(llm);
 
-        initializeData();
+        SessionManager sessionManager = new SessionManager(this);
+        HashMap<String, String> userInfo = sessionManager.getUserInfo();
+        Realm realm = Realm.getDefaultInstance();
+        RealmQuery<User> query = realm.where(User.class);
+        RealmResults<User> result = realm.where(User.class)
+                .equalTo("username", userInfo.get(SessionManager.KEY_USERNAME))
+                .equalTo("email", userInfo.get(SessionManager.KEY_EMAIL))
+                .findAll();
+        mPlanList = result.first().getPlanList();
 
         RVItemAdapter adapter = new RVItemAdapter(mPlanList, this);
         mRecyclerVIew.setAdapter(adapter);
+
+        if(mPlanList.isEmpty()){
+            Log.d("Ludens", "No Plans Saved");
+            mEmptyPlanListView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
