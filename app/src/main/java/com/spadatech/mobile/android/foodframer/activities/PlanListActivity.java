@@ -33,7 +33,7 @@ import io.realm.RealmResults;
 
 public class PlanListActivity extends AppCompatActivity implements RVItemAdapter.OnPlanClickListener, NewPlanDialogFragment.OnCreatePlanClickListener {
 
-    private RecyclerView mRecyclerVIew;
+    private RecyclerView mRecyclerView;
     private LinearLayout mEmptyPlanListView;
     private List<Plan> mPlanList;
 
@@ -57,9 +57,9 @@ public class PlanListActivity extends AppCompatActivity implements RVItemAdapter
             });
         }
 
-        mRecyclerVIew = (RecyclerView) findViewById(R.id.rv);
+        mRecyclerView = (RecyclerView) findViewById(R.id.rv);
         LinearLayoutManager llm = new LinearLayoutManager(this);
-        mRecyclerVIew.setLayoutManager(llm);
+        mRecyclerView.setLayoutManager(llm);
 
         SessionManager sessionManager = new SessionManager(this);
         HashMap<String, String> userInfo = sessionManager.getUserInfo();
@@ -72,7 +72,7 @@ public class PlanListActivity extends AppCompatActivity implements RVItemAdapter
         mPlanList = result.first().getPlanList();
 
         RVItemAdapter adapter = new RVItemAdapter(mPlanList, this);
-        mRecyclerVIew.setAdapter(adapter);
+        mRecyclerView.setAdapter(adapter);
 
         if(mPlanList.isEmpty()){
             Log.d("Ludens", "No Plans Saved");
