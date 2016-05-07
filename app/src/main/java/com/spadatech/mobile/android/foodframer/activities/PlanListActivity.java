@@ -3,6 +3,7 @@ package com.spadatech.mobile.android.foodframer.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,7 @@ import android.view.View;
 
 import com.spadatech.mobile.android.foodframer.R;
 import com.spadatech.mobile.android.foodframer.adapters.RVItemAdapter;
+import com.spadatech.mobile.android.foodframer.dialogs.NewPlanDialogFragment;
 import com.spadatech.mobile.android.foodframer.models.Plan;
 
 import java.util.ArrayList;
@@ -36,7 +38,9 @@ public class PlanListActivity extends AppCompatActivity implements RVItemAdapter
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    FragmentManager fm = getSupportFragmentManager();
+                    NewPlanDialogFragment editNameDialogFragment = NewPlanDialogFragment.newInstance();
+                    editNameDialogFragment.show(fm, editNameDialogFragment.TAG);
                 }
             });
         }
