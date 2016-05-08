@@ -22,7 +22,6 @@ import com.spadatech.mobile.android.foodframer.managers.SessionManager;
 import com.spadatech.mobile.android.foodframer.models.Plan;
 import com.spadatech.mobile.android.foodframer.models.User;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -71,11 +70,14 @@ public class PlanListActivity extends AppCompatActivity implements RVItemAdapter
                 .findAll();
         mPlanList = result.first().getPlanList();
 
+        Log.d("Ludens", "result: " + result);
+
         RVItemAdapter adapter = new RVItemAdapter(mPlanList, this);
         mRecyclerView.setAdapter(adapter);
 
         if(mPlanList.isEmpty()){
             Log.d("Ludens", "No Plans Saved");
+            mRecyclerView.setVisibility(View.GONE);
             mEmptyPlanListView.setVisibility(View.VISIBLE);
         }
     }
@@ -104,7 +106,7 @@ public class PlanListActivity extends AppCompatActivity implements RVItemAdapter
     }
 
     private void initializeData(){
-        mPlanList = new ArrayList<>();
+        mPlanList = new RealmList<>();
         mPlanList.add(new Plan("Bulking", R.drawable.google, null, null));
         mPlanList.add(new Plan("Leaning", R.drawable.google, null, null));
         mPlanList.add(new Plan("Chocolate for Days", R.drawable.google, null, null));
@@ -118,11 +120,28 @@ public class PlanListActivity extends AppCompatActivity implements RVItemAdapter
     @Override
     public void onCreatePlanClicked(String planName) {
         if (isNewPlanValid(planName)) {
+
+            SessionManager sessionManager = new SessionManager(this);
+            HashMap<String, String> userInfo = sessionManager.getUserInfo();
             Realm realm = Realm.getDefaultInstance();
+            User result = realm.where(User.class)
+                    .equalTo("username", userInfo.get(SessionManager.KEY_USERNAME))
+                    .equalTo("email", userInfo.get(SessionManager.KEY_EMAIL))
+                    .findFirst();
+            mPlanList = result.getPlanList();
+
             realm.beginTransaction();
             Plan newPlan = realm.createObject(Plan.class);
             newPlan.setName(planName);
+            mPlanList.add(newPlan);
             realm.commitTransaction();
+
+            realm.beginTransaction();
+            RealmList<Plan> newList = (RealmList<Plan>) mPlanList;
+            result.setPlanList(newList);
+            realm.copyToRealmOrUpdate(result);
+            realm.commitTransaction();
+
             Log.d("Ludens", "Plan Created");
         }
 
@@ -160,8 +179,8 @@ public class PlanListActivity extends AppCompatActivity implements RVItemAdapter
                     AlertHelper.showAlertDialog(this, "Plan already exists");
                     return isValid;
                 }
-                isValid = true;
             }
+            isValid = true;
         }
 
         return isValid;
