@@ -2,6 +2,7 @@ package com.spadatech.mobile.android.foodframer.models;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by Felipe S. Pereira on 4/23/16.

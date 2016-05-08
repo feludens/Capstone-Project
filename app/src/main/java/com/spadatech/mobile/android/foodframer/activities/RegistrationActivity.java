@@ -9,11 +9,11 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.spadatech.mobile.android.foodframer.R;
-
 import com.spadatech.mobile.android.foodframer.helpers.AlertHelper;
-import io.realm.Realm;
 import com.spadatech.mobile.android.foodframer.managers.SessionManager;
 import com.spadatech.mobile.android.foodframer.models.User;
+
+import io.realm.Realm;
 
 public class RegistrationActivity extends AppCompatActivity {
 
@@ -60,7 +60,7 @@ public class RegistrationActivity extends AppCompatActivity {
             realm.commitTransaction();
 
             SessionManager mSessionManager = new SessionManager(this);
-            if(mSessionManager.createSession(mUsername.getText().toString(), mUsername.getText().toString())){
+            if(mSessionManager.createSession(mUsername.getText().toString(), mEmail.getText().toString())){
                 Intent intent = new Intent(this, PlanListActivity.class);
                 startActivity(intent);
             }

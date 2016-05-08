@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,12 +21,12 @@ import com.spadatech.mobile.android.foodframer.managers.SessionManager;
 import com.spadatech.mobile.android.foodframer.models.Plan;
 import com.spadatech.mobile.android.foodframer.models.User;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmList;
-import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
 public class PlanListActivity extends AppCompatActivity implements RVItemAdapter.OnPlanClickListener, NewPlanDialogFragment.OnCreatePlanClickListener {
@@ -35,6 +34,7 @@ public class PlanListActivity extends AppCompatActivity implements RVItemAdapter
     private RecyclerView mRecyclerView;
     private LinearLayout mEmptyPlanListView;
     private List<Plan> mPlanList;
+    private RVItemAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,20 +63,21 @@ public class PlanListActivity extends AppCompatActivity implements RVItemAdapter
         SessionManager sessionManager = new SessionManager(this);
         HashMap<String, String> userInfo = sessionManager.getUserInfo();
         Realm realm = Realm.getDefaultInstance();
-        RealmQuery<User> query = realm.where(User.class);
         RealmResults<User> result = realm.where(User.class)
                 .equalTo("username", userInfo.get(SessionManager.KEY_USERNAME))
                 .equalTo("email", userInfo.get(SessionManager.KEY_EMAIL))
                 .findAll();
-        mPlanList = result.first().getPlanList();
 
-        Log.d("Ludens", "result: " + result);
+        if(result.size() > 0) {
+            mPlanList = result.first().getPlanList();
+        }else{
+            mPlanList = new ArrayList<>();
+        }
 
-        RVItemAdapter adapter = new RVItemAdapter(mPlanList, this);
-        mRecyclerView.setAdapter(adapter);
+        mAdapter = new RVItemAdapter(mPlanList, this);
+        mRecyclerView.setAdapter(mAdapter);
 
-        if(mPlanList.isEmpty()){
-            Log.d("Ludens", "No Plans Saved");
+        if(mPlanList == null || mPlanList.isEmpty()){
             mRecyclerView.setVisibility(View.GONE);
             mEmptyPlanListView.setVisibility(View.VISIBLE);
         }
@@ -114,7 +115,6 @@ public class PlanListActivity extends AppCompatActivity implements RVItemAdapter
 
     @Override
     public void onPlanClicked(Plan plan) {
-        Log.d("Ludens", "plan: " + plan.getName().toString());
     }
 
     @Override
@@ -124,25 +124,24 @@ public class PlanListActivity extends AppCompatActivity implements RVItemAdapter
             SessionManager sessionManager = new SessionManager(this);
             HashMap<String, String> userInfo = sessionManager.getUserInfo();
             Realm realm = Realm.getDefaultInstance();
-            User result = realm.where(User.class)
+            User user = realm.where(User.class)
                     .equalTo("username", userInfo.get(SessionManager.KEY_USERNAME))
                     .equalTo("email", userInfo.get(SessionManager.KEY_EMAIL))
                     .findFirst();
-            mPlanList = result.getPlanList();
 
             realm.beginTransaction();
             Plan newPlan = realm.createObject(Plan.class);
             newPlan.setName(planName);
-            mPlanList.add(newPlan);
             realm.commitTransaction();
 
             realm.beginTransaction();
-            RealmList<Plan> newList = (RealmList<Plan>) mPlanList;
-            result.setPlanList(newList);
-            realm.copyToRealmOrUpdate(result);
+            RealmList<Plan> newList = new RealmList<>();
+            newList.add(newPlan);
+            user.setPlanList(newList);
             realm.commitTransaction();
 
-            Log.d("Ludens", "Plan Created");
+//            mAdapter.refresh();
+
         }
 
     }
@@ -161,20 +160,18 @@ public class PlanListActivity extends AppCompatActivity implements RVItemAdapter
         HashMap<String, String> userInfo = sessionManager.getUserInfo();
 
         Realm realm = Realm.getDefaultInstance();
-        RealmQuery<User> query = realm.where(User.class);
         RealmResults<User> result = realm.where(User.class)
                 .equalTo("username", userInfo.get(SessionManager.KEY_USERNAME))
                 .equalTo("email", userInfo.get(SessionManager.KEY_EMAIL))
                 .findAll();
 
-        if(result != null && !result.isEmpty())
+        if(!result.isEmpty())
         {
             RealmList<Plan> plans = result.first().getPlanList();
             Plan tempPlan = new Plan();
             tempPlan.setName(planName);
             for (Plan plan: plans) {
                 if(plan.getName().equals(planName)){
-                    Log.d("Ludenns", "plan name: " +planName + " -- search result: " + plan.getName());
 //                    alertType = AlertHelper.AlertType.ALERT_MISSING_PLAN_NAME;
                     AlertHelper.showAlertDialog(this, "Plan already exists");
                     return isValid;
