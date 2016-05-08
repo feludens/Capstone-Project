@@ -9,7 +9,7 @@ import io.realm.annotations.PrimaryKey;
  */
 public class User extends RealmObject {
 
-    private String username;
+    @PrimaryKey private String username;
     private String firstname;
     private String lastname;
     private String email;
