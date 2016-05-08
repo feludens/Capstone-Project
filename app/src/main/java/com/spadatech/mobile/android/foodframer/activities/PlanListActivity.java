@@ -18,6 +18,7 @@ import com.spadatech.mobile.android.foodframer.R;
 import com.spadatech.mobile.android.foodframer.adapters.RVItemAdapter;
 import com.spadatech.mobile.android.foodframer.dialogs.NewPlanDialogFragment;
 import com.spadatech.mobile.android.foodframer.helpers.AlertHelper;
+import com.spadatech.mobile.android.foodframer.helpers.WeekdayHelper;
 import com.spadatech.mobile.android.foodframer.managers.SessionManager;
 import com.spadatech.mobile.android.foodframer.models.Plan;
 import com.spadatech.mobile.android.foodframer.models.User;
@@ -111,6 +112,7 @@ public class PlanListActivity extends AppCompatActivity implements RVItemAdapter
     public void onPlanClicked(Plan plan) {
         Log.d("Ludens", "click");
         Log.d("Ludens", "plan" + plan.getName());
+        Log.d("Ludens", "weekday list" + plan.getWeekdaysList().size());
     }
 
     @Override
@@ -131,6 +133,10 @@ public class PlanListActivity extends AppCompatActivity implements RVItemAdapter
             realm.commitTransaction();
 
             realm.beginTransaction();
+            newPlan.setWeekdaysList(WeekdayHelper.newWeekdayList(realm));
+            realm.commitTransaction();
+
+            realm.beginTransaction();
             user.addPlan(newPlan);
             realm.commitTransaction();
 
@@ -143,8 +149,8 @@ public class PlanListActivity extends AppCompatActivity implements RVItemAdapter
         if(mEmptyPlanListView.getVisibility() == View.VISIBLE){
             mEmptyPlanListView.setVisibility(View.GONE);
             mRecyclerView.setVisibility(View.VISIBLE);
-            mAdapter.notifyDataSetChanged();
         }
+        mAdapter.notifyDataSetChanged();
     }
 
     public boolean isNewPlanValid(String planName) {

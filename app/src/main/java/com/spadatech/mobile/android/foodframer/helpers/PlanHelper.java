@@ -1,11 +1,11 @@
 package com.spadatech.mobile.android.foodframer.helpers;
 
 import com.spadatech.mobile.android.foodframer.R;
+import com.spadatech.mobile.android.foodframer.models.Plan;
+import com.spadatech.mobile.android.foodframer.models.User;
 
 import io.realm.Realm;
 import io.realm.RealmList;
-import com.spadatech.mobile.android.foodframer.models.Plan;
-import com.spadatech.mobile.android.foodframer.models.User;
 
 /**
  * Created by Felipe S. Pereira on 4/29/16.
@@ -19,7 +19,7 @@ public class PlanHelper {
             Plan samplePlan = realm.createObject(Plan.class);
             samplePlan.setName("Sample Plan");
             samplePlan.setImage(R.drawable.google);
-            samplePlan.setWeekdaysList(WeekdayHelper.newWeekdayList());
+//            samplePlan.setWeekdaysList(WeekdayHelper.newWeekdayList());
             realm.commitTransaction();
 
             RealmList<Plan> planList = new RealmList<>();
