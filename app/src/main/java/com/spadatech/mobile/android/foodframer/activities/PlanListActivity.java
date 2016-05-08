@@ -135,12 +135,10 @@ public class PlanListActivity extends AppCompatActivity implements RVItemAdapter
             realm.commitTransaction();
 
             realm.beginTransaction();
-            RealmList<Plan> newList = new RealmList<>();
-            newList.add(newPlan);
-            user.setPlanList(newList);
+            user.addPlan(newPlan);
             realm.commitTransaction();
 
-//            mAdapter.refresh();
+            mAdapter.notifyDataSetChanged();
 
         }
 

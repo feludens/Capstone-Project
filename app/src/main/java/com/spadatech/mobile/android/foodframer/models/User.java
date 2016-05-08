@@ -63,4 +63,8 @@ public class User extends RealmObject {
     public void setPlanList(RealmList<Plan> planList) {
         this.plans = planList;
     }
+
+    public void addPlan(Plan plan){
+        plans.add(plan);
+    }
 }
