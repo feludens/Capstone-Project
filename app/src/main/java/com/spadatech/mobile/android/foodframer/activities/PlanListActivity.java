@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -108,6 +109,8 @@ public class PlanListActivity extends AppCompatActivity implements RVItemAdapter
 
     @Override
     public void onPlanClicked(Plan plan) {
+        Log.d("Ludens", "click");
+        Log.d("Ludens", "plan" + plan.getName());
     }
 
     @Override
@@ -131,10 +134,17 @@ public class PlanListActivity extends AppCompatActivity implements RVItemAdapter
             user.addPlan(newPlan);
             realm.commitTransaction();
 
-            mAdapter.notifyDataSetChanged();
-
+            refreshViews();
         }
 
+    }
+
+    private void refreshViews() {
+        if(mEmptyPlanListView.getVisibility() == View.VISIBLE){
+            mEmptyPlanListView.setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.VISIBLE);
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
     public boolean isNewPlanValid(String planName) {
