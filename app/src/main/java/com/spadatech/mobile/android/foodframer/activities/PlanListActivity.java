@@ -106,13 +106,6 @@ public class PlanListActivity extends AppCompatActivity implements RVItemAdapter
         return super.onOptionsItemSelected(item);
     }
 
-    private void initializeData(){
-        mPlanList = new RealmList<>();
-        mPlanList.add(new Plan("Bulking", R.drawable.google, null, null));
-        mPlanList.add(new Plan("Leaning", R.drawable.google, null, null));
-        mPlanList.add(new Plan("Chocolate for Days", R.drawable.google, null, null));
-    }
-
     @Override
     public void onPlanClicked(Plan plan) {
     }
