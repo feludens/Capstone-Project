@@ -12,7 +12,15 @@ import io.realm.RealmList;
  */
 public class PlanHelper {
 
+    private static PlanHelper instance;
     private Plan mPlan;
+
+    public synchronized static PlanHelper get() {
+        if (instance == null) {
+            instance = new PlanHelper();
+        }
+        return instance;
+    }
 
     public void addNewPlan(User user){
         if(user.getPlanList().size() == 0){
