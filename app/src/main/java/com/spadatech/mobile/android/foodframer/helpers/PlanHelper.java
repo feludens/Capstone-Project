@@ -12,6 +12,8 @@ import io.realm.RealmList;
  */
 public class PlanHelper {
 
+    private Plan mPlan;
+
     public void addNewPlan(User user){
         if(user.getPlanList().size() == 0){
             Realm realm = Realm.getDefaultInstance();
@@ -27,5 +29,13 @@ public class PlanHelper {
 
             user.setPlanList(planList);
         }
+    }
+
+    public void setActivePlan(Plan plan){
+        mPlan = plan;
+    }
+
+    public Plan getActivePlan(){
+        return mPlan;
     }
 }

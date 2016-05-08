@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,11 +36,15 @@ public class PlanListActivity extends AppCompatActivity implements RVItemAdapter
     private LinearLayout mEmptyPlanListView;
     private List<Plan> mPlanList;
     private RVItemAdapter mAdapter;
+    private SessionManager mSessionManager;
+    private HashMap<String, String> mUserInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plan_list);
+        mSessionManager = SessionManager.get(this);
+        mUserInfo = mSessionManager.getUserInfo();
         mEmptyPlanListView = (LinearLayout) findViewById(R.id.ll_plan_lis_empty);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -62,12 +65,10 @@ public class PlanListActivity extends AppCompatActivity implements RVItemAdapter
         LinearLayoutManager llm = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(llm);
 
-        SessionManager sessionManager = new SessionManager(this);
-        HashMap<String, String> userInfo = sessionManager.getUserInfo();
         Realm realm = Realm.getDefaultInstance();
         RealmResults<User> result = realm.where(User.class)
-                .equalTo("username", userInfo.get(SessionManager.KEY_USERNAME))
-                .equalTo("email", userInfo.get(SessionManager.KEY_EMAIL))
+                .equalTo("username", mUserInfo.get(SessionManager.KEY_USERNAME))
+                .equalTo("email", mUserInfo.get(SessionManager.KEY_EMAIL))
                 .findAll();
 
         if(result.size() > 0) {
@@ -110,21 +111,19 @@ public class PlanListActivity extends AppCompatActivity implements RVItemAdapter
 
     @Override
     public void onPlanClicked(Plan plan) {
-        Log.d("Ludens", "click");
-        Log.d("Ludens", "plan" + plan.getName());
-        Log.d("Ludens", "weekday list" + plan.getWeekdaysList().size());
+
+        Intent intent = new Intent(this, WeekdayListActivity.class);
+        startActivity(intent);
     }
 
     @Override
     public void onCreatePlanClicked(String planName) {
         if (isNewPlanValid(planName)) {
 
-            SessionManager sessionManager = new SessionManager(this);
-            HashMap<String, String> userInfo = sessionManager.getUserInfo();
             Realm realm = Realm.getDefaultInstance();
             User user = realm.where(User.class)
-                    .equalTo("username", userInfo.get(SessionManager.KEY_USERNAME))
-                    .equalTo("email", userInfo.get(SessionManager.KEY_EMAIL))
+                    .equalTo("username", mUserInfo.get(SessionManager.KEY_USERNAME))
+                    .equalTo("email", mUserInfo.get(SessionManager.KEY_EMAIL))
                     .findFirst();
 
             realm.beginTransaction();
@@ -163,13 +162,10 @@ public class PlanListActivity extends AppCompatActivity implements RVItemAdapter
             return isValid;
         }
 
-        SessionManager sessionManager = new SessionManager(this);
-        HashMap<String, String> userInfo = sessionManager.getUserInfo();
-
         Realm realm = Realm.getDefaultInstance();
         RealmResults<User> result = realm.where(User.class)
-                .equalTo("username", userInfo.get(SessionManager.KEY_USERNAME))
-                .equalTo("email", userInfo.get(SessionManager.KEY_EMAIL))
+                .equalTo("username", mUserInfo.get(SessionManager.KEY_USERNAME))
+                .equalTo("email", mUserInfo.get(SessionManager.KEY_EMAIL))
                 .findAll();
 
         if(!result.isEmpty())

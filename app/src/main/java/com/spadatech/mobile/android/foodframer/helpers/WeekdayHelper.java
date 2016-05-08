@@ -13,19 +13,15 @@ import io.realm.RealmList;
  */
 public class WeekdayHelper {
 
-    private static Realm mRealm;
     private static List<String> mWeekdayNameList = Arrays.asList("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
 
     public static RealmList<Weekday> newWeekdayList(Realm realm) {
-//        mRealm = Realm.getDefaultInstance();
-//        mRealm.beginTransaction();
         RealmList<Weekday> weekdayList = new RealmList<>();
 
         while (weekdayList.size() < 7){
             weekdayList.add(createNewWeekday(realm, weekdayList.size()));
         }
 
-//        mRealm.commitTransaction();
         return weekdayList;
     }
 
