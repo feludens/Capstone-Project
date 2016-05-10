@@ -24,7 +24,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             @Override
             public void run() {
                 SessionManager mSessionManager = new SessionManager(SplashScreenActivity.this);
-                mSessionManager.validateSessionAndNavigate();
+                mSessionManager.validateSessionAndNavigate(SplashScreenActivity.this);
                 SplashScreenActivity.this.finish();
             }
         }, SPLASH_SCREEN_DURATION);

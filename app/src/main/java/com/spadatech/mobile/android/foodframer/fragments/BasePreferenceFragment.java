@@ -24,8 +24,7 @@ public class BasePreferenceFragment extends PreferenceFragment {
         button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                SessionManager manager = new SessionManager(getActivity());
-                manager.logout();
+                SessionManager.get(getActivity()).logout(getActivity());
                 return true;
             }
         });

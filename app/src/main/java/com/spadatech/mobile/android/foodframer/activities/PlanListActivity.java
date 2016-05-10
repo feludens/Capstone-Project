@@ -17,6 +17,7 @@ import com.spadatech.mobile.android.foodframer.R;
 import com.spadatech.mobile.android.foodframer.adapters.RVItemAdapter;
 import com.spadatech.mobile.android.foodframer.dialogs.NewPlanDialogFragment;
 import com.spadatech.mobile.android.foodframer.helpers.AlertHelper;
+import com.spadatech.mobile.android.foodframer.helpers.PlanHelper;
 import com.spadatech.mobile.android.foodframer.helpers.WeekdayHelper;
 import com.spadatech.mobile.android.foodframer.managers.SessionManager;
 import com.spadatech.mobile.android.foodframer.models.Plan;
@@ -111,7 +112,7 @@ public class PlanListActivity extends AppCompatActivity implements RVItemAdapter
 
     @Override
     public void onPlanClicked(Plan plan) {
-
+        PlanHelper.get().setActivePlan(plan);
         Intent intent = new Intent(this, WeekdayListActivity.class);
         startActivity(intent);
     }
