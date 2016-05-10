@@ -26,7 +26,7 @@ public class RVItemAdapter extends RecyclerView.Adapter<PlanViewHolder> implemen
 
     @Override
     public PlanViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_plan_item, parent, false);
         PlanViewHolder pvh = new PlanViewHolder(view, this);
         return pvh;
     }
