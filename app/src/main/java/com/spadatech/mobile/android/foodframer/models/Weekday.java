@@ -7,50 +7,59 @@ import io.realm.RealmObject;
  * Created by Felipe S. Pereira on 4/13/16.
  */
 public class Weekday extends RealmObject{
-    private String mWeekdayName;
-    private RealmList<Grocery> mGroceryList;
-    private RealmList<Meal> mMealList;
-    private RealmList<Prep> mPrepList;
+    private String name;
+    private int image;
+    private RealmList<Grocery> groceries;
+    private RealmList<Meal> meals;
+    private RealmList<Prep> prepdays;
 
     public Weekday() {
     }
 
-    public Weekday(String mWeekdayName, RealmList<Grocery> mGroceryList, RealmList<Meal> mMealList, RealmList<Prep> mPrepList) {
-        this.mWeekdayName = mWeekdayName;
-        this.mGroceryList = mGroceryList;
-        this.mMealList = mMealList;
-        this.mPrepList = mPrepList;
+    public Weekday(String name, RealmList<Grocery> groceries, RealmList<Meal> meals, RealmList<Prep> prepdays) {
+        this.name = name;
+        this.groceries = groceries;
+        this.meals = meals;
+        this.prepdays = prepdays;
     }
 
     public String getWeekdayName() {
-        return mWeekdayName;
+        return name;
     }
 
     public void setWeekdayName(String mWeekdayName) {
-        this.mWeekdayName = mWeekdayName;
+        this.name = mWeekdayName;
     }
 
-    public RealmList<Grocery> getmGroceryList() {
-        return mGroceryList;
+    public RealmList<Grocery> getGroceries() {
+        return groceries;
     }
 
     public void setGroceryList(RealmList<Grocery> mGroceryList) {
-        this.mGroceryList = mGroceryList;
+        this.groceries = mGroceryList;
     }
 
-    public RealmList<Meal> getmMealList() {
-        return mMealList;
+    public RealmList<Meal> getMeals() {
+        return meals;
     }
 
     public void setMealList(RealmList<Meal> mMealList) {
-        this.mMealList = mMealList;
+        this.meals = mMealList;
     }
 
-    public RealmList<Prep> getmPrepList() {
-        return mPrepList;
+    public RealmList<Prep> getPrepdays() {
+        return prepdays;
     }
 
     public void setPrepList(RealmList<Prep> mPrepList) {
-        this.mPrepList = mPrepList;
+        this.prepdays = mPrepList;
+    }
+
+    public int getImage() {
+        return image;
+    }
+
+    public void setImage(int image) {
+        this.image = image;
     }
 }
