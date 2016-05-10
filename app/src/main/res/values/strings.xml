@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">FoodFramer</string>
+    <string name="app_name">Food Framer</string>
+    <string name="title_weekday_list_activity">Daily Plans</string>
     <string name="action_settings">Settings</string>
     <string name="create_upper_case">CREATE</string>
     <string name="confirm_password">Confirm Password</string>

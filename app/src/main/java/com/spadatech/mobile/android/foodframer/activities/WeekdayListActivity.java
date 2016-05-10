@@ -17,6 +17,10 @@ public class WeekdayListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weekday_list);
 
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setTitle(getResources().getText(R.string.title_weekday_list_activity));
+        }
+
         mPlan = PlanHelper.get().getActivePlan();
         Log.d("Ludens", "plan name: " + mPlan.getName());
 
