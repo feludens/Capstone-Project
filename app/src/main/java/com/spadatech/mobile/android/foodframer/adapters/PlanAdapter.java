@@ -14,12 +14,12 @@ import java.util.List;
 /**
  * Created by Felipe S. Pereira on 4/14/16.
  */
-public class RVItemAdapter extends RecyclerView.Adapter<PlanViewHolder> implements PlanViewHolder.OnItemClickListener {
+public class PlanAdapter extends RecyclerView.Adapter<PlanViewHolder> implements PlanViewHolder.OnItemClickListener {
 
     private List<Plan> mPlanList;
     private OnPlanClickListener mListener;
 
-    public RVItemAdapter(List<Plan> planList, OnPlanClickListener listener){
+    public PlanAdapter(List<Plan> planList, OnPlanClickListener listener){
         this.mPlanList = planList;
         this.mListener = listener;
     }

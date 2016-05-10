@@ -14,7 +14,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.spadatech.mobile.android.foodframer.R;
-import com.spadatech.mobile.android.foodframer.adapters.RVItemAdapter;
+import com.spadatech.mobile.android.foodframer.adapters.PlanAdapter;
 import com.spadatech.mobile.android.foodframer.dialogs.NewPlanDialogFragment;
 import com.spadatech.mobile.android.foodframer.helpers.AlertHelper;
 import com.spadatech.mobile.android.foodframer.helpers.PlanHelper;
@@ -31,12 +31,12 @@ import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
 
-public class PlanListActivity extends AppCompatActivity implements RVItemAdapter.OnPlanClickListener, NewPlanDialogFragment.OnCreatePlanClickListener {
+public class PlanListActivity extends AppCompatActivity implements PlanAdapter.OnPlanClickListener, NewPlanDialogFragment.OnCreatePlanClickListener {
 
     private RecyclerView mRecyclerView;
     private LinearLayout mEmptyPlanListView;
     private List<Plan> mPlanList;
-    private RVItemAdapter mAdapter;
+    private PlanAdapter mAdapter;
     private SessionManager mSessionManager;
     private HashMap<String, String> mUserInfo;
 
@@ -78,7 +78,7 @@ public class PlanListActivity extends AppCompatActivity implements RVItemAdapter
             mPlanList = new ArrayList<>();
         }
 
-        mAdapter = new RVItemAdapter(mPlanList, this);
+        mAdapter = new PlanAdapter(mPlanList, this);
         mRecyclerView.setAdapter(mAdapter);
 
         if(mPlanList == null || mPlanList.isEmpty()){
