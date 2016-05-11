@@ -25,7 +25,8 @@
         <activity
             android:name=".activities.SettingsActivity"
             android:label="@string/title_activity_settings" />
-        <activity android:name=".activities.WeekdayListActivity"></activity>
+        <activity android:name=".activities.WeekdayListActivity" />
+        <activity android:name=".activities.DailyPlanActivity"></activity>
     </application>
 
 </manifest>

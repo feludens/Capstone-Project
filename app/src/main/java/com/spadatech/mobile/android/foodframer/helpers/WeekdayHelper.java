@@ -34,8 +34,5 @@ public class WeekdayHelper {
         newWeekday.setImage(resourceId);
 
         return newWeekday;
-//        newWeekday.setGroceryList();
-//        newWeekday.setMealList();
-//        newWeekday.setPrepList();
     }
 }

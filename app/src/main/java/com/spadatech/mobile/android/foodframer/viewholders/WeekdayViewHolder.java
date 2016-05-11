@@ -29,7 +29,6 @@ public class WeekdayViewHolder extends RecyclerView.ViewHolder implements View.O
     @Override
     public void onClick(View v) {
         listener.onItemClicked(getAdapterPosition());
-
     }
 
     public interface OnItemClickListener {
