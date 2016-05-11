@@ -21,7 +21,7 @@ public class WeekdayViewHolder extends RecyclerView.ViewHolder implements View.O
         super(itemView);
         cardView = (CardView)itemView.findViewById(R.id.cv_weekday_container);
         dayName = (TextView)itemView.findViewById(R.id.tv_weekday_name);
-        dayImage = (ImageView)itemView.findViewById(R.id.iv_plan_image);
+        dayImage = (ImageView)itemView.findViewById(R.id.iv_weekday_image);
         this.listener = listener;
         itemView.setOnClickListener(this);
     }
