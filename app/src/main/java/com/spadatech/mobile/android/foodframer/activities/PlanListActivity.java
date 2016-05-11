@@ -133,7 +133,7 @@ public class PlanListActivity extends AppCompatActivity implements PlanAdapter.O
             realm.commitTransaction();
 
             realm.beginTransaction();
-            newPlan.setWeekdaysList(WeekdayHelper.newWeekdayList(realm));
+            newPlan.setWeekdaysList(WeekdayHelper.newWeekdayList(realm, this));
             realm.commitTransaction();
 
             realm.beginTransaction();

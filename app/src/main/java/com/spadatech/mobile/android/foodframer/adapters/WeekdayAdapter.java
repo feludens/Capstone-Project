@@ -34,7 +34,7 @@ public class WeekdayAdapter extends RecyclerView.Adapter<WeekdayViewHolder> impl
     @Override
     public void onBindViewHolder(WeekdayViewHolder holder, int position) {
         holder.dayName.setText(mWeekdayList.get(position).getWeekdayName());
-//        holder.dayImage.setImageResource(mWeekdayList.get(position).getWeekdayName());
+        holder.dayImage.setImageResource(mWeekdayList.get(position).getImage());
     }
 
     @Override
