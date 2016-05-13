@@ -15,6 +15,8 @@ import io.realm.RealmList;
  */
 public class WeekdayHelper {
 
+    private Weekday mWeekday;
+
     private static List<String> mWeekdayNameList = Arrays.asList("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
 
     public static RealmList<Weekday> newWeekdayList(Realm realm, Context context) {
@@ -34,5 +36,13 @@ public class WeekdayHelper {
         newWeekday.setImage(resourceId);
 
         return newWeekday;
+    }
+
+    public Weekday getWeekday() {
+        return mWeekday;
+    }
+
+    public void setWeekday(Weekday weekday) {
+        this.mWeekday = weekday;
     }
 }
