@@ -20,7 +20,7 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder> 
     public final int VIEW_TYPE_GROCERY = 0;
     public final int VIEW_TYPE_MEAL = 1;
     public final int VIEW_TYPE_PREP = 2;
-    private List<Map<Integer, String>> mDataSet;
+    private List<Map<Integer, List>> mDataSet;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ViewHolder(View v) {
@@ -66,7 +66,7 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder> 
     }
 
 
-    public DailyAdapter(List<Map<Integer, String>> dataSet) {
+    public DailyAdapter(List<Map<Integer, List>> dataSet) {
         mDataSet = dataSet;
     }
 
