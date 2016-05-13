@@ -1,5 +1,6 @@
 package com.spadatech.mobile.android.foodframer.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.util.Log;
 import com.spadatech.mobile.android.foodframer.R;
 import com.spadatech.mobile.android.foodframer.adapters.WeekdayAdapter;
 import com.spadatech.mobile.android.foodframer.helpers.PlanHelper;
+import com.spadatech.mobile.android.foodframer.helpers.WeekdayHelper;
 import com.spadatech.mobile.android.foodframer.models.Plan;
 import com.spadatech.mobile.android.foodframer.models.Weekday;
 
@@ -41,6 +43,6 @@ public class WeekdayListActivity extends AppCompatActivity implements WeekdayAda
 
     @Override
     public void onWeekdayClicked(Weekday weekday) {
-        Log.d("Ludens", "weekday name: " + weekday.getWeekdayName());
+
     }
 }

@@ -15,9 +15,16 @@ import io.realm.RealmList;
  */
 public class WeekdayHelper {
 
+    private static WeekdayHelper instance;
     private Weekday mWeekday;
-
     private static List<String> mWeekdayNameList = Arrays.asList("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
+
+    public synchronized static WeekdayHelper get() {
+        if (instance == null) {
+            instance = new WeekdayHelper();
+        }
+        return instance;
+    }
 
     public static RealmList<Weekday> newWeekdayList(Realm realm, Context context) {
         RealmList<Weekday> weekdayList = new RealmList<>();
