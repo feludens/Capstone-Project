@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.LinearLayout;
 
 import com.spadatech.mobile.android.foodframer.R;
@@ -29,17 +30,21 @@ public class DailyPlanActivity extends AppCompatActivity {
 
         List<Map<Integer, List>> dataSet = new ArrayList<>();
         Map<Integer, List> map = new HashMap<>();
-
         map.put(mAdapter.VIEW_TYPE_GROCERY, mWeekday.getGroceries());
         map.put(mAdapter.VIEW_TYPE_MEAL, mWeekday.getMeals());
         map.put(mAdapter.VIEW_TYPE_PREP, mWeekday.getPrepdays());
 
-
+        mEmptyPlanListView = (LinearLayout) findViewById(R.id.ll_daily_list_empty);
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_daily);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(layoutManager);
-
         mAdapter = new DailyAdapter(dataSet);
-        mRecyclerView.setAdapter(mAdapter);
+
+        if(map.isEmpty()){
+            mRecyclerView.setVisibility(View.GONE);
+            mEmptyPlanListView.setVisibility(View.VISIBLE);
+        }else{
+            LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+            mRecyclerView.setLayoutManager(layoutManager);
+            mRecyclerView.setAdapter(mAdapter);
+        }
     }
 }
