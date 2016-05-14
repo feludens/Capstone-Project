@@ -43,6 +43,8 @@ public class WeekdayListActivity extends AppCompatActivity implements WeekdayAda
 
     @Override
     public void onWeekdayClicked(Weekday weekday) {
-
+        WeekdayHelper.get().setWeekday(weekday);
+        Intent intent = new Intent(this, DailyPlanActivity.class);
+        startActivity(intent);
     }
 }
