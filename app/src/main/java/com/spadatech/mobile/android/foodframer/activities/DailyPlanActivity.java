@@ -32,6 +32,10 @@ public class DailyPlanActivity extends AppCompatActivity {
 
         mWeekday = WeekdayHelper.get().getWeekday();
 
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setTitle(mWeekday.getWeekdayName() + getResources().getText(R.string.title_daily_plan));
+        }
+
         List<Map<Integer, List>> dataSet = new ArrayList<>();
         Map<Integer, List> map = new HashMap<>();
         map.put(Constants.VIEW_TYPE_GROCERY, mWeekday.getGroceries());

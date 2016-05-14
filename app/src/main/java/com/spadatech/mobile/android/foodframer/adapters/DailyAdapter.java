@@ -96,18 +96,18 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder> 
 
         if (viewHolder.getItemViewType() == Constants.VIEW_TYPE_GROCERY) {
             GroceryViewHolder holder = (GroceryViewHolder) viewHolder;
-            holder.checkBox.setChecked(checked);
-            holder.checkBox.setText(name);
+//            holder.checkBox.setChecked(checked);
+//            holder.checkBox.setText(name);
         }
         else if (viewHolder.getItemViewType() == Constants.VIEW_TYPE_MEAL) {
             MealViewHolder holder = (MealViewHolder) viewHolder;
-            holder.checkBox.setChecked(checked);
-            holder.checkBox.setText(name);
+//            holder.checkBox.setChecked(checked);
+//            holder.checkBox.setText(name);
         }
         else {
             PrepViewHolder holder = (PrepViewHolder) viewHolder;
-            holder.checkBox.setChecked(checked);
-            holder.checkBox.setText(name);
+//            holder.checkBox.setChecked(checked);
+//            holder.checkBox.setText(name);
         }
     }
 
