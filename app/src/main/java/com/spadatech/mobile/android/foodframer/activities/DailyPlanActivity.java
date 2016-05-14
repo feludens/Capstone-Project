@@ -6,7 +6,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.spadatech.mobile.android.foodframer.R;
 import com.spadatech.mobile.android.foodframer.adapters.DailyAdapter;
 import com.spadatech.mobile.android.foodframer.helpers.Constants;
@@ -63,5 +65,14 @@ public class DailyPlanActivity extends AppCompatActivity {
             mRecyclerView.setLayoutManager(layoutManager);
             mRecyclerView.setAdapter(mAdapter);
         }
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.action_new_grocery);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Your FAB click action here...
+                Toast.makeText(getBaseContext(), "FAB Clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

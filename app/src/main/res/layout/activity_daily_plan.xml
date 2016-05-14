@@ -21,28 +21,34 @@
         android:layout_margin="@dimen/fab_margin">
 
         <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/action_a"
+            android:id="@+id/action_new_grocery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            fab:fab_colorNormal="@color/colorAccent"
-            fab:fab_title="New A"
-            fab:fab_colorPressed="@color/colorAccent"/>
+            fab:fab_colorNormal="@color/white"
+            fab:fab_title="Groceries"
+            fab:fab_icon="@drawable/shoppingcart"
+            fab:fab_colorPressed="@android:color/darker_gray"
+            fab:fab_size="mini"/>
 
         <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/action_b"
+            android:id="@+id/action_new_meal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            fab:fab_colorNormal="@color/colorAccent"
-            fab:fab_title="New B"
-            fab:fab_colorPressed="@color/colorAccent"/>
+            fab:fab_colorNormal="@color/white"
+            fab:fab_title="Meal"
+            fab:fab_icon="@drawable/meal"
+            fab:fab_colorPressed="@android:color/darker_gray"
+            fab:fab_size="mini"/>
 
         <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/action_c"
+            android:id="@+id/action_new_prep"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            fab:fab_colorNormal="@color/colorAccent"
-            fab:fab_title="New C"
-            fab:fab_colorPressed="@color/colorAccent"/>
+            fab:fab_colorNormal="@color/white"
+            fab:fab_title="Meal Prep"
+            fab:fab_icon="@drawable/meal_prep"
+            fab:fab_colorPressed="@android:color/darker_gray"
+            fab:fab_size="mini"/>
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
