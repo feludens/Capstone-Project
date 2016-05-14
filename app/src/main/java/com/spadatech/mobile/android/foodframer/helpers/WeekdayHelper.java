@@ -2,6 +2,9 @@ package com.spadatech.mobile.android.foodframer.helpers;
 
 import android.content.Context;
 
+import com.spadatech.mobile.android.foodframer.models.Grocery;
+import com.spadatech.mobile.android.foodframer.models.Meal;
+import com.spadatech.mobile.android.foodframer.models.Prep;
 import com.spadatech.mobile.android.foodframer.models.Weekday;
 
 import java.util.Arrays;
@@ -37,10 +40,13 @@ public class WeekdayHelper {
     }
 
     private static Weekday createNewWeekday(Realm realm, int size, Context context) {
+        int resourceId = context.getResources().getIdentifier(mWeekdayNameList.get(size).toLowerCase(), "drawable", context.getPackageName());
         Weekday newWeekday = realm.createObject(Weekday.class);
         newWeekday.setWeekdayName(mWeekdayNameList.get(size));
-        int resourceId = context.getResources().getIdentifier(mWeekdayNameList.get(size).toLowerCase(), "drawable", context.getPackageName());
         newWeekday.setImage(resourceId);
+        newWeekday.setGroceryList(new RealmList<Grocery>());
+        newWeekday.setMealList(new RealmList<Meal>());
+        newWeekday.setPrepList(new RealmList<Prep>());
 
         return newWeekday;
     }
