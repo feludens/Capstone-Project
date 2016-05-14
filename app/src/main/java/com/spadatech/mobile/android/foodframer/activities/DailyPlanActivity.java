@@ -1,6 +1,7 @@
 package com.spadatech.mobile.android.foodframer.activities;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,7 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.spadatech.mobile.android.foodframer.R;
 import com.spadatech.mobile.android.foodframer.adapters.DailyAdapter;
+import com.spadatech.mobile.android.foodframer.dialogs.NewGroceryDialogFragment;
 import com.spadatech.mobile.android.foodframer.helpers.Constants;
 import com.spadatech.mobile.android.foodframer.helpers.WeekdayHelper;
 import com.spadatech.mobile.android.foodframer.models.Weekday;
@@ -21,7 +23,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DailyPlanActivity extends AppCompatActivity implements FloatingActionsMenu.OnFloatingActionsMenuUpdateListener {
+public class DailyPlanActivity extends AppCompatActivity
+        implements FloatingActionsMenu.OnFloatingActionsMenuUpdateListener, NewGroceryDialogFragment.OnCreateGroceryClickListener {
 
     private RecyclerView mRecyclerView;
     private LinearLayout mEmptyPlanListView;
@@ -93,6 +96,10 @@ public class DailyPlanActivity extends AppCompatActivity implements FloatingActi
                     if(mainFab != null) {
                         mainFab.toggle();
                     }
+
+                    FragmentManager fm = getSupportFragmentManager();
+                    NewGroceryDialogFragment newGroceryDialogFragment = NewGroceryDialogFragment.newInstance();
+                    newGroceryDialogFragment.show(fm, newGroceryDialogFragment.TAG);
                 }
             });
         }
@@ -111,5 +118,10 @@ public class DailyPlanActivity extends AppCompatActivity implements FloatingActi
         if (mTransparentScreen.getVisibility() == View.VISIBLE) {
             mTransparentScreen.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onCreateGroceryClicked(List groceries) {
+
     }
 }

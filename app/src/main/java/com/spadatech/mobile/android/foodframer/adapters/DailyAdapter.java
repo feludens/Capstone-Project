@@ -54,24 +54,24 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder> 
     }
 
     public class MealViewHolder extends ViewHolder {
-        CheckBox checkBox;
+//        CheckBox checkBox;
 
         public MealViewHolder(View v, List List) {
             super(v);
-            this.checkBox = (CheckBox) v.findViewById(R.id.lv_checkbox);
+//            this.checkBox = (CheckBox) v.findViewById(R.id.lv_checkbox);
         }
     }
 
     public class PrepViewHolder extends ViewHolder {
-        CheckBox checkBox;
-        String name = "";
-        boolean checked = false;
+//        CheckBox checkBox;
+//        String name = "";
+//        boolean checked = false;
 
         public PrepViewHolder(View v, List List) {
             super(v);
-            this.checkBox = (CheckBox) v.findViewById(R.id.lv_checkbox);
-            checkBox.setChecked(checked);
-            checkBox.setText(name);
+//            this.checkBox = (CheckBox) v.findViewById(R.id.lv_checkbox);
+//            checkBox.setChecked(checked);
+//            checkBox.setText(name);
         }
     }
 

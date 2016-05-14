@@ -33,7 +33,7 @@ public class CheckboxListAdapter extends RecyclerView.Adapter<CheckboxListAdapte
 
         public GroceryItemViewHolder(View v) {
             super(v);
-            this.checkBox = (CheckBox) v.findViewById(R.id.lv_checkbox);
+            this.checkBox = (CheckBox) v.findViewById(R.id.checkbox_item);
 //            checkBox.setChecked(checked);
 //            checkBox.setText(name);
         }
