@@ -1,11 +1,14 @@
 package com.spadatech.mobile.android.foodframer.adapters;
 
+import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.spadatech.mobile.android.foodframer.R;
 import com.spadatech.mobile.android.foodframer.helpers.Constants;
@@ -21,6 +24,8 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder> 
     private static final String TAG = "DailyAdapter";
 
     private List<Map<Integer, List>> mDataSet;
+    private RecyclerView mRecyclerView;
+    private Context mContext;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ViewHolder(View v) {
@@ -33,15 +38,18 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder> 
         CheckBox checkBox;
         String name = "";
         boolean checked = false;
+        RecyclerView recyclerView;
+        TextView planName;
         // Add logic to see if checkbox was checked or not
         // Add logic to retrieve name from realm object
 
         public GroceryViewHolder(View v, List List) {
             super(v);
-            this.checkBox = (CheckBox) v.findViewById(R.id.lv_checkbox);
-            this.lv = (ListView) v.findViewById(R.id.lv_groceries);
-            checkBox.setChecked(checked);
-            checkBox.setText(name);
+//            this.checkBox = (CheckBox) v.findViewById(R.id.lv_checkbox);
+            this.planName = (TextView) v.findViewById(R.id.tv_grocery_name);
+            recyclerView = (RecyclerView) v.findViewById(R.id.rv_groceries);
+//            checkBox.setChecked(checked);
+//            checkBox.setText(name);
         }
     }
 
@@ -74,6 +82,7 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder> 
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        mContext = viewGroup.getContext();
         View v;
         if (viewType == Constants.VIEW_TYPE_GROCERY) {
             List<Grocery> list = mDataSet.get(0).get(Constants.VIEW_TYPE_GROCERY);
@@ -103,6 +112,12 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder> 
 
         if (viewHolder.getItemViewType() == Constants.VIEW_TYPE_GROCERY) {
             GroceryViewHolder holder = (GroceryViewHolder) viewHolder;
+
+            LinearLayoutManager llm = new LinearLayoutManager(mContext);
+            holder.recyclerView.setLayoutManager(llm);
+
+            CheckboxListAdapter mAdapter = new CheckboxListAdapter(mDataSet.get(position).get(Constants.VIEW_TYPE_GROCERY));
+            mRecyclerView.setAdapter(mAdapter);
 //            holder.checkBox.setChecked(checked);
 //            holder.checkBox.setText(name);
         }

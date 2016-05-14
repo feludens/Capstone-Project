@@ -43,11 +43,19 @@ public class DailyPlanActivity extends AppCompatActivity {
         map.put(Constants.VIEW_TYPE_PREP, mWeekday.getPrepdays());
         dataSet.add(map);
 
+        boolean isEmpty = true;
+
+        if(!map.get(Constants.VIEW_TYPE_GROCERY).isEmpty()
+                || !map.get(Constants.VIEW_TYPE_MEAL).isEmpty()
+                || !map.get(Constants.VIEW_TYPE_PREP).isEmpty()){
+            isEmpty = false;
+        }
+
         mEmptyPlanListView = (LinearLayout) findViewById(R.id.ll_daily_list_empty);
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_daily);
         mAdapter = new DailyAdapter(dataSet);
 
-        if(map.isEmpty()){
+        if(isEmpty){
             mRecyclerView.setVisibility(View.GONE);
             mEmptyPlanListView.setVisibility(View.VISIBLE);
         }else{

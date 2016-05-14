@@ -35,4 +35,13 @@ public class Grocery extends RealmObject {
     public void setGroceryItemList(RealmList<GroceryItem> mGroceryItemList) {
         this.mGroceryItemList = mGroceryItemList;
     }
+
+    public void addGroceryItem(GroceryItem item){
+        if(mGroceryItemList != null){
+            mGroceryItemList.add(item);
+        }else{
+            mGroceryItemList = new RealmList<>();
+            mGroceryItemList.add(item);
+        }
+    }
 }

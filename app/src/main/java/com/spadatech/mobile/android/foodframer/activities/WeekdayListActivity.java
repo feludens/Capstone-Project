@@ -32,7 +32,7 @@ public class WeekdayListActivity extends AppCompatActivity implements WeekdayAda
         mPlan = PlanHelper.get().getActivePlan();
         Log.d("Ludens", "plan name: " + mPlan.getName());
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.rv);
+        mRecyclerView = (RecyclerView) findViewById(R.id.rv_weekday);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(llm);
 
