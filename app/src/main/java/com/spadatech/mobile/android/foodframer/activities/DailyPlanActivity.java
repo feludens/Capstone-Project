@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 
 import com.spadatech.mobile.android.foodframer.R;
 import com.spadatech.mobile.android.foodframer.adapters.DailyAdapter;
+import com.spadatech.mobile.android.foodframer.helpers.WeekdayHelper;
 import com.spadatech.mobile.android.foodframer.models.Weekday;
 
 import java.util.ArrayList;
@@ -28,11 +29,14 @@ public class DailyPlanActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_daily_plan);
 
+        mWeekday = WeekdayHelper.get().getWeekday();
+
         List<Map<Integer, List>> dataSet = new ArrayList<>();
         Map<Integer, List> map = new HashMap<>();
-        map.put(mAdapter.VIEW_TYPE_GROCERY, mWeekday.getGroceries());
-        map.put(mAdapter.VIEW_TYPE_MEAL, mWeekday.getMeals());
-        map.put(mAdapter.VIEW_TYPE_PREP, mWeekday.getPrepdays());
+        map.put(0, mWeekday.getGroceries());
+        map.put(1, mWeekday.getMeals());
+        map.put(2, mWeekday.getPrepdays());
+        dataSet.add(map);
 
         mEmptyPlanListView = (LinearLayout) findViewById(R.id.ll_daily_list_empty);
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_daily);

@@ -44,6 +44,7 @@ public class WeekdayHelper {
         Weekday newWeekday = realm.createObject(Weekday.class);
         newWeekday.setWeekdayName(mWeekdayNameList.get(size));
         newWeekday.setImage(resourceId);
+
         newWeekday.setGroceryList(new RealmList<Grocery>());
         newWeekday.setMealList(new RealmList<Meal>());
         newWeekday.setPrepList(new RealmList<Prep>());
