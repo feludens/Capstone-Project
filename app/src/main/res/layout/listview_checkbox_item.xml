@@ -4,6 +4,15 @@
     android:layout_height="match_parent" android:padding="10dp"
     android:gravity="center_vertical">
 
+    <ImageButton
+        android:id="@+id/ib_delete"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:background="@drawable/ic_clear"
+        android:backgroundTint="@android:color/black"
+        android:visibility="gone"
+        />
+
     <CheckBox
         android:id="@+id/checkbox_item"
         android:layout_width="wrap_content"
