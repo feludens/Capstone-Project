@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 
 import com.spadatech.mobile.android.foodframer.R;
+import com.spadatech.mobile.android.foodframer.helpers.Constants;
 
 import java.util.List;
 import java.util.Map;
@@ -17,9 +18,6 @@ import java.util.Map;
 public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder> {
     private static final String TAG = "DailyAdapter";
 
-    public final int VIEW_TYPE_GROCERY = 0;
-    public final int VIEW_TYPE_MEAL = 1;
-    public final int VIEW_TYPE_PREP = 2;
     private List<Map<Integer, List>> mDataSet;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -73,12 +71,12 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder> 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View v;
-        if (viewType == VIEW_TYPE_GROCERY) {
+        if (viewType == Constants.VIEW_TYPE_GROCERY) {
             v = LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.cardview_grocery_item, viewGroup, false);
 
             return new GroceryViewHolder(v);
-        } else if (viewType == VIEW_TYPE_MEAL) {
+        } else if (viewType == Constants.VIEW_TYPE_MEAL) {
             v = LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.cardview_grocery_item, viewGroup, false);
             return new MealViewHolder(v);
@@ -96,12 +94,12 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder> 
         // Add logic to see if checkbox was checked or not
         // Add logic to retrieve name from realm object
 
-        if (viewHolder.getItemViewType() == VIEW_TYPE_GROCERY) {
+        if (viewHolder.getItemViewType() == Constants.VIEW_TYPE_GROCERY) {
             GroceryViewHolder holder = (GroceryViewHolder) viewHolder;
             holder.checkBox.setChecked(checked);
             holder.checkBox.setText(name);
         }
-        else if (viewHolder.getItemViewType() == VIEW_TYPE_MEAL) {
+        else if (viewHolder.getItemViewType() == Constants.VIEW_TYPE_MEAL) {
             MealViewHolder holder = (MealViewHolder) viewHolder;
             holder.checkBox.setChecked(checked);
             holder.checkBox.setText(name);
