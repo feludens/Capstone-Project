@@ -125,21 +125,26 @@ public class DailyPlanActivity extends AppCompatActivity
 
     private void populateDataSet() {
         Map<Integer, List> groceryMap = new HashMap<>();
-        groceryMap.put(Constants.VIEW_TYPE_GROCERY, mWeekday.getGroceries());
+        if(mWeekday.getGroceries() != null && !mWeekday.getGroceries().isEmpty()) {
+            groceryMap.put(Constants.VIEW_TYPE_GROCERY, mWeekday.getGroceries());
+            mDataSet.add(groceryMap);
+        }
 
         Map<Integer, List> mealMap = new HashMap<>();
-        mealMap.put(Constants.VIEW_TYPE_MEAL, mWeekday.getMeals());
+        if(mWeekday.getMeals() != null && !mWeekday.getMeals().isEmpty()) {
+            mealMap.put(Constants.VIEW_TYPE_MEAL, mWeekday.getMeals());
+            mDataSet.add(mealMap);
+        }
 
         Map<Integer, List> prepMap = new HashMap<>();
-        prepMap.put(Constants.VIEW_TYPE_PREP, mWeekday.getPrepdays());
+        if(mWeekday.getPrepdays() != null && !mWeekday.getPrepdays().isEmpty()) {
+            prepMap.put(Constants.VIEW_TYPE_PREP, mWeekday.getPrepdays());
+            mDataSet.add(prepMap);
+        }
 
-        mDataSet.add(groceryMap);
-        mDataSet.add(mealMap);
-        mDataSet.add(prepMap);
-
-        if(!groceryMap.get(Constants.VIEW_TYPE_GROCERY).isEmpty()
-                || !mealMap.get(Constants.VIEW_TYPE_MEAL).isEmpty()
-                || !prepMap.get(Constants.VIEW_TYPE_PREP).isEmpty()){
+        if(!groceryMap.isEmpty()
+                || !mealMap.isEmpty()
+                || !prepMap.isEmpty()){
             isEmpty = false;
         }
     }
