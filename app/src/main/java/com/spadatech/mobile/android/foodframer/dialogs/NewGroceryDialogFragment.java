@@ -95,7 +95,7 @@ public class NewGroceryDialogFragment extends DialogFragment{
             }
         });
 
-        mAdapter = new CheckboxListAdapter(mNewGroceriesList);
+        mAdapter = new CheckboxListAdapter(mNewGroceriesList, true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mAdapter);

@@ -116,7 +116,7 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder> 
             LinearLayoutManager llm = new LinearLayoutManager(mContext);
             holder.recyclerView.setLayoutManager(llm);
 
-            CheckboxListAdapter mAdapter = new CheckboxListAdapter(mDataSet.get(position).get(Constants.VIEW_TYPE_GROCERY));
+            CheckboxListAdapter mAdapter = new CheckboxListAdapter(mDataSet.get(position).get(Constants.VIEW_TYPE_GROCERY), false);
             mRecyclerView.setAdapter(mAdapter);
 //            holder.checkBox.setChecked(checked);
 //            holder.checkBox.setText(name);

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 
 import com.spadatech.mobile.android.foodframer.R;
 import com.spadatech.mobile.android.foodframer.models.GroceryItem;
@@ -18,6 +19,7 @@ public class CheckboxListAdapter extends RecyclerView.Adapter<CheckboxListAdapte
     private static final String TAG = "DailyAdapter";
 
     private List mList;
+    private boolean mIsEditMode = false;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ViewHolder(View v) {
@@ -27,6 +29,7 @@ public class CheckboxListAdapter extends RecyclerView.Adapter<CheckboxListAdapte
 
     public class GroceryItemViewHolder extends ViewHolder {
         CheckBox checkBox;
+        ImageButton deleteButton;
 //        boolean checked = false;
         // Add logic to see if checkbox was checked or not
         // Add logic to retrieve name from realm object
@@ -34,6 +37,7 @@ public class CheckboxListAdapter extends RecyclerView.Adapter<CheckboxListAdapte
         public GroceryItemViewHolder(View v) {
             super(v);
             this.checkBox = (CheckBox) v.findViewById(R.id.checkbox_item);
+            this.deleteButton = (ImageButton) v.findViewById(R.id.ib_delete);
 //            checkBox.setChecked(checked);
 //            checkBox.setText(name);
         }
@@ -62,8 +66,9 @@ public class CheckboxListAdapter extends RecyclerView.Adapter<CheckboxListAdapte
 //    }
 
 
-    public CheckboxListAdapter(List list) {
+    public CheckboxListAdapter(List list, boolean editMode) {
         mList = list;
+        mIsEditMode = editMode;
     }
 
     @Override
@@ -103,6 +108,17 @@ public class CheckboxListAdapter extends RecyclerView.Adapter<CheckboxListAdapte
         GroceryItemViewHolder holder = (GroceryItemViewHolder) viewHolder;
             holder.checkBox.setChecked(checked);
             holder.checkBox.setText(name);
+
+        if(mIsEditMode){
+            holder.deleteButton.setVisibility(View.VISIBLE);
+            holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mList.remove(position);
+                    notifyDataSetChanged();
+                }
+            });
+        }
 //        }
 //        else if (viewHolder.getItemViewType() == Constants.VIEW_TYPE_MEAL) {
 //            MealViewHolder holder = (MealViewHolder) viewHolder;
