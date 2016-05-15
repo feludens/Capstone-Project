@@ -17,9 +17,8 @@ import android.widget.Toast;
 
 import com.spadatech.mobile.android.foodframer.R;
 import com.spadatech.mobile.android.foodframer.adapters.CheckboxListAdapter;
+import com.spadatech.mobile.android.foodframer.models.Grocery;
 import com.spadatech.mobile.android.foodframer.models.GroceryItem;
-
-import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -35,6 +34,7 @@ public class NewGroceryDialogFragment extends DialogFragment{
     private Button mAddButton;
     private RecyclerView mRecyclerView;
     private RealmList<GroceryItem> mNewGroceriesList;
+    private Grocery mGrocery;
     CheckboxListAdapter mAdapter;
 
     public NewGroceryDialogFragment() {
@@ -55,6 +55,12 @@ public class NewGroceryDialogFragment extends DialogFragment{
         mAddButton = (Button) v.findViewById(R.id.button_add_new_grocery);
         mRecyclerView = (RecyclerView) v.findViewById(R.id.rv_new_groceries);
         mNewGroceriesList = new RealmList<>();
+
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        mGrocery = realm.createObject(Grocery.class);
+        mGrocery.setGroceryName("Grocery List");
+        realm.commitTransaction();
 
         mAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,6 +92,15 @@ public class NewGroceryDialogFragment extends DialogFragment{
         alertDialogBuilder.setPositiveButton(R.string.create,  new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                Realm realm = Realm.getDefaultInstance();
+                realm.beginTransaction();
+                realm.copyToRealm(mNewGroceriesList);
+                realm.commitTransaction();
+
+                realm.beginTransaction();
+                mGrocery.setGroceryItemList(mNewGroceriesList);
+                realm.commitTransaction();
+
                 mListener.onCreateGroceryClicked(mNewGroceriesList);
             }
         });
@@ -119,6 +134,6 @@ public class NewGroceryDialogFragment extends DialogFragment{
     }
 
     public interface OnCreateGroceryClickListener{
-        void onCreateGroceryClicked(List groceries);
+        void onCreateGroceryClicked(RealmList groceries);
     }
 }

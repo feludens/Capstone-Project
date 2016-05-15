@@ -23,6 +23,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.realm.Realm;
+import io.realm.RealmList;
+
 public class DailyPlanActivity extends AppCompatActivity
         implements FloatingActionsMenu.OnFloatingActionsMenuUpdateListener, NewGroceryDialogFragment.OnCreateGroceryClickListener {
 
@@ -31,6 +34,7 @@ public class DailyPlanActivity extends AppCompatActivity
     private LinearLayout mTransparentScreen;
     private Weekday mWeekday;
     private DailyAdapter mAdapter;
+    private List<Map<Integer, List>> mDataSet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +47,12 @@ public class DailyPlanActivity extends AppCompatActivity
             getSupportActionBar().setTitle(mWeekday.getWeekdayName() + getResources().getText(R.string.title_daily_plan));
         }
 
-        List<Map<Integer, List>> dataSet = new ArrayList<>();
+        mDataSet = new ArrayList<>();
         Map<Integer, List> map = new HashMap<>();
         map.put(Constants.VIEW_TYPE_GROCERY, mWeekday.getGroceries());
         map.put(Constants.VIEW_TYPE_MEAL, mWeekday.getMeals());
         map.put(Constants.VIEW_TYPE_PREP, mWeekday.getPrepdays());
-        dataSet.add(map);
+        mDataSet.add(map);
 
         boolean isEmpty = true;
 
@@ -61,7 +65,7 @@ public class DailyPlanActivity extends AppCompatActivity
         mTransparentScreen = (LinearLayout) findViewById(R.id.ll_transparent_screen);
         mEmptyPlanListView = (LinearLayout) findViewById(R.id.ll_daily_list_empty);
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_daily);
-        mAdapter = new DailyAdapter(dataSet);
+        mAdapter = new DailyAdapter(mDataSet);
 
         if(isEmpty){
             mRecyclerView.setVisibility(View.GONE);
@@ -121,7 +125,30 @@ public class DailyPlanActivity extends AppCompatActivity
     }
 
     @Override
-    public void onCreateGroceryClicked(List groceries) {
+    public void onCreateGroceryClicked(RealmList groceries) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        mWeekday.setGroceryList(groceries);
+        realm.commitTransaction();
 
+        for(int i  = 0; i < mDataSet.size(); i++){
+            if(mDataSet.get(i).containsKey((Constants.VIEW_TYPE_GROCERY))){
+                mDataSet.remove(i);
+                Map<Integer, List> map = new HashMap<>();
+                map.put(Constants.VIEW_TYPE_GROCERY, mWeekday.getGroceries());
+                mDataSet.add(map);
+                break;
+            }
+        }
+
+        refreshViews();
+    }
+
+    private void refreshViews() {
+        if(mEmptyPlanListView.getVisibility() == View.VISIBLE){
+            mEmptyPlanListView.setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.VISIBLE);
+        }
+        mAdapter.notifyDataSetChanged();
     }
 }
