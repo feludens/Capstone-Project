@@ -30,7 +30,9 @@ public class NewMealDialogFragment extends DialogFragment{
 
     public final String TAG = getClass().getSimpleName();
     private OnCreateGroceryClickListener mListener;
-    private EditText mEditText;
+    private EditText mMealName;
+    private EditText mMealItemName;
+    private EditText mMealItemNote;
     private Button mAddButton;
     private RecyclerView mRecyclerView;
     private RealmList<GroceryItem> mNewGroceriesList;

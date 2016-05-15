@@ -10,31 +10,25 @@
         android:layout_height="wrap_content"
         android:hint="Meal Name"/>
 
+    <EditText
+        android:id="@+id/et_new_meal_notes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Notes"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_margin="10dp"
         android:gravity="center">
-        <LinearLayout
+        <EditText
+            android:id="@+id/et_new_meal_item_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical">
-            <EditText
-                android:id="@+id/et_new_meal_item_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Dish Name"/>
-            <EditText
-                android:id="@+id/et_new_meal_item_note"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Notes"/>
+            android:hint="Dish Name"/>
 
-        </LinearLayout>
         <Button
             android:id="@+id/button_add_new_grocery"
             android:layout_width="wrap_content"
