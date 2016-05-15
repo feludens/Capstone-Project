@@ -94,6 +94,26 @@ public class DailyPlanActivity extends AppCompatActivity
             });
         }
 
+        FloatingActionButton mealFab = (FloatingActionButton) findViewById(R.id.action_new_meal);
+        if(mealFab != null) {
+            mealFab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mTransparentScreen.getVisibility() == View.VISIBLE) {
+                        mTransparentScreen.setVisibility(View.GONE);
+                    }
+
+                    if(mainFab != null) {
+                        mainFab.toggle();
+                    }
+
+                    FragmentManager fm = getSupportFragmentManager();
+                    NewGroceryDialogFragment newGroceryDialogFragment = NewGroceryDialogFragment.newInstance();
+                    newGroceryDialogFragment.show(fm, newGroceryDialogFragment.TAG);
+                }
+            });
+        }
+
     }
 
     @Override

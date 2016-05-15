@@ -156,11 +156,11 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder> 
 
             RealmList<Weekday> weeekdayList = planResult.first().getWeekdaysList();
             int index = weeekdayList.indexOf(weekday);
-
-            if(planResult.first().getWeekdaysList().get(index).getMeals() != null ||
-                    !planResult.first().getWeekdaysList().get(index).getMeals().isEmpty()){
-
-            }
+//
+//            if(planResult.first().getWeekdaysList().get(index).getMeals() != null ||
+//                    !planResult.first().getWeekdaysList().get(index).getMeals().isEmpty()){
+//
+//            }
 
             meals = planResult.first().getWeekdaysList().get(index).getMeals().get(0).getmMealItemList();
             realm.commitTransaction();
