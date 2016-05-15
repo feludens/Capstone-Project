@@ -6,8 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.spadatech.mobile.android.foodframer.R;
@@ -43,44 +41,35 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder> 
     }
 
     public class GroceryViewHolder extends ViewHolder {
-        ListView lv;
-        CheckBox checkBox;
-        String name = "";
-        boolean checked = false;
         RecyclerView recyclerView;
         TextView planName;
-        // Add logic to see if checkbox was checked or not
-        // Add logic to retrieve name from realm object
 
         public GroceryViewHolder(View v, List List) {
             super(v);
-//            this.checkBox = (CheckBox) v.findViewById(R.id.lv_checkbox);
             this.planName = (TextView) v.findViewById(R.id.tv_grocery_name);
-            recyclerView = (RecyclerView) v.findViewById(R.id.rv_groceries);
-//            checkBox.setChecked(checked);
-//            checkBox.setText(name);
+            this.recyclerView = (RecyclerView) v.findViewById(R.id.rv_groceries);
         }
     }
 
     public class MealViewHolder extends ViewHolder {
-//        CheckBox checkBox;
+        RecyclerView recyclerView;
+        TextView planName;
 
         public MealViewHolder(View v, List List) {
             super(v);
-//            this.checkBox = (CheckBox) v.findViewById(R.id.lv_checkbox);
+            this.planName = (TextView) v.findViewById(R.id.tv_grocery_name);
+            this.recyclerView = (RecyclerView) v.findViewById(R.id.rv_groceries);
         }
     }
 
     public class PrepViewHolder extends ViewHolder {
-//        CheckBox checkBox;
-//        String name = "";
-//        boolean checked = false;
+        RecyclerView recyclerView;
+        TextView planName;
 
         public PrepViewHolder(View v, List List) {
             super(v);
-//            this.checkBox = (CheckBox) v.findViewById(R.id.lv_checkbox);
-//            checkBox.setChecked(checked);
-//            checkBox.setText(name);
+            this.planName = (TextView) v.findViewById(R.id.tv_grocery_name);
+            this.recyclerView = (RecyclerView) v.findViewById(R.id.rv_groceries);
         }
     }
 
@@ -136,29 +125,14 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder> 
                     .equalTo("name", plan.getName())
                     .findAll();
 
-            // Plan
-                // Weekday
-                    // Grocery
-                        // GroceyItems
-
             RealmList<Weekday> weeekdayList = planResult.first().getWeekdaysList();
             int index = weeekdayList.indexOf(weekday);
-            Weekday day = weeekdayList.get(index);
 
             groceries = planResult.first().getWeekdaysList().get(index).getGroceries().get(0).getmGroceryItemList();
-
-
-//            RealmResults<Grocery> groceryResult = realm.where(Grocery.class)
-//                    .equalTo("mGroceryName", "Grocery List")
-//                    .findAll();
-//            groceries = day.getGroceries().get(0).getmGroceryItemList(); //groceryResult.first().getmGroceryItemList();
             realm.commitTransaction();
 
-            //This is currently sending a list of groceries. Must send a list of groceries item
             GroceryItemListAdapter mAdapter = new GroceryItemListAdapter(groceries, false);
             holder.recyclerView.setAdapter(mAdapter);
-//            holder.checkBox.setChecked(checked);
-//            holder.checkBox.setText(name);
         }
         else if (viewHolder.getItemViewType() == Constants.VIEW_TYPE_MEAL) {
             MealViewHolder holder = (MealViewHolder) viewHolder;
