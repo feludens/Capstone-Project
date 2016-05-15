@@ -14,11 +14,11 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:scaleType="centerCrop"
             android:id="@+id/iv_weekday_image"
-            android:background="#999999"
+            android:layout_margin="10dp"
             />
 
         <TextView
@@ -27,7 +27,7 @@
             android:id="@+id/tv_weekday_name"
             android:textSize="16sp"
             tools:text="Monday"
-            android:padding="10dp"
+            android:padding="5dp"
             />
     </LinearLayout>
 </android.support.v7.widget.CardView>
