@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.spadatech.mobile.android.foodframer.R;
 import com.spadatech.mobile.android.foodframer.helpers.Constants;
@@ -45,14 +46,16 @@ public class GroceryItemListAdapter extends RecyclerView.Adapter<GroceryItemList
         }
     }
 
-//    public class MealViewHolder extends ViewHolder {
-//        CheckBox checkBox;
-//
-//        public MealViewHolder(View v, List List) {
-//            super(v);
-//            this.checkBox = (CheckBox) v.findViewById(R.id.lv_checkbox);
-//        }
-//    }
+    public class MealViewHolder extends ViewHolder {
+        TextView name;
+        ImageButton deleteButton;
+
+        public MealViewHolder(View v) {
+            super(v);
+            this.name = (TextView) v.findViewById(R.id.checkbox_item);
+            this.deleteButton = (ImageButton) v.findViewById(R.id.ib_delete);
+        }
+    }
 //
 //    public class PrepViewHolder extends ViewHolder {
 //        CheckBox checkBox;
@@ -75,21 +78,22 @@ public class GroceryItemListAdapter extends RecyclerView.Adapter<GroceryItemList
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View v = LayoutInflater.from(viewGroup.getContext())
+        View v;
+//        View v = LayoutInflater.from(viewGroup.getContext())
+//                    .inflate(R.layout.listview_checkbox_item, viewGroup, false);
+//
+//        return new GroceryItemViewHolder(v);
+        if (viewType == Constants.VIEW_TYPE_GROCERY) {
+            v = LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.listview_checkbox_item, viewGroup, false);
 
-        return new GroceryItemViewHolder(v);
-//        if (viewType == Constants.VIEW_TYPE_GROCERY) {
-//            List<Grocery> list = mDataSet.get(0).get(Constants.VIEW_TYPE_GROCERY);
-//            v = LayoutInflater.from(viewGroup.getContext())
-//                    .inflate(R.layout.cardview_grocery_item, viewGroup, false);
-//
-//            return new GroceryViewHolder(v, list);
-//        } else if (viewType == Constants.VIEW_TYPE_MEAL) {
-//            List<Grocery> list = mDataSet.get(0).get(Constants.VIEW_TYPE_MEAL);
-//            v = LayoutInflater.from(viewGroup.getContext())
-//                    .inflate(R.layout.cardview_grocery_item, viewGroup, false);
-//            return new MealViewHolder(v, list);
+            return new GroceryItemViewHolder(v);
+        } else {
+            v = LayoutInflater.from(viewGroup.getContext())
+                    .inflate(R.layout.cardview_grocery_item, viewGroup, false);
+
+            return new MealViewHolder(v);
+        }
 //        } else {
 //            List<Grocery> list = mDataSet.get(0).get(Constants.VIEW_TYPE_PREP);
 //            v = LayoutInflater.from(viewGroup.getContext())

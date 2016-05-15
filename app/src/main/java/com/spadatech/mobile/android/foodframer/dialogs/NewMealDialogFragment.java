@@ -17,8 +17,8 @@ import android.widget.Toast;
 
 import com.spadatech.mobile.android.foodframer.R;
 import com.spadatech.mobile.android.foodframer.adapters.GroceryItemListAdapter;
-import com.spadatech.mobile.android.foodframer.models.Grocery;
-import com.spadatech.mobile.android.foodframer.models.GroceryItem;
+import com.spadatech.mobile.android.foodframer.models.Meal;
+import com.spadatech.mobile.android.foodframer.models.MealItem;
 
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -29,14 +29,14 @@ import io.realm.RealmList;
 public class NewMealDialogFragment extends DialogFragment{
 
     public final String TAG = getClass().getSimpleName();
-    private OnCreateGroceryClickListener mListener;
+    private OnCreateMealClickListener mListener;
     private EditText mMealName;
     private EditText mMealItemName;
-    private EditText mMealItemNote;
+    private EditText mMealNote;
     private Button mAddButton;
     private RecyclerView mRecyclerView;
-    private RealmList<GroceryItem> mNewGroceriesList;
-    private Grocery mGrocery;
+    private RealmList<MealItem> mNewMealItemList;
+    private Meal mMeal;
     GroceryItemListAdapter mAdapter;
 
     public NewMealDialogFragment() {
@@ -51,17 +51,19 @@ public class NewMealDialogFragment extends DialogFragment{
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService (Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflater.inflate(R.layout.dialog_new_grocery, null);
+        View v = inflater.inflate(R.layout.dialog_new_meal, null);
 
-        mEditText = (EditText) v.findViewById(R.id.et_new_grocery_name);
-        mAddButton = (Button) v.findViewById(R.id.button_add_new_grocery);
-        mRecyclerView = (RecyclerView) v.findViewById(R.id.rv_new_groceries);
-        mNewGroceriesList = new RealmList<>();
+        mMealName = (EditText) v.findViewById(R.id.et_new_meal_name);
+        mMealNote = (EditText) v.findViewById(R.id.et_new_meal_notes);
+        mMealItemName = (EditText) v.findViewById(R.id.et_new_meal_item_name);
+        mAddButton = (Button) v.findViewById(R.id.button_add_new_meal);
+        mRecyclerView = (RecyclerView) v.findViewById(R.id.rv_new_meals);
+        mNewMealItemList = new RealmList<>();
 
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
-        mGrocery = realm.createObject(Grocery.class);
-        mGrocery.setGroceryName("Grocery List");
+        mMeal = realm.createObject(Meal.class);
+        mMeal.setMealName("MealPlaceHolderName");
         realm.commitTransaction();
 
         mAddButton.setOnClickListener(new View.OnClickListener() {
@@ -70,44 +72,47 @@ public class NewMealDialogFragment extends DialogFragment{
                 // Create new GroceryItem realm object
                 // Add new grocery item to the list
 
-                if(mEditText.getText().toString().isEmpty()){
-                    Toast.makeText(getActivity(), "Enter a value", Toast.LENGTH_SHORT).show();
+                if(mMealName.getText().toString().isEmpty()){
+                    Toast.makeText(getActivity(), "Enter a Meal Name.", Toast.LENGTH_SHORT).show();
+                }else if(mNewMealItemList.isEmpty()){
+                    Toast.makeText(getActivity(), "Add at least one Dish.", Toast.LENGTH_SHORT).show();
+                }else if(mMealItemName.getText().toString().isEmpty()){
+                    Toast.makeText(getActivity(), "Enter a Dish Name.", Toast.LENGTH_SHORT).show();
                 }else{
                     Realm realm = Realm.getDefaultInstance();
                     realm.beginTransaction();
 
-                    GroceryItem newItem = realm.createObject(GroceryItem.class);
-                    newItem.setGroceryItemName(mEditText.getText().toString());
-                    newItem.setIsChecked(false);
+                    MealItem newItem = realm.createObject(MealItem.class);
+                    newItem.setMealItemName(mMealItemName.getText().toString());
                     realm.commitTransaction();
 
                     realm.beginTransaction();
-                    mNewGroceriesList.add(newItem);
-                    mGrocery.setGroceryItemList(mNewGroceriesList);
+                    mNewMealItemList.add(newItem);
+                    mMeal.setMealItemList(mNewMealItemList);
                     realm.commitTransaction();
 
                     mAdapter.notifyDataSetChanged();
-                    mEditText.setText("");
+                    mMealItemName.setText("");
                 }
             }
         });
 
-        mEditText.requestFocus();
+        mMealName.requestFocus();
         alertDialogBuilder.setView(v);
-        alertDialogBuilder.setTitle(R.string.new_grocery_list);
+        alertDialogBuilder.setTitle(R.string.new_meal);
         alertDialogBuilder.setPositiveButton(R.string.create,  new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Realm realm = Realm.getDefaultInstance();
                 realm.beginTransaction();
-                realm.copyToRealm(mNewGroceriesList);
+                realm.copyToRealm(mNewMealItemList);
                 realm.commitTransaction();
 
                 realm.beginTransaction();
-                mGrocery.setGroceryItemList(mNewGroceriesList);
+                mMeal.setMealItemList(mNewMealItemList);
                 realm.commitTransaction();
 
-                mListener.onCreateGroceryClicked(mNewGroceriesList);
+                mListener.onCreateMealClicked(mNewMealItemList);
             }
         });
         alertDialogBuilder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -117,7 +122,7 @@ public class NewMealDialogFragment extends DialogFragment{
             }
         });
 
-        mAdapter = new GroceryItemListAdapter(mNewGroceriesList, true);
+        mAdapter = new GroceryItemListAdapter(mNewMealItemList, true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mAdapter);
@@ -128,8 +133,8 @@ public class NewMealDialogFragment extends DialogFragment{
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        if(activity instanceof OnCreateGroceryClickListener){
-            mListener = (OnCreateGroceryClickListener) activity;
+        if(activity instanceof OnCreateMealClickListener){
+            mListener = (OnCreateMealClickListener) activity;
         }
     }
 
@@ -139,7 +144,7 @@ public class NewMealDialogFragment extends DialogFragment{
         mListener = null;
     }
 
-    public interface OnCreateGroceryClickListener{
-        void onCreateGroceryClicked(RealmList groceries);
+    public interface OnCreateMealClickListener {
+        void onCreateMealClicked(RealmList meal);
     }
 }

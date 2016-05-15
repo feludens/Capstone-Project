@@ -75,4 +75,5 @@
     <string name="cancel">Cancel</string>
     <string name="title_daily_plan">" Plan"</string>
     <string name="new_grocery_list">New Grocery List</string>
+    <string name="new_meal">New Meal</string>
 </resources>
