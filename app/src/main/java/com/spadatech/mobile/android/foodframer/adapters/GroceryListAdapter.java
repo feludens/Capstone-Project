@@ -1,6 +1,7 @@
 package com.spadatech.mobile.android.foodframer.adapters;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.CheckBox;
 import android.widget.ImageButton;
 
 import com.spadatech.mobile.android.foodframer.R;
+import com.spadatech.mobile.android.foodframer.helpers.Constants;
 import com.spadatech.mobile.android.foodframer.models.GroceryItem;
 
 import java.util.List;
@@ -15,7 +17,7 @@ import java.util.List;
 /**
  * Created by pereirf on 5/13/16.
  */
-public class CheckboxListAdapter extends RecyclerView.Adapter<CheckboxListAdapter.ViewHolder> {
+public class GroceryListAdapter extends RecyclerView.Adapter<GroceryListAdapter.ViewHolder> {
     private static final String TAG = "DailyAdapter";
 
     private List mList;
@@ -66,7 +68,7 @@ public class CheckboxListAdapter extends RecyclerView.Adapter<CheckboxListAdapte
 //    }
 
 
-    public CheckboxListAdapter(List list, boolean editMode) {
+    public GroceryListAdapter(List list, boolean editMode) {
         mList = list;
         mIsEditMode = editMode;
     }
@@ -98,27 +100,28 @@ public class CheckboxListAdapter extends RecyclerView.Adapter<CheckboxListAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
+        Log.d("Ludens", "mList.get(position): " + mList.get(position));
         GroceryItem grocery = (GroceryItem) mList.get(position);
         String name = grocery.getGroceryItemName();
         boolean checked = grocery.isIsChecked();
-        // Add logic to see if checkbox was checked or not
-        // Add logic to retrieve name from realm object
-
-//        if (viewHolder.getItemViewType() == Constants.VIEW_TYPE_GROCERY) {
-        GroceryItemViewHolder holder = (GroceryItemViewHolder) viewHolder;
+//        // Add logic to see if checkbox was checked or not
+//        // Add logic to retrieve name from realm object
+//
+        if (viewHolder.getItemViewType() == Constants.VIEW_TYPE_GROCERY) {
+            GroceryItemViewHolder holder = (GroceryItemViewHolder) viewHolder;
             holder.checkBox.setChecked(checked);
             holder.checkBox.setText(name);
-
-        if(mIsEditMode){
-            holder.deleteButton.setVisibility(View.VISIBLE);
-            holder.deleteButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mList.remove(position);
-                    notifyDataSetChanged();
-                }
-            });
         }
+        //        if(mIsEditMode){
+//            holder.deleteButton.setVisibility(View.VISIBLE);
+//            holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    mList.remove(position);
+//                    notifyDataSetChanged();
+//                }
+//            });
+//        }
 //        }
 //        else if (viewHolder.getItemViewType() == Constants.VIEW_TYPE_MEAL) {
 //            MealViewHolder holder = (MealViewHolder) viewHolder;

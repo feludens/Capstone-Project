@@ -13,9 +13,14 @@ import android.widget.TextView;
 import com.spadatech.mobile.android.foodframer.R;
 import com.spadatech.mobile.android.foodframer.helpers.Constants;
 import com.spadatech.mobile.android.foodframer.models.Grocery;
+import com.spadatech.mobile.android.foodframer.models.GroceryItem;
 
 import java.util.List;
 import java.util.Map;
+
+import io.realm.Realm;
+import io.realm.RealmList;
+import io.realm.RealmResults;
 
 /**
  * Created by Felipe S. Pereira on 5/12/16.
@@ -116,8 +121,18 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder> 
             LinearLayoutManager llm = new LinearLayoutManager(mContext);
             holder.recyclerView.setLayoutManager(llm);
 
-            CheckboxListAdapter mAdapter = new CheckboxListAdapter(mDataSet.get(position).get(Constants.VIEW_TYPE_GROCERY), false);
-            mRecyclerView.setAdapter(mAdapter);
+            RealmList<GroceryItem> groceries;
+            Realm realm = Realm.getDefaultInstance();
+            realm.beginTransaction();
+            RealmResults<Grocery> groceryResult = realm.where(Grocery.class)
+                    .equalTo("mGroceryName", "Grocery List")
+                    .findAll();
+            groceries = groceryResult.first().getmGroceryItemList();
+            realm.commitTransaction();
+
+            //This is currently sending a list of groceries. Must send a list of groceries item
+            GroceryItemListAdapter mAdapter = new GroceryItemListAdapter(groceries, false);
+            holder.recyclerView.setAdapter(mAdapter);
 //            holder.checkBox.setChecked(checked);
 //            holder.checkBox.setText(name);
         }

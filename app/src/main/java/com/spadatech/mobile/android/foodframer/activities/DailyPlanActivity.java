@@ -35,6 +35,7 @@ public class DailyPlanActivity extends AppCompatActivity
     private Weekday mWeekday;
     private DailyAdapter mAdapter;
     private List<Map<Integer, List>> mDataSet;
+    private boolean isEmpty = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,19 +49,7 @@ public class DailyPlanActivity extends AppCompatActivity
         }
 
         mDataSet = new ArrayList<>();
-        Map<Integer, List> map = new HashMap<>();
-        map.put(Constants.VIEW_TYPE_GROCERY, mWeekday.getGroceries());
-        map.put(Constants.VIEW_TYPE_MEAL, mWeekday.getMeals());
-        map.put(Constants.VIEW_TYPE_PREP, mWeekday.getPrepdays());
-        mDataSet.add(map);
-
-        boolean isEmpty = true;
-
-        if(!map.get(Constants.VIEW_TYPE_GROCERY).isEmpty()
-                || !map.get(Constants.VIEW_TYPE_MEAL).isEmpty()
-                || !map.get(Constants.VIEW_TYPE_PREP).isEmpty()){
-            isEmpty = false;
-        }
+        populateDataSet();
 
         mTransparentScreen = (LinearLayout) findViewById(R.id.ll_transparent_screen);
         mEmptyPlanListView = (LinearLayout) findViewById(R.id.ll_daily_list_empty);
@@ -131,17 +120,31 @@ public class DailyPlanActivity extends AppCompatActivity
         mWeekday.setGroceryList(groceries);
         realm.commitTransaction();
 
-        for(int i  = 0; i < mDataSet.size(); i++){
-            if(mDataSet.get(i).containsKey((Constants.VIEW_TYPE_GROCERY))){
-                mDataSet.remove(i);
-                Map<Integer, List> map = new HashMap<>();
-                map.put(Constants.VIEW_TYPE_GROCERY, mWeekday.getGroceries());
-                mDataSet.add(map);
-                break;
-            }
-        }
+        mDataSet.clear();
+        populateDataSet();
 
         refreshViews();
+    }
+
+    private void populateDataSet() {
+        Map<Integer, List> groceryMap = new HashMap<>();
+        groceryMap.put(Constants.VIEW_TYPE_GROCERY, mWeekday.getGroceries());
+
+        Map<Integer, List> mealMap = new HashMap<>();
+        mealMap.put(Constants.VIEW_TYPE_MEAL, mWeekday.getMeals());
+
+        Map<Integer, List> prepMap = new HashMap<>();
+        prepMap.put(Constants.VIEW_TYPE_PREP, mWeekday.getPrepdays());
+
+        mDataSet.add(groceryMap);
+        mDataSet.add(mealMap);
+        mDataSet.add(prepMap);
+
+        if(!groceryMap.get(Constants.VIEW_TYPE_GROCERY).isEmpty()
+                || !mealMap.get(Constants.VIEW_TYPE_MEAL).isEmpty()
+                || !prepMap.get(Constants.VIEW_TYPE_PREP).isEmpty()){
+            isEmpty = false;
+        }
     }
 
     private void refreshViews() {

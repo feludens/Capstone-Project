@@ -16,7 +16,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.spadatech.mobile.android.foodframer.R;
-import com.spadatech.mobile.android.foodframer.adapters.CheckboxListAdapter;
+import com.spadatech.mobile.android.foodframer.adapters.GroceryItemListAdapter;
 import com.spadatech.mobile.android.foodframer.models.Grocery;
 import com.spadatech.mobile.android.foodframer.models.GroceryItem;
 
@@ -35,7 +35,7 @@ public class NewGroceryDialogFragment extends DialogFragment{
     private RecyclerView mRecyclerView;
     private RealmList<GroceryItem> mNewGroceriesList;
     private Grocery mGrocery;
-    CheckboxListAdapter mAdapter;
+    GroceryItemListAdapter mAdapter;
 
     public NewGroceryDialogFragment() {
     }
@@ -77,9 +77,13 @@ public class NewGroceryDialogFragment extends DialogFragment{
                     GroceryItem newItem = realm.createObject(GroceryItem.class);
                     newItem.setGroceryItemName(mEditText.getText().toString());
                     newItem.setIsChecked(false);
-                    mNewGroceriesList.add(newItem);
-
                     realm.commitTransaction();
+
+                    realm.beginTransaction();
+                    mNewGroceriesList.add(newItem);
+                    mGrocery.setGroceryItemList(mNewGroceriesList);
+                    realm.commitTransaction();
+
                     mAdapter.notifyDataSetChanged();
                     mEditText.setText("");
                 }
@@ -111,7 +115,7 @@ public class NewGroceryDialogFragment extends DialogFragment{
             }
         });
 
-        mAdapter = new CheckboxListAdapter(mNewGroceriesList, true);
+        mAdapter = new GroceryItemListAdapter(mNewGroceriesList, true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mAdapter);

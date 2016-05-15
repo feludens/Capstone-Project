@@ -1,7 +1,5 @@
 package com.spadatech.mobile.android.foodframer.models;
 
-import java.util.List;
-
 import io.realm.RealmList;
 import io.realm.RealmObject;
 
@@ -28,7 +26,7 @@ public class Grocery extends RealmObject {
         this.mGroceryName = mGroceryName;
     }
 
-    public List<GroceryItem> getmGroceryItemList() {
+    public RealmList<GroceryItem> getmGroceryItemList() {
         return mGroceryItemList;
     }
 
