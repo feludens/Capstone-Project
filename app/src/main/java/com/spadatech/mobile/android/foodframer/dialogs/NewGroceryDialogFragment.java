@@ -75,6 +75,7 @@ public class NewGroceryDialogFragment extends DialogFragment{
 
                     realm.commitTransaction();
                     mAdapter.notifyDataSetChanged();
+                    mEditText.setText("");
                 }
             }
         });
