@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 import com.spadatech.mobile.android.foodframer.R;
 import com.spadatech.mobile.android.foodframer.adapters.WeekdayAdapter;
@@ -30,7 +29,6 @@ public class WeekdayListActivity extends AppCompatActivity implements WeekdayAda
         }
 
         mPlan = PlanHelper.get().getActivePlan();
-        Log.d("Ludens", "plan name: " + mPlan.getName());
 
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_weekday);
         LinearLayoutManager llm = new LinearLayoutManager(this);

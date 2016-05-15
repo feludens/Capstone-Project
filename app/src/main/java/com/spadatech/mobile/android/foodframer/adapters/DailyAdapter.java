@@ -12,8 +12,12 @@ import android.widget.TextView;
 
 import com.spadatech.mobile.android.foodframer.R;
 import com.spadatech.mobile.android.foodframer.helpers.Constants;
+import com.spadatech.mobile.android.foodframer.helpers.PlanHelper;
+import com.spadatech.mobile.android.foodframer.helpers.WeekdayHelper;
 import com.spadatech.mobile.android.foodframer.models.Grocery;
 import com.spadatech.mobile.android.foodframer.models.GroceryItem;
+import com.spadatech.mobile.android.foodframer.models.Plan;
+import com.spadatech.mobile.android.foodframer.models.Weekday;
 
 import java.util.List;
 import java.util.Map;
@@ -121,13 +125,33 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder> 
             LinearLayoutManager llm = new LinearLayoutManager(mContext);
             holder.recyclerView.setLayoutManager(llm);
 
+            Plan plan = PlanHelper.get().getActivePlan();
+            Weekday weekday = WeekdayHelper.get().getWeekday();
+
             RealmList<GroceryItem> groceries;
             Realm realm = Realm.getDefaultInstance();
             realm.beginTransaction();
-            RealmResults<Grocery> groceryResult = realm.where(Grocery.class)
-                    .equalTo("mGroceryName", "Grocery List")
+
+            RealmResults<Plan> planResult = realm.where(Plan.class)
+                    .equalTo("name", plan.getName())
                     .findAll();
-            groceries = groceryResult.first().getmGroceryItemList();
+
+            // Plan
+                // Weekday
+                    // Grocery
+                        // GroceyItems
+
+            RealmList<Weekday> weeekdayList = planResult.first().getWeekdaysList();
+            int index = weeekdayList.indexOf(weekday);
+            Weekday day = weeekdayList.get(index);
+
+            groceries = planResult.first().getWeekdaysList().get(index).getGroceries().get(0).getmGroceryItemList();
+
+
+//            RealmResults<Grocery> groceryResult = realm.where(Grocery.class)
+//                    .equalTo("mGroceryName", "Grocery List")
+//                    .findAll();
+//            groceries = day.getGroceries().get(0).getmGroceryItemList(); //groceryResult.first().getmGroceryItemList();
             realm.commitTransaction();
 
             //This is currently sending a list of groceries. Must send a list of groceries item
