@@ -7,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
@@ -80,8 +79,6 @@ public class DailyPlanActivity extends AppCompatActivity
             groceryFab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // Your FAB click action here...
-                    Toast.makeText(getBaseContext(), "FAB Clicked", Toast.LENGTH_SHORT).show();
                     if (mTransparentScreen.getVisibility() == View.VISIBLE) {
                         mTransparentScreen.setVisibility(View.GONE);
                     }
