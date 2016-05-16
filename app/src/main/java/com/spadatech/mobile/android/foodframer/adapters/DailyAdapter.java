@@ -172,7 +172,7 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder> 
             meals = meal.getmMealItemList();
             realm.commitTransaction();
 
-            GroceryItemListAdapter mAdapter = new GroceryItemListAdapter(meals, false);
+            MealItemListAdapter mAdapter = new MealItemListAdapter(meals, false);
             holder.recyclerView.setAdapter(mAdapter);
         }
         else {

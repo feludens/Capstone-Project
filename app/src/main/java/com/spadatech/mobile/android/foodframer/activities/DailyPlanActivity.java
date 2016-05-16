@@ -148,9 +148,22 @@ public class DailyPlanActivity extends AppCompatActivity
     @Override
     public void onCreateMealClicked(Meal meal) {
         Realm realm = Realm.getDefaultInstance();
+
         realm.beginTransaction();
-        RealmList<Meal> meals = mWeekday.getMeals();
+        RealmList<Meal> meals;
+        if(mWeekday.getMeals() == null || mWeekday.getMeals().isEmpty()){
+            meals = new RealmList<>();
+        }else{
+            meals = mWeekday.getMeals();
+        }
+        realm.copyToRealm(meals);
+        realm.commitTransaction();
+
+        realm.beginTransaction();
         meals.add(meal);
+        realm.commitTransaction();
+
+        realm.beginTransaction();
         mWeekday.setMealList(meals);
         realm.commitTransaction();
 

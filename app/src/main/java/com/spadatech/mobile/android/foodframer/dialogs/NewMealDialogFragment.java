@@ -16,7 +16,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.spadatech.mobile.android.foodframer.R;
-import com.spadatech.mobile.android.foodframer.adapters.GroceryItemListAdapter;
+import com.spadatech.mobile.android.foodframer.adapters.MealItemListAdapter;
 import com.spadatech.mobile.android.foodframer.models.Meal;
 import com.spadatech.mobile.android.foodframer.models.MealItem;
 
@@ -37,7 +37,7 @@ public class NewMealDialogFragment extends DialogFragment{
     private RecyclerView mRecyclerView;
     private RealmList<MealItem> mNewMealItemList;
     private Meal mMeal;
-    GroceryItemListAdapter mAdapter;
+    private MealItemListAdapter mAdapter;
 
     public NewMealDialogFragment() {
     }
@@ -126,7 +126,7 @@ public class NewMealDialogFragment extends DialogFragment{
             }
         });
 
-        mAdapter = new GroceryItemListAdapter(mNewMealItemList, true);
+        mAdapter = new MealItemListAdapter(mNewMealItemList, true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mAdapter);
