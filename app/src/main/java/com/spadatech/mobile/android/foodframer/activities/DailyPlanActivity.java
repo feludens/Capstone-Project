@@ -16,6 +16,7 @@ import com.spadatech.mobile.android.foodframer.dialogs.NewGroceryDialogFragment;
 import com.spadatech.mobile.android.foodframer.dialogs.NewMealDialogFragment;
 import com.spadatech.mobile.android.foodframer.helpers.Constants;
 import com.spadatech.mobile.android.foodframer.helpers.WeekdayHelper;
+import com.spadatech.mobile.android.foodframer.models.Meal;
 import com.spadatech.mobile.android.foodframer.models.Weekday;
 
 import java.util.ArrayList;
@@ -145,8 +146,18 @@ public class DailyPlanActivity extends AppCompatActivity
     }
 
     @Override
-    public void onCreateMealClicked(RealmList meal) {
+    public void onCreateMealClicked(Meal meal) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        RealmList<Meal> meals = mWeekday.getMeals();
+        meals.add(meal);
+        mWeekday.setMealList(meals);
+        realm.commitTransaction();
 
+        mDataSet.clear();
+        populateDataSet();
+
+        refreshViews();
     }
 
     private void populateDataSet() {

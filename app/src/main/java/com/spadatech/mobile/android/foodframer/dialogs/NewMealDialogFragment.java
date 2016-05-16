@@ -74,8 +74,6 @@ public class NewMealDialogFragment extends DialogFragment{
 
                 if(mMealName.getText().toString().isEmpty()){
                     Toast.makeText(getActivity(), "Enter a Meal Name.", Toast.LENGTH_SHORT).show();
-                }else if(mNewMealItemList.isEmpty()){
-                    Toast.makeText(getActivity(), "Add at least one Dish.", Toast.LENGTH_SHORT).show();
                 }else if(mMealItemName.getText().toString().isEmpty()){
                     Toast.makeText(getActivity(), "Enter a Dish Name.", Toast.LENGTH_SHORT).show();
                 }else{
@@ -103,16 +101,22 @@ public class NewMealDialogFragment extends DialogFragment{
         alertDialogBuilder.setPositiveButton(R.string.create,  new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Realm realm = Realm.getDefaultInstance();
-                realm.beginTransaction();
-                realm.copyToRealm(mNewMealItemList);
-                realm.commitTransaction();
+                if(mNewMealItemList.isEmpty()){
+                    Toast.makeText(getActivity(), "Add at least one Dish.", Toast.LENGTH_SHORT).show();
+                }else {
+                    Realm realm = Realm.getDefaultInstance();
+                    realm.beginTransaction();
+                    realm.copyToRealm(mNewMealItemList);
+                    realm.commitTransaction();
 
-                realm.beginTransaction();
-                mMeal.setMealItemList(mNewMealItemList);
-                realm.commitTransaction();
+                    realm.beginTransaction();
+                    mMeal.setMealName(mMealName.getText().toString());
+                    mMeal.setMealNotes(mMealNote.getText().toString());
+                    mMeal.setMealItemList(mNewMealItemList);
+                    realm.commitTransaction();
 
-                mListener.onCreateMealClicked(mNewMealItemList);
+                    mListener.onCreateMealClicked(mMeal);
+                }
             }
         });
         alertDialogBuilder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -145,6 +149,6 @@ public class NewMealDialogFragment extends DialogFragment{
     }
 
     public interface OnCreateMealClickListener {
-        void onCreateMealClicked(RealmList meal);
+        void onCreateMealClicked(Meal meal);
     }
 }
