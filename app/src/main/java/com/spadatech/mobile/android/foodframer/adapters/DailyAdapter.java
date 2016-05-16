@@ -56,12 +56,14 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder> 
 
     public class MealViewHolder extends ViewHolder {
         RecyclerView recyclerView;
-        TextView planName;
+        TextView mealName;
+        TextView mealNotes;
 
         public MealViewHolder(View v, List List) {
             super(v);
-            this.planName = (TextView) v.findViewById(R.id.tv_grocery_name);
-            this.recyclerView = (RecyclerView) v.findViewById(R.id.rv_groceries);
+            this.mealName = (TextView) v.findViewById(R.id.cv_tv_meal_name);
+            this.mealNotes = (TextView) v.findViewById(R.id.cv_tv_meal_notes);
+            this.recyclerView = (RecyclerView) v.findViewById(R.id.cv_rv_meal_items);
         }
     }
 
@@ -162,7 +164,12 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder> 
 //
 //            }
 
-            meals = planResult.first().getWeekdaysList().get(index).getMeals().get(0).getmMealItemList();
+            Meal meal = planResult.first().getWeekdaysList().get(index).getMeals().get(0);
+
+            holder.mealName.setText(meal.getMealName());
+            holder.mealNotes.setText(meal.getMealNotes());
+
+            meals = meal.getmMealItemList();
             realm.commitTransaction();
 
             GroceryItemListAdapter mAdapter = new GroceryItemListAdapter(meals, false);
