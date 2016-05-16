@@ -94,7 +94,7 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder> 
         } else if (viewType == Constants.VIEW_TYPE_MEAL) {
             List<Meal> list = mDataSet.get(0).get(Constants.VIEW_TYPE_MEAL);
             v = LayoutInflater.from(viewGroup.getContext())
-                    .inflate(R.layout.cardview_grocery_item, viewGroup, false);
+                    .inflate(R.layout.cardview_meal_item, viewGroup, false);
             return new MealViewHolder(v, list);
         } else {
             List<Prep> list = mDataSet.get(0).get(Constants.VIEW_TYPE_PREP);
