@@ -13,6 +13,7 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.spadatech.mobile.android.foodframer.R;
 import com.spadatech.mobile.android.foodframer.adapters.DailyAdapter;
 import com.spadatech.mobile.android.foodframer.dialogs.NewGroceryDialogFragment;
+import com.spadatech.mobile.android.foodframer.dialogs.NewMealDialogFragment;
 import com.spadatech.mobile.android.foodframer.helpers.Constants;
 import com.spadatech.mobile.android.foodframer.helpers.WeekdayHelper;
 import com.spadatech.mobile.android.foodframer.models.Weekday;
@@ -26,7 +27,7 @@ import io.realm.Realm;
 import io.realm.RealmList;
 
 public class DailyPlanActivity extends AppCompatActivity
-        implements FloatingActionsMenu.OnFloatingActionsMenuUpdateListener, NewGroceryDialogFragment.OnCreateGroceryClickListener {
+        implements FloatingActionsMenu.OnFloatingActionsMenuUpdateListener, NewGroceryDialogFragment.OnCreateGroceryClickListener, NewMealDialogFragment.OnCreateMealClickListener {
 
     private RecyclerView mRecyclerView;
     private LinearLayout mEmptyPlanListView;
@@ -108,8 +109,8 @@ public class DailyPlanActivity extends AppCompatActivity
                     }
 
                     FragmentManager fm = getSupportFragmentManager();
-                    NewGroceryDialogFragment newGroceryDialogFragment = NewGroceryDialogFragment.newInstance();
-                    newGroceryDialogFragment.show(fm, newGroceryDialogFragment.TAG);
+                    NewMealDialogFragment newMealDialogFragment = NewMealDialogFragment.newInstance();
+                    newMealDialogFragment.show(fm, newMealDialogFragment.TAG);
                 }
             });
         }
@@ -141,6 +142,11 @@ public class DailyPlanActivity extends AppCompatActivity
         populateDataSet();
 
         refreshViews();
+    }
+
+    @Override
+    public void onCreateMealClicked(RealmList meal) {
+
     }
 
     private void populateDataSet() {
