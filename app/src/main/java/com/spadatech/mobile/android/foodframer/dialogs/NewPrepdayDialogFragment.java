@@ -19,6 +19,7 @@ import com.spadatech.mobile.android.foodframer.R;
 import com.spadatech.mobile.android.foodframer.adapters.MealItemListAdapter;
 import com.spadatech.mobile.android.foodframer.models.Meal;
 import com.spadatech.mobile.android.foodframer.models.MealItem;
+import com.spadatech.mobile.android.foodframer.models.Prep;
 
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -29,15 +30,15 @@ import io.realm.RealmList;
 public class NewPrepdayDialogFragment extends DialogFragment{
 
     public final String TAG = getClass().getSimpleName();
-    private OnCreateMealClickListener mListener;
-    private EditText mMealName;
-    private EditText mMealItemName;
-    private EditText mMealNote;
+    private OnCreatePrepdayClickListener mListener;
+    private EditText mPrepdayName;
+    private EditText mItemName;
+    private EditText mItemNote;
     private Button mAddButton;
     private RecyclerView mRecyclerView;
-    private RealmList<MealItem> mNewMealItemList;
-    private Meal mMeal;
-    private MealItemListAdapter mAdapter;
+    private RealmList<MealItem> mNewPrepdayItemList;
+    private Prep mPrepday;
+//    private MealItemListAdapter mAdapter;
 
     public NewPrepdayDialogFragment() {
     }
@@ -53,17 +54,17 @@ public class NewPrepdayDialogFragment extends DialogFragment{
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService (Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.dialog_new_meal, null);
 
-        mMealName = (EditText) v.findViewById(R.id.et_new_meal_name);
-        mMealNote = (EditText) v.findViewById(R.id.et_new_meal_notes);
-        mMealItemName = (EditText) v.findViewById(R.id.et_new_meal_item_name);
-        mAddButton = (Button) v.findViewById(R.id.button_add_new_meal);
-        mRecyclerView = (RecyclerView) v.findViewById(R.id.rv_new_meals);
-        mNewMealItemList = new RealmList<>();
+        mPrepdayName = (EditText) v.findViewById(R.id.et_new_prepday_name);
+        mItemName = (EditText) v.findViewById(R.id.et_new_prepday_item_name);
+        mItemNote = (EditText) v.findViewById(R.id.et_new_prepday_item_notes);
+        mAddButton = (Button) v.findViewById(R.id.button_add_new_prepday_item);
+        mRecyclerView = (RecyclerView) v.findViewById(R.id.rv_new_dishes);
+        mNewPrepdayItemList = new RealmList<>();
 
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
-        mMeal = realm.createObject(Meal.class);
-        mMeal.setMealName("MealPlaceHolderName");
+        mPrepday = realm.createObject(Prep.class);
+        mPrepday.setPrepName("PrepdayPlaceHolderName");
         realm.commitTransaction();
 
         mAddButton.setOnClickListener(new View.OnClickListener() {
@@ -72,50 +73,50 @@ public class NewPrepdayDialogFragment extends DialogFragment{
                 // Create new GroceryItem realm object
                 // Add new grocery item to the list
 
-                if(mMealName.getText().toString().isEmpty()){
-                    Toast.makeText(getActivity(), "Enter a Meal Name.", Toast.LENGTH_SHORT).show();
-                }else if(mMealItemName.getText().toString().isEmpty()){
+                if(mItemName.getText().toString().isEmpty()){
                     Toast.makeText(getActivity(), "Enter a Dish Name.", Toast.LENGTH_SHORT).show();
                 }else{
                     Realm realm = Realm.getDefaultInstance();
                     realm.beginTransaction();
 
                     MealItem newItem = realm.createObject(MealItem.class);
-                    newItem.setMealItemName(mMealItemName.getText().toString());
+                    newItem.setMealItemName(mItemName.getText().toString());
+                    //newItem.setMealItemNote(mItemNote.getText().toString());
                     realm.commitTransaction();
 
                     realm.beginTransaction();
-                    mNewMealItemList.add(newItem);
-                    mMeal.setMealItemList(mNewMealItemList);
+                    mNewPrepdayItemList.add(newItem);
+                    mPrepday.setMealItemsList(mNewPrepdayItemList);
                     realm.commitTransaction();
 
                     mAdapter.notifyDataSetChanged();
-                    mMealItemName.setText("");
+                    mItemName.setText("");
                 }
             }
         });
 
-        mMealName.requestFocus();
+        mPrepdayName.requestFocus();
         alertDialogBuilder.setView(v);
         alertDialogBuilder.setTitle(R.string.new_meal);
         alertDialogBuilder.setPositiveButton(R.string.create,  new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if(mNewMealItemList.isEmpty()){
+                if(mNewPrepdayItemList.isEmpty()){
                     Toast.makeText(getActivity(), "Add at least one Dish.", Toast.LENGTH_SHORT).show();
+                }if(mPrepdayName.getText().toString().isEmpty()){
+                    Toast.makeText(getActivity(), "Enter a Prepday name.", Toast.LENGTH_SHORT).show();
                 }else {
                     Realm realm = Realm.getDefaultInstance();
                     realm.beginTransaction();
-                    realm.copyToRealm(mNewMealItemList);
+                    realm.copyToRealm(mNewPrepdayItemList);
                     realm.commitTransaction();
 
                     realm.beginTransaction();
-                    mMeal.setMealName(mMealName.getText().toString());
-                    mMeal.setMealNotes(mMealNote.getText().toString());
-                    mMeal.setMealItemList(mNewMealItemList);
+                    mPrepday.setPrepName(mPrepdayName.getText().toString());
+                    mPrepday.setMealItemsList(mNewPrepdayItemList);
                     realm.commitTransaction();
 
-                    mListener.onCreateMealClicked(mMeal);
+                    mListener.onCreatePrepdayClicked(mPrepday);
                 }
             }
         });
@@ -126,7 +127,7 @@ public class NewPrepdayDialogFragment extends DialogFragment{
             }
         });
 
-        mAdapter = new MealItemListAdapter(mNewMealItemList, true);
+        mAdapter = new MealItemListAdapter(mNewPrepdayItemList, true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mAdapter);
@@ -137,8 +138,8 @@ public class NewPrepdayDialogFragment extends DialogFragment{
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        if(activity instanceof OnCreateMealClickListener){
-            mListener = (OnCreateMealClickListener) activity;
+        if(activity instanceof OnCreatePrepdayClickListener){
+            mListener = (OnCreatePrepdayClickListener) activity;
         }
     }
 
@@ -148,7 +149,7 @@ public class NewPrepdayDialogFragment extends DialogFragment{
         mListener = null;
     }
 
-    public interface OnCreateMealClickListener {
-        void onCreateMealClicked(Meal meal);
+    public interface OnCreatePrepdayClickListener {
+        void onCreatePrepdayClicked(Prep prepday);
     }
 }
