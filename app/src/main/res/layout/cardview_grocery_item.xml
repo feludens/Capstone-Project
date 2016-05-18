@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/tv_grocery_name"
             android:textSize="16sp"
-            android:text="Plan Name"
+            android:text="Grocery Shopping List"
             android:padding="10dp"
             />
 
