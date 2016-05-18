@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import com.spadatech.mobile.android.foodframer.R;
 import com.spadatech.mobile.android.foodframer.adapters.MealItemListAdapter;
-import com.spadatech.mobile.android.foodframer.models.Meal;
 import com.spadatech.mobile.android.foodframer.models.MealItem;
 import com.spadatech.mobile.android.foodframer.models.Prep;
 
@@ -38,7 +37,7 @@ public class NewPrepdayDialogFragment extends DialogFragment{
     private RecyclerView mRecyclerView;
     private RealmList<MealItem> mNewPrepdayItemList;
     private Prep mPrepday;
-//    private MealItemListAdapter mAdapter;
+    private MealItemListAdapter mAdapter;
 
     public NewPrepdayDialogFragment() {
     }
