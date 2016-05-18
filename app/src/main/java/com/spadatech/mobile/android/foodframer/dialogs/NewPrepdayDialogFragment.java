@@ -16,7 +16,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.spadatech.mobile.android.foodframer.R;
-import com.spadatech.mobile.android.foodframer.adapters.MealItemListAdapter;
+import com.spadatech.mobile.android.foodframer.adapters.PrepdayItemListAdapter;
 import com.spadatech.mobile.android.foodframer.models.MealItem;
 import com.spadatech.mobile.android.foodframer.models.Prep;
 
@@ -37,7 +37,7 @@ public class NewPrepdayDialogFragment extends DialogFragment{
     private RecyclerView mRecyclerView;
     private RealmList<MealItem> mNewPrepdayItemList;
     private Prep mPrepday;
-    private MealItemListAdapter mAdapter;
+    private PrepdayItemListAdapter mAdapter;
 
     public NewPrepdayDialogFragment() {
     }
@@ -51,7 +51,7 @@ public class NewPrepdayDialogFragment extends DialogFragment{
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService (Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflater.inflate(R.layout.dialog_new_meal, null);
+        View v = inflater.inflate(R.layout.dialog_new_prepday, null);
 
         mPrepdayName = (EditText) v.findViewById(R.id.et_new_prepday_name);
         mItemName = (EditText) v.findViewById(R.id.et_new_prepday_item_name);
@@ -90,6 +90,7 @@ public class NewPrepdayDialogFragment extends DialogFragment{
 
                     mAdapter.notifyDataSetChanged();
                     mItemName.setText("");
+                    mItemNote.setText("");
                 }
             }
         });
@@ -126,7 +127,7 @@ public class NewPrepdayDialogFragment extends DialogFragment{
             }
         });
 
-        mAdapter = new MealItemListAdapter(mNewPrepdayItemList, true);
+        mAdapter = new PrepdayItemListAdapter(mNewPrepdayItemList, true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mAdapter);

@@ -14,6 +14,7 @@ import com.spadatech.mobile.android.foodframer.R;
 import com.spadatech.mobile.android.foodframer.adapters.DailyAdapter;
 import com.spadatech.mobile.android.foodframer.dialogs.NewGroceryDialogFragment;
 import com.spadatech.mobile.android.foodframer.dialogs.NewMealDialogFragment;
+import com.spadatech.mobile.android.foodframer.dialogs.NewPrepdayDialogFragment;
 import com.spadatech.mobile.android.foodframer.helpers.Constants;
 import com.spadatech.mobile.android.foodframer.helpers.WeekdayHelper;
 import com.spadatech.mobile.android.foodframer.models.Meal;
@@ -112,6 +113,26 @@ public class DailyPlanActivity extends AppCompatActivity
                     FragmentManager fm = getSupportFragmentManager();
                     NewMealDialogFragment newMealDialogFragment = NewMealDialogFragment.newInstance();
                     newMealDialogFragment.show(fm, newMealDialogFragment.TAG);
+                }
+            });
+        }
+
+        FloatingActionButton prepFab = (FloatingActionButton) findViewById(R.id.action_new_prep);
+        if(prepFab != null) {
+            prepFab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mTransparentScreen.getVisibility() == View.VISIBLE) {
+                        mTransparentScreen.setVisibility(View.GONE);
+                    }
+
+                    if(mainFab != null) {
+                        mainFab.toggle();
+                    }
+
+                    FragmentManager fm = getSupportFragmentManager();
+                    NewPrepdayDialogFragment newPrepDialogFragment = NewPrepdayDialogFragment.newInstance();
+                    newPrepDialogFragment.show(fm, newPrepDialogFragment.TAG);
                 }
             });
         }

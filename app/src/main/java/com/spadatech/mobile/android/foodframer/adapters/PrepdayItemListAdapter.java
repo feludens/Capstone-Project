@@ -35,7 +35,7 @@ public class PrepdayItemListAdapter extends RecyclerView.Adapter<PrepdayItemList
         public PrepdayViewHolder(View v) {
             super(v);
             this.name = (TextView) v.findViewById(R.id.tv_item_name);
-            this.name = (TextView) v.findViewById(R.id.tv_item_note);
+            this.note = (TextView) v.findViewById(R.id.tv_item_note);
             this.deleteButton = (ImageButton) v.findViewById(R.id.ib_delete);
         }
     }
