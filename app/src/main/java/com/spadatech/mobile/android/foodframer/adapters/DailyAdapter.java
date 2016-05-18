@@ -69,12 +69,12 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder> 
 
     public class PrepViewHolder extends ViewHolder {
         RecyclerView recyclerView;
-        TextView planName;
+        TextView prepdayName;
 
         public PrepViewHolder(View v, List List) {
             super(v);
-            this.planName = (TextView) v.findViewById(R.id.tv_grocery_name);
-            this.recyclerView = (RecyclerView) v.findViewById(R.id.rv_groceries);
+            this.prepdayName = (TextView) v.findViewById(R.id.cv_tv_prepday_name);
+            this.recyclerView = (RecyclerView) v.findViewById(R.id.cv_rv_prepday_items);
         }
     }
 
@@ -101,7 +101,7 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder> 
         } else {
             List<Prep> list = mDataSet.get(0).get(Constants.VIEW_TYPE_PREP);
             v = LayoutInflater.from(viewGroup.getContext())
-                    .inflate(R.layout.cardview_grocery_item, viewGroup, false);
+                    .inflate(R.layout.cardview_prepday_item, viewGroup, false);
             return new PrepViewHolder(v, list);
         }
     }
@@ -177,8 +177,38 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder> 
         }
         else {
             PrepViewHolder holder = (PrepViewHolder) viewHolder;
-//            holder.checkBox.setChecked(checked);
-//            holder.checkBox.setText(name);
+
+            LinearLayoutManager llm = new LinearLayoutManager(mContext);
+            holder.recyclerView.setLayoutManager(llm);
+
+            Plan plan = PlanHelper.get().getActivePlan();
+            Weekday weekday = WeekdayHelper.get().getWeekday();
+
+            RealmList<MealItem> mealItems;
+            Realm realm = Realm.getDefaultInstance();
+            realm.beginTransaction();
+
+            RealmResults<Plan> planResult = realm.where(Plan.class)
+                    .equalTo("name", plan.getName())
+                    .findAll();
+
+            RealmList<Weekday> weeekdayList = planResult.first().getWeekdaysList();
+            int index = weeekdayList.indexOf(weekday);
+//
+//            if(planResult.first().getWeekdaysList().get(index).getMeals() != null ||
+//                    !planResult.first().getWeekdaysList().get(index).getMeals().isEmpty()){
+//
+//            }
+
+            Prep prep = planResult.first().getWeekdaysList().get(index).getPrepdays().get(0);
+
+            holder.prepdayName.setText(prep.getPrepName());
+
+            mealItems = prep.getmMealItemsList();
+            realm.commitTransaction();
+
+            PrepMealItemListAdapter mAdapter = new PrepMealItemListAdapter(mealItems, false);
+            holder.recyclerView.setAdapter(mAdapter);
         }
     }
 
