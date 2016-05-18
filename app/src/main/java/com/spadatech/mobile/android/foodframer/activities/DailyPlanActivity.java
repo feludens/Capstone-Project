@@ -18,6 +18,7 @@ import com.spadatech.mobile.android.foodframer.dialogs.NewPrepdayDialogFragment;
 import com.spadatech.mobile.android.foodframer.helpers.Constants;
 import com.spadatech.mobile.android.foodframer.helpers.WeekdayHelper;
 import com.spadatech.mobile.android.foodframer.models.Meal;
+import com.spadatech.mobile.android.foodframer.models.Prep;
 import com.spadatech.mobile.android.foodframer.models.Weekday;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ import io.realm.Realm;
 import io.realm.RealmList;
 
 public class DailyPlanActivity extends AppCompatActivity
-        implements FloatingActionsMenu.OnFloatingActionsMenuUpdateListener, NewGroceryDialogFragment.OnCreateGroceryClickListener, NewMealDialogFragment.OnCreateMealClickListener {
+        implements FloatingActionsMenu.OnFloatingActionsMenuUpdateListener, NewGroceryDialogFragment.OnCreateGroceryClickListener, NewMealDialogFragment.OnCreateMealClickListener, NewPrepdayDialogFragment.OnCreatePrepdayClickListener {
 
     private RecyclerView mRecyclerView;
     private LinearLayout mEmptyPlanListView;
@@ -158,6 +159,33 @@ public class DailyPlanActivity extends AppCompatActivity
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         mWeekday.setGroceryList(groceries);
+        realm.commitTransaction();
+
+        mDataSet.clear();
+        populateDataSet();
+
+        refreshViews();
+    }
+
+    @Override
+    public void onCreatePrepdayClicked(Prep prepday) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        RealmList<Prep> preps;
+        if(mWeekday.getPrepdays() == null || mWeekday.getPrepdays().isEmpty()){
+            preps = new RealmList<>();
+        }else{
+            preps = mWeekday.getPrepdays();
+        }
+        realm.copyToRealm(preps);
+        realm.commitTransaction();
+
+        realm.beginTransaction();
+        preps.add(prepday);
+        realm.commitTransaction();
+
+        realm.beginTransaction();
+        mWeekday.setPrepList(preps);
         realm.commitTransaction();
 
         mDataSet.clear();
