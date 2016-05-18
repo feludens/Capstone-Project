@@ -81,7 +81,7 @@ public class NewPrepdayDialogFragment extends DialogFragment{
 
                     MealItem newItem = realm.createObject(MealItem.class);
                     newItem.setMealItemName(mItemName.getText().toString());
-                    //newItem.setMealItemNote(mItemNote.getText().toString());
+                    newItem.setMealItemNotes(mItemNote.getText().toString());
                     realm.commitTransaction();
 
                     realm.beginTransaction();
