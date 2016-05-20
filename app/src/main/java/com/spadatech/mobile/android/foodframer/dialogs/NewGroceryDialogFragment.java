@@ -17,8 +17,10 @@ import android.widget.Toast;
 
 import com.spadatech.mobile.android.foodframer.R;
 import com.spadatech.mobile.android.foodframer.adapters.GroceryItemListAdapter;
+import com.spadatech.mobile.android.foodframer.helpers.RealmHelper;
 import com.spadatech.mobile.android.foodframer.models.Grocery;
 import com.spadatech.mobile.android.foodframer.models.GroceryItem;
+import com.spadatech.mobile.android.foodframer.models.Weekday;
 
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -55,12 +57,7 @@ public class NewGroceryDialogFragment extends DialogFragment{
         mAddButton = (Button) v.findViewById(R.id.button_add_new_grocery);
         mRecyclerView = (RecyclerView) v.findViewById(R.id.rv_new_groceries);
         mNewGroceriesList = new RealmList<>();
-
-        Realm realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
-        mGrocery = realm.createObject(Grocery.class);
-        mGrocery.setGroceryName("Grocery List");
-        realm.commitTransaction();
+        mGrocery = new Grocery();
 
         mAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,11 +78,12 @@ public class NewGroceryDialogFragment extends DialogFragment{
 
                     realm.beginTransaction();
                     mNewGroceriesList.add(newItem);
-                    mGrocery.setGroceryItemList(mNewGroceriesList);
+//                    mGrocery.setGroceryItemList(mNewGroceriesList);
                     realm.commitTransaction();
 
                     mAdapter.notifyDataSetChanged();
                     mEditText.setText("");
+
                 }
             }
         });
@@ -101,11 +99,75 @@ public class NewGroceryDialogFragment extends DialogFragment{
                 realm.copyToRealm(mNewGroceriesList);
                 realm.commitTransaction();
 
+//                realm.beginTransaction();
+//                mGrocery.setGroceryItemList(mNewGroceriesList);
+//                realm.commitTransaction();
+
+
+
+
+//                realm.beginTransaction();
+//                Grocery newGrocery = realm.createObject(Grocery.class);
+//                newGrocery.setGroceryName(mGrocery.getGroceryName());
+//                realm.commitTransaction();
+
+                Weekday weekday = RealmHelper.get().getCurrentWeekday(getActivity());
+
                 realm.beginTransaction();
-                mGrocery.setGroceryItemList(mNewGroceriesList);
+                mGrocery = realm.createObject(Grocery.class);
+                mGrocery.setGroceryName("Grocery List");
+                mGrocery.setWeekdayName(weekday.getWeekdayName());
+                realm.commitTransaction();
+//
+//                Grocery grocery = realm.where(Grocery.class).equalTo("weekdayName", weekday.getWeekdayName())
+//                        .equalTo("mGroceryName", mGrocery.getGroceryName()).findAll().first();
+//                realm.beginTransaction();
+//                weekday.getGroceries().add(grocery);
+//                realm.commitTransaction();
+
+
+                Grocery grocery1 = realm.where(Grocery.class).equalTo("weekdayName", weekday.getWeekdayName())
+                        .equalTo("mGroceryName", mGrocery.getGroceryName()).findAll().first();
+
+                realm.beginTransaction();
+                for(int i = 0; i < mNewGroceriesList.size(); i++){
+                    GroceryItem item = mNewGroceriesList.get(i);
+                    GroceryItem newItem = realm.createObject(GroceryItem.class);
+                    newItem.setGroceryItemName(item.getGroceryItemName());
+                    newItem.setIsChecked(item.isIsChecked());
+                    grocery1.getmGroceryItemList().add(newItem);
+                }
                 realm.commitTransaction();
 
+//                realm.beginTransaction();
+//                Grocery grocery = realm.where(Meal.class).equalTo("mGroceryName", mMealName.getText().toString()).findAll().first();
+//                for(int i = 0; i < mNewMealItemList.size(); i++){
+//                    MealItem item = mNewMealItemList.get(i);
+//                    MealItem newItem = realm.createObject(MealItem.class);
+//                    newItem.setMealItemName(item.getMealItemName());
+//                    meal.getmMealItemList().add(newItem);
+//                }
+//                realm.commitTransaction();
+
+                Grocery groceryz = realm.where(Grocery.class).equalTo("weekdayName", weekday.getWeekdayName())
+                        .equalTo("mGroceryName", mGrocery.getGroceryName()).findAll().first();
+                realm.beginTransaction();
+                weekday.getGroceries().add(groceryz);
+                realm.commitTransaction();
+
+//                mGrocery = groceryz;
+//                mNewGroceriesList = mGrocery.getmGroceryItemList();
+//                    Meal meal = RealmHelper.get().getMeal(getActivity(), "MealPlaceHolderName");
+//
+//                    realm.beginTransaction();
+//                    meal.setMealName(mMealName.getText().toString());
+//                    meal.setMealNotes(mMealNote.getText().toString());
+//                    meal.setMealItemList(mNewMealItemList);
+//                    realm.commitTransaction();
+
                 mListener.onCreateGroceryClicked(mNewGroceriesList);
+
+
             }
         });
         alertDialogBuilder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

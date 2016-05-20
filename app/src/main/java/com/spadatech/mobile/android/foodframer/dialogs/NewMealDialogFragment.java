@@ -17,8 +17,10 @@ import android.widget.Toast;
 
 import com.spadatech.mobile.android.foodframer.R;
 import com.spadatech.mobile.android.foodframer.adapters.MealItemListAdapter;
+import com.spadatech.mobile.android.foodframer.helpers.RealmHelper;
 import com.spadatech.mobile.android.foodframer.models.Meal;
 import com.spadatech.mobile.android.foodframer.models.MealItem;
+import com.spadatech.mobile.android.foodframer.models.Weekday;
 
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -60,7 +62,7 @@ public class NewMealDialogFragment extends DialogFragment{
         mRecyclerView = (RecyclerView) v.findViewById(R.id.rv_new_meals);
         mNewMealItemList = new RealmList<>();
 
-        Realm realm = Realm.getDefaultInstance();
+        final Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         mMeal = realm.createObject(Meal.class);
         mMeal.setMealName("MealPlaceHolderName");
@@ -77,12 +79,30 @@ public class NewMealDialogFragment extends DialogFragment{
                 }else if(mMealItemName.getText().toString().isEmpty()){
                     Toast.makeText(getActivity(), "Enter a Dish Name.", Toast.LENGTH_SHORT).show();
                 }else{
-                    Realm realm = Realm.getDefaultInstance();
-                    realm.beginTransaction();
 
+//                    Realm realm = Realm.getDefaultInstance();
+//                    RealmList<Meal> meals = RealmHelper.get().getCurrentWeekdayMeal(getActivity());
+//                    Weekday weekday = RealmHelper.get().getCurrentWeekday(getActivity());
+//
+//                    realm.beginTransaction();
+//                    Meal meal = realm.copyToRealm(new Meal());
+//                    meal.setMealName("MealPlaceHolderName");
+//                    weekday.getMeals().add(meal);
+//                    realm.commitTransaction();
+//
+//                    Meal mealz = RealmHelper.get().getMeal(getActivity(), "MealPlaceHolderName");
+//
+                    realm.beginTransaction();
                     MealItem newItem = realm.createObject(MealItem.class);
                     newItem.setMealItemName(mMealItemName.getText().toString());
                     realm.commitTransaction();
+//
+
+
+//                    realm.beginTransaction();
+//
+//                    MealItem newItem = realm.createObject(MealItem.class);
+//                    realm.commitTransaction();
 
                     realm.beginTransaction();
                     mNewMealItemList.add(newItem);
@@ -110,12 +130,38 @@ public class NewMealDialogFragment extends DialogFragment{
                     realm.commitTransaction();
 
                     realm.beginTransaction();
-                    mMeal.setMealName(mMealName.getText().toString());
-                    mMeal.setMealNotes(mMealNote.getText().toString());
-                    mMeal.setMealItemList(mNewMealItemList);
+                    Meal newMeal = realm.createObject(Meal.class);
+                    newMeal.setMealName(mMealName.getText().toString());
+                    newMeal.setMealNotes(mMealNote.getText().toString());
                     realm.commitTransaction();
 
-                    mListener.onCreateMealClicked(mMeal);
+                    realm.beginTransaction();
+                    Meal meal = realm.where(Meal.class).equalTo("mMealName", mMealName.getText().toString()).findAll().first();
+                    for(int i = 0; i < mNewMealItemList.size(); i++){
+                        MealItem item = mNewMealItemList.get(i);
+                        MealItem newItem = realm.createObject(MealItem.class);
+                        newItem.setMealItemName(item.getMealItemName());
+                        meal.getmMealItemList().add(newItem);
+                    }
+                    realm.commitTransaction();
+
+                    Weekday weekday = RealmHelper.get().getCurrentWeekday(getActivity());
+                    Meal mealz = realm.where(Meal.class).equalTo("mMealName", mMealName.getText().toString()).findAll().first();
+                    realm.beginTransaction();
+                    weekday.getMeals().add(mealz);
+                    realm.commitTransaction();
+
+                    mMeal = mealz;
+
+//                    Meal meal = RealmHelper.get().getMeal(getActivity(), "MealPlaceHolderName");
+//
+//                    realm.beginTransaction();
+//                    meal.setMealName(mMealName.getText().toString());
+//                    meal.setMealNotes(mMealNote.getText().toString());
+//                    meal.setMealItemList(mNewMealItemList);
+//                    realm.commitTransaction();
+
+                    mListener.onCreateMealClicked(mealz);
                 }
             }
         });

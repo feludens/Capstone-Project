@@ -16,7 +16,9 @@ import com.spadatech.mobile.android.foodframer.dialogs.NewGroceryDialogFragment;
 import com.spadatech.mobile.android.foodframer.dialogs.NewMealDialogFragment;
 import com.spadatech.mobile.android.foodframer.dialogs.NewPrepdayDialogFragment;
 import com.spadatech.mobile.android.foodframer.helpers.Constants;
+import com.spadatech.mobile.android.foodframer.helpers.RealmHelper;
 import com.spadatech.mobile.android.foodframer.helpers.WeekdayHelper;
+import com.spadatech.mobile.android.foodframer.models.Grocery;
 import com.spadatech.mobile.android.foodframer.models.Meal;
 import com.spadatech.mobile.android.foodframer.models.Prep;
 import com.spadatech.mobile.android.foodframer.models.Weekday;
@@ -32,13 +34,22 @@ import io.realm.RealmList;
 public class DailyPlanActivity extends AppCompatActivity
         implements FloatingActionsMenu.OnFloatingActionsMenuUpdateListener, NewGroceryDialogFragment.OnCreateGroceryClickListener, NewMealDialogFragment.OnCreateMealClickListener, NewPrepdayDialogFragment.OnCreatePrepdayClickListener {
 
-    private RecyclerView mRecyclerView;
+    private RecyclerView mRecyclerViewGroceries;
+    private RecyclerView mRecyclerViewMeals;
+    private RecyclerView mRecyclerViewPrepdays;
+
     private LinearLayout mEmptyPlanListView;
     private LinearLayout mTransparentScreen;
     private Weekday mWeekday;
     private DailyAdapter mAdapter;
+    private DailyAdapter mMealsAdapter;
+    private DailyAdapter mPrepdaysAdapter;
     private List<Map<Integer, List>> mDataSet;
     private boolean isEmpty = true;
+
+    RealmList<Grocery> groceries;
+    RealmList<Meal> meals;
+    RealmList<Prep> prepdays;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,20 +63,41 @@ public class DailyPlanActivity extends AppCompatActivity
         }
 
         mDataSet = new ArrayList<>();
+        groceries = new RealmList<>();
+        meals = new RealmList<>();
+        prepdays = new RealmList<>();
         populateDataSet();
 
         mTransparentScreen = (LinearLayout) findViewById(R.id.ll_transparent_screen);
         mEmptyPlanListView = (LinearLayout) findViewById(R.id.ll_daily_list_empty);
-        mRecyclerView = (RecyclerView) findViewById(R.id.rv_daily);
-        mAdapter = new DailyAdapter(mDataSet);
+        mRecyclerViewGroceries = (RecyclerView) findViewById(R.id.rv_daily_groceries);
+        mRecyclerViewMeals = (RecyclerView) findViewById(R.id.rv_daily_meals);
+        mRecyclerViewPrepdays = (RecyclerView) findViewById(R.id.rv_daily_prepdays);
+        mAdapter = new DailyAdapter(groceries);
+        mMealsAdapter = new DailyAdapter(meals);
+        mPrepdaysAdapter = new DailyAdapter(prepdays);
 
-        if(isEmpty){
-            mRecyclerView.setVisibility(View.GONE);
+//        if(isEmpty){
+//            mRecyclerViewGroceries.setVisibility(View.GONE);
+//            mEmptyPlanListView.setVisibility(View.VISIBLE);
+//        }else{
+//            LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+//            mRecyclerViewGroceries.setLayoutManager(layoutManager);
+//            mRecyclerViewGroceries.setAdapter(mAdapter);
+//        }
+
+        if(meals.isEmpty() && groceries.isEmpty() && prepdays.isEmpty()){
+            mRecyclerViewGroceries.setVisibility(View.GONE);
+            mRecyclerViewMeals.setVisibility(View.GONE);
+            mRecyclerViewPrepdays.setVisibility(View.GONE);
             mEmptyPlanListView.setVisibility(View.VISIBLE);
         }else{
-            LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-            mRecyclerView.setLayoutManager(layoutManager);
-            mRecyclerView.setAdapter(mAdapter);
+            mRecyclerViewGroceries.setLayoutManager(new LinearLayoutManager(this));
+            mRecyclerViewMeals.setLayoutManager(new LinearLayoutManager(this));
+            mRecyclerViewPrepdays.setLayoutManager(new LinearLayoutManager(this));
+            mRecyclerViewGroceries.setAdapter(mAdapter);
+            mRecyclerViewMeals.setAdapter(mMealsAdapter);
+            mRecyclerViewPrepdays.setAdapter(mPrepdaysAdapter);
         }
 
         setFabOnClickListeners();
@@ -157,8 +189,11 @@ public class DailyPlanActivity extends AppCompatActivity
     @Override
     public void onCreateGroceryClicked(RealmList groceries) {
         Realm realm = Realm.getDefaultInstance();
+//        realm.beginTransaction();
+//        mWeekday.setGroceryList(groceries);
+//        realm.commitTransaction();
         realm.beginTransaction();
-        mWeekday.setGroceryList(groceries);
+        mWeekday = RealmHelper.get().getCurrentWeekday(this);
         realm.commitTransaction();
 
         mDataSet.clear();
@@ -197,24 +232,27 @@ public class DailyPlanActivity extends AppCompatActivity
     @Override
     public void onCreateMealClicked(Meal meal) {
         Realm realm = Realm.getDefaultInstance();
+//        realm.beginTransaction();
+        RealmList<Meal> meals = RealmHelper.get().getCurrentWeekdayMeal(this);
+//        RealmList<Meal> meals2;
+//        if(mWeekday.getMeals() == null || mWeekday.getMeals().isEmpty()){
+//            meals2 = new RealmList<>();
+//        }else{
+//            meals2 = mWeekday.getMeals();
+//        }
+//        realm.copyToRealm(meals);
+//        realm.commitTransaction();
+
+//        realm.beginTransaction();
+//        meals.add(meals);
+////        realm.copyToRealm(meals);
+//        realm.commitTransaction();
 
         realm.beginTransaction();
-        RealmList<Meal> meals;
-        if(mWeekday.getMeals() == null || mWeekday.getMeals().isEmpty()){
-            meals = new RealmList<>();
-        }else{
-            meals = mWeekday.getMeals();
-        }
-        realm.copyToRealm(meals);
+        mWeekday = RealmHelper.get().getCurrentWeekday(this);
         realm.commitTransaction();
 
-        realm.beginTransaction();
-        meals.add(meal);
-        realm.commitTransaction();
 
-        realm.beginTransaction();
-        mWeekday.setMealList(meals);
-        realm.commitTransaction();
 
         mDataSet.clear();
         populateDataSet();
@@ -223,22 +261,26 @@ public class DailyPlanActivity extends AppCompatActivity
     }
 
     private void populateDataSet() {
+        RealmList<Meal> meals = RealmHelper.get().getCurrentWeekdayMeal(this);
         Map<Integer, List> groceryMap = new HashMap<>();
         if(mWeekday.getGroceries() != null && !mWeekday.getGroceries().isEmpty()) {
             groceryMap.put(Constants.VIEW_TYPE_GROCERY, mWeekday.getGroceries());
             mDataSet.add(groceryMap);
+            this.groceries = mWeekday.getGroceries();
         }
 
         Map<Integer, List> mealMap = new HashMap<>();
         if(mWeekday.getMeals() != null && !mWeekday.getMeals().isEmpty()) {
             mealMap.put(Constants.VIEW_TYPE_MEAL, mWeekday.getMeals());
             mDataSet.add(mealMap);
+            this.meals = mWeekday.getMeals();
         }
 
         Map<Integer, List> prepMap = new HashMap<>();
         if(mWeekday.getPrepdays() != null && !mWeekday.getPrepdays().isEmpty()) {
             prepMap.put(Constants.VIEW_TYPE_PREP, mWeekday.getPrepdays());
             mDataSet.add(prepMap);
+            this.prepdays = mWeekday.getPrepdays();
         }
 
         if(!groceryMap.isEmpty()
@@ -250,9 +292,11 @@ public class DailyPlanActivity extends AppCompatActivity
 
     private void refreshViews() {
         if(mEmptyPlanListView.getVisibility() == View.VISIBLE){
+//            mRecyclerViewGroceries.setVisibility(View.VISIBLE);
+            mRecyclerViewMeals.setVisibility(View.VISIBLE);
+            mRecyclerViewPrepdays.setVisibility(View.VISIBLE);
             mEmptyPlanListView.setVisibility(View.GONE);
-            mRecyclerView.setVisibility(View.VISIBLE);
         }
-        mAdapter.notifyDataSetChanged();
+        mMealsAdapter.notifyDataSetChanged();
     }
 }

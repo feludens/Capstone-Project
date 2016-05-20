@@ -26,20 +26,21 @@ public class WeekdayHelper {
         return instance;
     }
 
-    public static RealmList<Weekday> newWeekdayList(Realm realm, Context context) {
+    public static RealmList<Weekday> newWeekdayList(Realm realm, Context context, String name) {
         RealmList<Weekday> weekdayList = new RealmList<>();
 
         while (weekdayList.size() < 7){
-            weekdayList.add(createNewWeekday(realm, weekdayList.size(), context));
+            weekdayList.add(createNewWeekday(realm, weekdayList.size(), context, name));
         }
 
         return weekdayList;
     }
 
-    private static Weekday createNewWeekday(Realm realm, int size, Context context) {
+    private static Weekday createNewWeekday(Realm realm, int size, Context context, String planName) {
         int resourceId = context.getResources().getIdentifier(mWeekdayNameList.get(size).toLowerCase(), "drawable", context.getPackageName());
         Weekday newWeekday = realm.createObject(Weekday.class);
         newWeekday.setWeekdayName(mWeekdayNameList.get(size));
+        newWeekday.setPlanName(planName);
         newWeekday.setImage(resourceId);
 
 //        RealmList<Grocery> groceries = new RealmList<>();

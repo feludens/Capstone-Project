@@ -7,6 +7,7 @@ import io.realm.RealmObject;
  * Created by Felipe S. Pereira on 4/13/16.
  */
 public class Weekday extends RealmObject{
+    private String planName;
     private String name;
     private int image;
     private RealmList<Grocery> groceries;
@@ -61,5 +62,13 @@ public class Weekday extends RealmObject{
 
     public void setImage(int image) {
         this.image = image;
+    }
+
+    public String getPlanName() {
+        return planName;
+    }
+
+    public void setPlanName(String planName) {
+        this.planName = planName;
     }
 }
