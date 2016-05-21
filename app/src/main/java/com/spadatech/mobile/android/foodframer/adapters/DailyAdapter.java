@@ -18,6 +18,7 @@ import com.spadatech.mobile.android.foodframer.models.Prep;
 
 import java.util.List;
 
+import io.realm.Realm;
 import io.realm.RealmList;
 
 /**
@@ -164,6 +165,7 @@ public class DailyAdapter<T> extends RecyclerView.Adapter<DailyAdapter.ViewHolde
     }
 
     public void swap(List<T> newDataSet){
+        Realm realm = Realm.getDefaultInstance();
         if (mDataSet != null) {
             mDataSet.clear();
             mDataSet.addAll(newDataSet);
