@@ -15,7 +15,7 @@ import io.realm.Realm;
 import io.realm.RealmList;
 
 /**
- * Created by pereirf on 5/18/16.
+ * Created by Felipe S. Pereira on 5/18/16.
  */
 public class RealmHelper {
 
@@ -33,8 +33,8 @@ public class RealmHelper {
     public User getUser(Context context){
         HashMap<String, String> mUserInfo = SessionManager.get(context).getUserInfo();
         User user = mRealm.where(User.class)
-                .equalTo("username", mUserInfo.get(SessionManager.KEY_USERNAME))
-                .equalTo("email", mUserInfo.get(SessionManager.KEY_EMAIL))
+                .equalTo(SessionManager.KEY_USERNAME, mUserInfo.get(SessionManager.KEY_USERNAME))
+                .equalTo(SessionManager.KEY_EMAIL, mUserInfo.get(SessionManager.KEY_EMAIL))
                 .findFirst();
         return user;
     }
@@ -61,14 +61,6 @@ public class RealmHelper {
     public Weekday getCurrentWeekday(Context context) {
         Plan plan = getCurrentPlan(context);
         Weekday activeWeekday = WeekdayHelper.get().getWeekday();
-        Weekday weekday = null;
-        if(plan != null){
-            for(int i = 0; i < plan.getWeekdaysList().size(); i++){
-                if(plan.getWeekdaysList().get(i).getWeekdayName().equals(activeWeekday.getWeekdayName())){
-                    weekday = plan.getWeekdaysList().get(i);
-                }
-            }
-        }
 
         Weekday resultWeekday = mRealm.where(Weekday.class)
                 .equalTo("name", activeWeekday.getWeekdayName())

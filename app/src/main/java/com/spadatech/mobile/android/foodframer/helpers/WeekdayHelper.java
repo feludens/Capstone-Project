@@ -43,33 +43,6 @@ public class WeekdayHelper {
         newWeekday.setPlanName(planName);
         newWeekday.setImage(resourceId);
 
-//        RealmList<Grocery> groceries = new RealmList<>();
-//        realm.copyToRealm(groceries);
-//
-//        Grocery grocery = new Grocery();
-//        realm.copyToRealm(grocery);
-//
-//        GroceryItem groceryItem = realm.createObject(GroceryItem.class);
-//        groceryItem.setGroceryItemName("Item 01");
-//        realm.copyToRealm(groceryItem);
-//        grocery.addGroceryItem(groceryItem);
-//
-//        GroceryItem groceryItem2 = realm.createObject(GroceryItem.class);
-//        groceryItem2.setGroceryItemName("Item 02");
-//        realm.copyToRealm(groceryItem2);
-//        grocery.addGroceryItem(groceryItem2);
-//
-//        GroceryItem groceryItem3 = realm.createObject(GroceryItem.class);
-//        groceryItem3.setGroceryItemName("Item 03");
-//        realm.copyToRealm(groceryItem3);
-//        grocery.addGroceryItem(groceryItem3);
-//
-//        groceries.add(grocery);
-//
-//        newWeekday.setGroceryList(groceries);
-//        newWeekday.setMealList(new RealmList<Meal>());
-//        newWeekday.setPrepList(new RealmList<Prep>());
-
         return newWeekday;
     }
 

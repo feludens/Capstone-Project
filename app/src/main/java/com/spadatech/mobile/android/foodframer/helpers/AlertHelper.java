@@ -3,6 +3,8 @@ package com.spadatech.mobile.android.foodframer.helpers;
 import android.content.Context;
 import android.content.DialogInterface;
 
+import com.spadatech.mobile.android.foodframer.R;
+
 import java.util.regex.Pattern;
 
 /**
@@ -32,9 +34,9 @@ public class AlertHelper {
     public static void showAlertDialog(Context context, String message)
     {
         android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(context);
-        alertDialogBuilder.setTitle("Ooopsie");
+        alertDialogBuilder.setTitle(context.getString(R.string.oooopsie));
         alertDialogBuilder.setMessage(message);
-        alertDialogBuilder.setPositiveButton("Got it",  new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setPositiveButton(context.getString(R.string.got_it),  new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();

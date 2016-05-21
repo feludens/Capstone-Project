@@ -9,7 +9,7 @@ import com.spadatech.mobile.android.foodframer.R;
 import com.spadatech.mobile.android.foodframer.managers.SessionManager;
 
 /**
- * Created by pereirf on 5/2/16.
+ * Created by Felipe S. Pereira on 5/2/16.
  */
 public class BasePreferenceFragment extends PreferenceFragment {
 
