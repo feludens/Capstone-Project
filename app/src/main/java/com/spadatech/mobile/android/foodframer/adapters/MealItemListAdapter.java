@@ -1,7 +1,6 @@
 package com.spadatech.mobile.android.foodframer.adapters;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,7 @@ import com.spadatech.mobile.android.foodframer.models.MealItem;
 import java.util.List;
 
 /**
- * Created by pereirf on 5/13/16.
+ * Created by Felipe S. Pereira on 5/13/16.
  */
 public class MealItemListAdapter extends RecyclerView.Adapter<MealItemListAdapter.ViewHolder> {
     private static final String TAG = "DailyAdapter";
@@ -54,7 +53,6 @@ public class MealItemListAdapter extends RecyclerView.Adapter<MealItemListAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-        Log.d("Ludens", "mList.get(position): " + mList.get(position));
         MealItem mealItem = (MealItem) mList.get(position);
         String name = mealItem.getMealItemName();
 

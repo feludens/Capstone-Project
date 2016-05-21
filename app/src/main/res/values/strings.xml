@@ -101,4 +101,7 @@
     <string name="alert_username_too_short">Username must be at least six characters long.</string>
     <string name="alert_password_too_short">Password must be at least six characters long.</string>
     <string name="alert_passwords_do_not_match">Passwords do not match.</string>
+    <string name="toast_enter_dish_name">Enter a Dish Name.</string>
+    <string name="toast_add_one_dish">Add at least one Dish.</string>
+    <string name="toast_enter_prepday_name">Enter a Prepday name.</string>
 </resources>

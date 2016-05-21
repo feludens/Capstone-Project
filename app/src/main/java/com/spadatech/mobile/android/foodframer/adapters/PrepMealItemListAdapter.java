@@ -14,7 +14,7 @@ import com.spadatech.mobile.android.foodframer.models.MealItem;
 import java.util.List;
 
 /**
- * Created by pereirf on 5/13/16.
+ * Created by Felipe S. Pereira on 5/13/16.
  */
 public class PrepMealItemListAdapter extends RecyclerView.Adapter<PrepMealItemListAdapter.ViewHolder> {
     private static final String TAG = "PrepMealItemListAdapter";

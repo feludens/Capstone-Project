@@ -13,7 +13,7 @@ import com.spadatech.mobile.android.foodframer.models.MealItem;
 import java.util.List;
 
 /**
- * Created by pereirf on 5/13/16.
+ * Created by Felipe S. Pereira on 5/13/16.
  */
 public class PrepdayItemListAdapter extends RecyclerView.Adapter<PrepdayItemListAdapter.ViewHolder> {
     private static final String TAG = "PrepdayItemListAdapter";

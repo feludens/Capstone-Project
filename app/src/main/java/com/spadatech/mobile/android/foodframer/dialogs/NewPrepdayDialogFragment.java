@@ -35,8 +35,6 @@ public class NewPrepdayDialogFragment extends DialogFragment{
     private EditText mPrepdayName;
     private EditText mItemName;
     private EditText mItemNote;
-    private Button mAddButton;
-    private RecyclerView mRecyclerView;
     private RealmList<MealItem> mNewPrepdayItemList;
     private Prep mPrepday;
     private PrepdayItemListAdapter mAdapter;
@@ -58,8 +56,8 @@ public class NewPrepdayDialogFragment extends DialogFragment{
         mPrepdayName = (EditText) v.findViewById(R.id.et_new_prepday_name);
         mItemName = (EditText) v.findViewById(R.id.et_new_prepday_item_name);
         mItemNote = (EditText) v.findViewById(R.id.et_new_prepday_item_notes);
-        mAddButton = (Button) v.findViewById(R.id.button_add_new_prepday_item);
-        mRecyclerView = (RecyclerView) v.findViewById(R.id.rv_new_dishes);
+        Button mAddButton = (Button) v.findViewById(R.id.button_add_new_prepday_item);
+        RecyclerView mRecyclerView = (RecyclerView) v.findViewById(R.id.rv_new_dishes);
         mNewPrepdayItemList = new RealmList<>();
 
         Realm realm = Realm.getDefaultInstance();
@@ -71,11 +69,8 @@ public class NewPrepdayDialogFragment extends DialogFragment{
         mAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Create new GroceryItem realm object
-                // Add new grocery item to the list
-
                 if(mItemName.getText().toString().isEmpty()){
-                    Toast.makeText(getActivity(), "Enter a Dish Name.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.toast_enter_dish_name, Toast.LENGTH_SHORT).show();
                 }else{
                     Realm realm = Realm.getDefaultInstance();
                     realm.beginTransaction();
@@ -87,7 +82,6 @@ public class NewPrepdayDialogFragment extends DialogFragment{
 
                     realm.beginTransaction();
                     mNewPrepdayItemList.add(newItem);
-                    mPrepday.setMealItemsList(mNewPrepdayItemList);
                     realm.commitTransaction();
 
                     mAdapter.notifyDataSetChanged();
@@ -104,9 +98,9 @@ public class NewPrepdayDialogFragment extends DialogFragment{
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if(mNewPrepdayItemList.isEmpty()){
-                    Toast.makeText(getActivity(), "Add at least one Dish.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.toast_add_one_dish, Toast.LENGTH_SHORT).show();
                 }if(mPrepdayName.getText().toString().isEmpty()){
-                    Toast.makeText(getActivity(), "Enter a Prepday name.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.toast_enter_prepday_name, Toast.LENGTH_SHORT).show();
                 }else {
                     Realm realm = Realm.getDefaultInstance();
                     realm.beginTransaction();
@@ -115,7 +109,6 @@ public class NewPrepdayDialogFragment extends DialogFragment{
 
                     realm.beginTransaction();
                     mPrepday.setPrepName(mPrepdayName.getText().toString());
-                    mPrepday.setMealItemsList(mNewPrepdayItemList);
                     realm.commitTransaction();
 
                     realm.beginTransaction();
