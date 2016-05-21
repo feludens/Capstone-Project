@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:text="Prepday"
+            android:text="@string/prepday"
             android:padding="10dp"
             />
 

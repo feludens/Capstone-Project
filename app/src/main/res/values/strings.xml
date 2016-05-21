@@ -78,4 +78,18 @@
     <string name="new_meal">New Meal</string>
     <string name="alert_missing_plan_name">Missing plan name</string>
     <string name="alert_plan_already_exists">Plan already exists</string>
+    <string name="you_have_no_plans">You have no plans! =/</string>
+    <string name="click_on_the_button_and_start_planning_now">Click on the + button and start planning now!</string>
+    <string name="you_have_no_items">You have no items! =/</string>
+    <string name="click_on_the_button_and_start_now">Click on the + button and start now!</string>
+    <string name="password_lower_case">password</string>
+    <string name="login">LOGIN</string>
+    <string name="create_account">CREATE ACCOUNT</string>
+    <string name="meal_name">Meal Name</string>
+    <string name="notes">Notes</string>
+    <string name="plan_name">Plan Name</string>
+    <string name="prepday">Prepday</string>
+    <string name="add">ADD</string>
+    <string name="dish_name">Dish Name</string>
+    <string name="prep_day_name">Prep Day Name</string>
 </resources>

@@ -16,8 +16,6 @@
             android:layout_height="200dp"
             android:scaleType="centerCrop"
             android:id="@+id/iv_plan_image"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
             android:background="#999999"
             />
 
@@ -26,7 +24,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/tv_plan_name"
             android:textSize="16sp"
-            android:text="Plan Name"
+            android:text="@string/plan_name"
             android:padding="10dp"
             />
     </LinearLayout>
