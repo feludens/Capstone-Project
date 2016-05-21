@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.spadatech.mobile.android.foodframer.R;
 import com.spadatech.mobile.android.foodframer.adapters.GroceryItemListAdapter;
+import com.spadatech.mobile.android.foodframer.helpers.PlanHelper;
 import com.spadatech.mobile.android.foodframer.helpers.RealmHelper;
 import com.spadatech.mobile.android.foodframer.models.Grocery;
 import com.spadatech.mobile.android.foodframer.models.GroceryItem;
@@ -105,10 +106,13 @@ public class NewGroceryDialogFragment extends DialogFragment{
                     mGrocery = realm.createObject(Grocery.class);
                     mGrocery.setGroceryName("Grocery List");
                     mGrocery.setWeekdayName(weekday.getWeekdayName());
+                    mGrocery.setPlanName(PlanHelper.get().getActivePlan().getName());
                     realm.commitTransaction();
                 }
 
-                Grocery grocery1 = realm.where(Grocery.class).equalTo("weekdayName", weekday.getWeekdayName())
+                Grocery grocery1 = realm.where(Grocery.class)
+                        .equalTo("planName", PlanHelper.get().getActivePlan().getName())
+                        .equalTo("weekdayName", weekday.getWeekdayName())
                         .equalTo("mGroceryName", "Grocery List").findAll().first();
 
                 realm.beginTransaction();
@@ -122,7 +126,9 @@ public class NewGroceryDialogFragment extends DialogFragment{
                 realm.commitTransaction();
 
                 if(weekday.getGroceries() == null || weekday.getGroceries().isEmpty()) {
-                    Grocery groceryz = realm.where(Grocery.class).equalTo("weekdayName", weekday.getWeekdayName())
+                    Grocery groceryz = realm.where(Grocery.class)
+                            .equalTo("planName", PlanHelper.get().getActivePlan().getName())
+                            .equalTo("weekdayName", weekday.getWeekdayName())
                             .equalTo("mGroceryName", "Grocery List").findAll().first();
                     realm.beginTransaction();
                     weekday.getGroceries().add(groceryz);

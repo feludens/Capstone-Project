@@ -9,6 +9,7 @@ import io.realm.RealmObject;
 public class Grocery extends RealmObject {
     private String mGroceryName;
     private String weekdayName;
+    private String planName;
     private RealmList<GroceryItem> mGroceryItemList;
 
     public Grocery() {
@@ -50,5 +51,13 @@ public class Grocery extends RealmObject {
 
     public void setWeekdayName(String weekdayName) {
         this.weekdayName = weekdayName;
+    }
+
+    public String getPlanName() {
+        return planName;
+    }
+
+    public void setPlanName(String planName) {
+        this.planName = planName;
     }
 }

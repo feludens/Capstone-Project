@@ -70,12 +70,20 @@ public class DailyPlanActivity extends AppCompatActivity
 
         mTransparentScreen = (LinearLayout) findViewById(R.id.ll_transparent_screen);
         mEmptyPlanListView = (LinearLayout) findViewById(R.id.ll_daily_list_empty);
+
         mRecyclerViewGroceries = (RecyclerView) findViewById(R.id.rv_daily_groceries);
         mRecyclerViewMeals = (RecyclerView) findViewById(R.id.rv_daily_meals);
         mRecyclerViewPrepdays = (RecyclerView) findViewById(R.id.rv_daily_prepdays);
+        mRecyclerViewGroceries.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerViewMeals.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerViewPrepdays.setLayoutManager(new LinearLayoutManager(this));
+
         mAdapter = new DailyAdapter(groceries);
         mMealsAdapter = new DailyAdapter(meals);
         mPrepdaysAdapter = new DailyAdapter(prepdays);
+        mRecyclerViewGroceries.setAdapter(mAdapter);
+        mRecyclerViewMeals.setAdapter(mMealsAdapter);
+        mRecyclerViewPrepdays.setAdapter(mPrepdaysAdapter);
 
 //        if(isEmpty){
 //            mRecyclerViewGroceries.setVisibility(View.GONE);
@@ -86,18 +94,13 @@ public class DailyPlanActivity extends AppCompatActivity
 //            mRecyclerViewGroceries.setAdapter(mAdapter);
 //        }
 
+
+
         if(meals.isEmpty() && groceries.isEmpty() && prepdays.isEmpty()){
-            mRecyclerViewGroceries.setVisibility(View.GONE);
-            mRecyclerViewMeals.setVisibility(View.GONE);
-            mRecyclerViewPrepdays.setVisibility(View.GONE);
+//            mRecyclerViewGroceries.setVisibility(View.GONE);
+//            mRecyclerViewMeals.setVisibility(View.GONE);
+//            mRecyclerViewPrepdays.setVisibility(View.GONE);
             mEmptyPlanListView.setVisibility(View.VISIBLE);
-        }else{
-            mRecyclerViewGroceries.setLayoutManager(new LinearLayoutManager(this));
-            mRecyclerViewMeals.setLayoutManager(new LinearLayoutManager(this));
-            mRecyclerViewPrepdays.setLayoutManager(new LinearLayoutManager(this));
-            mRecyclerViewGroceries.setAdapter(mAdapter);
-            mRecyclerViewMeals.setAdapter(mMealsAdapter);
-            mRecyclerViewPrepdays.setAdapter(mPrepdaysAdapter);
         }
 
         setFabOnClickListeners();
@@ -296,9 +299,9 @@ public class DailyPlanActivity extends AppCompatActivity
 
     private void refreshViews() {
         if(mEmptyPlanListView.getVisibility() == View.VISIBLE){
-            mRecyclerViewGroceries.setVisibility(View.VISIBLE);
-            mRecyclerViewMeals.setVisibility(View.VISIBLE);
-            mRecyclerViewPrepdays.setVisibility(View.VISIBLE);
+//            mRecyclerViewGroceries.setVisibility(View.VISIBLE);
+//            mRecyclerViewMeals.setVisibility(View.VISIBLE);
+//            mRecyclerViewPrepdays.setVisibility(View.VISIBLE);
             mEmptyPlanListView.setVisibility(View.GONE);
         }
         mMealsAdapter.notifyDataSetChanged();
