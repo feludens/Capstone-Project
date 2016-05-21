@@ -222,9 +222,9 @@ public class DailyAdapter<T> extends RecyclerView.Adapter<DailyAdapter.ViewHolde
 
     @Override
     public int getItemViewType(int position) {
-        if(mDataSet.get(position).toString().contains("Grocery")){
+        if(mDataSet.get(position) instanceof Grocery){
             return Constants.VIEW_TYPE_GROCERY;
-        }else if(mDataSet.get(position).toString().contains("Meal")){
+        }else if(mDataSet.get(position) instanceof Meal){
             return Constants.VIEW_TYPE_MEAL;
         } else{
             return Constants.VIEW_TYPE_PREP;

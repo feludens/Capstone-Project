@@ -205,22 +205,26 @@ public class DailyPlanActivity extends AppCompatActivity
     @Override
     public void onCreatePrepdayClicked(Prep prepday) {
         Realm realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
-        RealmList<Prep> preps;
-        if(mWeekday.getPrepdays() == null || mWeekday.getPrepdays().isEmpty()){
-            preps = new RealmList<>();
-        }else{
-            preps = mWeekday.getPrepdays();
-        }
-        realm.copyToRealm(preps);
-        realm.commitTransaction();
+//        realm.beginTransaction();
+//        RealmList<Prep> preps;
+//        if(mWeekday.getPrepdays() == null || mWeekday.getPrepdays().isEmpty()){
+//            preps = new RealmList<>();
+//        }else{
+//            preps = mWeekday.getPrepdays();
+//        }
+//        realm.copyToRealm(preps);
+//        realm.commitTransaction();
+//
+//        realm.beginTransaction();
+//        preps.add(prepday);
+//        realm.commitTransaction();
+//
+//        realm.beginTransaction();
+//        mWeekday.setPrepList(preps);
+//        realm.commitTransaction();
 
         realm.beginTransaction();
-        preps.add(prepday);
-        realm.commitTransaction();
-
-        realm.beginTransaction();
-        mWeekday.setPrepList(preps);
+        mWeekday = RealmHelper.get().getCurrentWeekday(this);
         realm.commitTransaction();
 
         mDataSet.clear();
@@ -292,11 +296,13 @@ public class DailyPlanActivity extends AppCompatActivity
 
     private void refreshViews() {
         if(mEmptyPlanListView.getVisibility() == View.VISIBLE){
-//            mRecyclerViewGroceries.setVisibility(View.VISIBLE);
+            mRecyclerViewGroceries.setVisibility(View.VISIBLE);
             mRecyclerViewMeals.setVisibility(View.VISIBLE);
             mRecyclerViewPrepdays.setVisibility(View.VISIBLE);
             mEmptyPlanListView.setVisibility(View.GONE);
         }
         mMealsAdapter.notifyDataSetChanged();
+        mPrepdaysAdapter.notifyDataSetChanged();
+        mAdapter.notifyDataSetChanged();
     }
 }

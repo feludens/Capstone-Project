@@ -17,8 +17,10 @@ import android.widget.Toast;
 
 import com.spadatech.mobile.android.foodframer.R;
 import com.spadatech.mobile.android.foodframer.adapters.PrepdayItemListAdapter;
+import com.spadatech.mobile.android.foodframer.helpers.RealmHelper;
 import com.spadatech.mobile.android.foodframer.models.MealItem;
 import com.spadatech.mobile.android.foodframer.models.Prep;
+import com.spadatech.mobile.android.foodframer.models.Weekday;
 
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -116,7 +118,33 @@ public class NewPrepdayDialogFragment extends DialogFragment{
                     mPrepday.setMealItemsList(mNewPrepdayItemList);
                     realm.commitTransaction();
 
+                    realm.beginTransaction();
+                    Prep newPrep = realm.createObject(Prep.class);
+                    newPrep.setPrepName(mPrepday.getPrepName());
+                    realm.commitTransaction();
+
+                    realm.beginTransaction();
+                    Prep prep = realm.where(Prep.class).equalTo("mPrepName", mPrepday.getPrepName()).findAll().first();
+                    for(int i = 0; i < mNewPrepdayItemList.size(); i++){
+                        MealItem item = mNewPrepdayItemList.get(i);
+                        MealItem newItem = realm.createObject(MealItem.class);
+                        newItem.setMealItemName(item.getMealItemName());
+                        newItem.setMealItemNotes(item.getMealItemNotes());
+                        prep.getmMealItemsList().add(newItem);
+                    }
+                    realm.commitTransaction();
+
+                    Weekday weekday = RealmHelper.get().getCurrentWeekday(getActivity());
+                    Prep prepz = realm.where(Prep.class).equalTo("mPrepName", mPrepday.getPrepName()).findAll().first();
+                    realm.beginTransaction();
+                    weekday.getPrepdays().add(prepz);
+                    realm.commitTransaction();
+
+                    mPrepday = prepz;
+
                     mListener.onCreatePrepdayClicked(mPrepday);
+
+
                 }
             }
         });
