@@ -10,14 +10,12 @@ import com.spadatech.mobile.android.foodframer.R;
 import com.spadatech.mobile.android.foodframer.adapters.WeekdayAdapter;
 import com.spadatech.mobile.android.foodframer.helpers.PlanHelper;
 import com.spadatech.mobile.android.foodframer.helpers.WeekdayHelper;
-import com.spadatech.mobile.android.foodframer.models.Plan;
 import com.spadatech.mobile.android.foodframer.models.Weekday;
 
+/**
+ * Created by Felipe S. Pereira
+ */
 public class WeekdayListActivity extends AppCompatActivity implements WeekdayAdapter.OnWeekdayClickListener {
-
-    private Plan mPlan;
-    private RecyclerView mRecyclerView;
-    private WeekdayAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,13 +26,11 @@ public class WeekdayListActivity extends AppCompatActivity implements WeekdayAda
             getSupportActionBar().setTitle(getResources().getText(R.string.title_weekday_list_activity));
         }
 
-        mPlan = PlanHelper.get().getActivePlan();
-
-        mRecyclerView = (RecyclerView) findViewById(R.id.rv_weekday);
+        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.rv_weekday);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(llm);
 
-        mAdapter = new WeekdayAdapter(mPlan.getWeekdaysList(), this);
+        WeekdayAdapter mAdapter = new WeekdayAdapter(PlanHelper.get().getActivePlan().getWeekdaysList(), this);
         mRecyclerView.setAdapter(mAdapter);
 
     }

@@ -9,12 +9,15 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.spadatech.mobile.android.foodframer.R;
-
-import io.realm.Realm;
-import io.realm.RealmResults;
 import com.spadatech.mobile.android.foodframer.managers.SessionManager;
 import com.spadatech.mobile.android.foodframer.models.User;
 
+import io.realm.Realm;
+import io.realm.RealmResults;
+
+/**
+ * Created by Felipe S. Pereira on 4/30/16.
+ */
 public class LoginActivity extends AppCompatActivity {
 
     @Override
@@ -32,9 +35,9 @@ public class LoginActivity extends AppCompatActivity {
 
         Realm realm = Realm.getDefaultInstance();
         RealmResults<User> result = realm.where(User.class)
-                .equalTo("username", username.getText().toString())
+                .equalTo(SessionManager.KEY_USERNAME, username.getText().toString())
                 .or()
-                .equalTo("email", username.getText().toString())
+                .equalTo(SessionManager.KEY_EMAIL, username.getText().toString())
                 .findAll();
 
         if(result.size() > 0 && result.first().getPassword().equals(password.getText().toString())){
@@ -46,9 +49,9 @@ public class LoginActivity extends AppCompatActivity {
             }
         }else{
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-            alertDialog.setTitle("Ooopsie!");
-            alertDialog.setMessage("You enter the wrong credentials. Try again!");
-            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Got it!",
+            alertDialog.setTitle(getString(R.string.oooopsie));
+            alertDialog.setMessage(getString(R.string.alert_wrong_credentials));
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.got_it),
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
@@ -56,7 +59,6 @@ public class LoginActivity extends AppCompatActivity {
                     });
             alertDialog.show();
         }
-
     }
 
     public void createAccount(View v){

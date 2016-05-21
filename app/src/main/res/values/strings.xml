@@ -92,4 +92,13 @@
     <string name="add">ADD</string>
     <string name="dish_name">Dish Name</string>
     <string name="prep_day_name">Prep Day Name</string>
+    <string name="oooopsie">Ooopsie!</string>
+    <string name="alert_wrong_credentials">You enter the wrong credentials. Try again!</string>
+    <string name="got_it">Got it!</string>
+    <string name="alert_first_name_missing">You forgot your first name.</string>
+    <string name="alert_last_name_missing">You forgot your last name.</string>
+    <string name="alert_invalid_email">You entered an invalid email.</string>
+    <string name="alert_username_too_short">Username must be at least six characters long.</string>
+    <string name="alert_password_too_short">Password must be at least six characters long.</string>
+    <string name="alert_passwords_do_not_match">Passwords do not match.</string>
 </resources>

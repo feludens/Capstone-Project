@@ -31,6 +31,9 @@ import java.util.Map;
 import io.realm.Realm;
 import io.realm.RealmList;
 
+/**
+ * Created by Felipe S. Pereira
+ */
 public class DailyPlanActivity extends AppCompatActivity
         implements FloatingActionsMenu.OnFloatingActionsMenuUpdateListener, NewGroceryDialogFragment.OnCreateGroceryClickListener, NewMealDialogFragment.OnCreateMealClickListener, NewPrepdayDialogFragment.OnCreatePrepdayClickListener {
 

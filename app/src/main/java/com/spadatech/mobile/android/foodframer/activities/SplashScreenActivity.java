@@ -8,6 +8,9 @@ import com.spadatech.mobile.android.foodframer.R;
 
 import com.spadatech.mobile.android.foodframer.managers.SessionManager;
 
+/**
+ * Created by Felipe S. Pereira
+ */
 public class SplashScreenActivity extends AppCompatActivity {
 
     private final int SPLASH_SCREEN_DURATION = 2000;

@@ -6,7 +6,9 @@ import android.preference.PreferenceActivity;
 
 import com.spadatech.mobile.android.foodframer.fragments.BasePreferenceFragment;
 
-
+/**
+ * Created by Felipe S. Pereira
+ */
 public class SettingsActivity extends PreferenceActivity {
 
     @Override

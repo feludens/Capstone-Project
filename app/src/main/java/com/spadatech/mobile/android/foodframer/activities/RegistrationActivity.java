@@ -15,6 +15,9 @@ import com.spadatech.mobile.android.foodframer.models.User;
 
 import io.realm.Realm;
 
+/**
+ * Created by Felipe S. Pereira
+ */
 public class RegistrationActivity extends AppCompatActivity {
 
     EditText mFirstName;
@@ -47,8 +50,6 @@ public class RegistrationActivity extends AppCompatActivity {
 
     public void registerNewUser(View v){
         if(validateUser()) {
-            // Create Account
-            // Redirect user to PlanListActivity
             Realm realm = Realm.getDefaultInstance();
             realm.beginTransaction();
             User mNewUser = realm.createObject(User.class);
@@ -111,31 +112,31 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private void showAlert(AlertHelper.AlertType alertType) {
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-        alertDialog.setTitle("Ooopsie!");
+        alertDialog.setTitle(getString(R.string.oooopsie));
         alertDialog.setMessage("Alert message to be shown");
 
         switch (alertType){
             case ALERT_FIRST_NAME_MISSING:
-                alertDialog.setMessage("You forgot your first name.");
+                alertDialog.setMessage(getString(R.string.alert_first_name_missing));
                 break;
             case ALERT_LAST_NAME_MISSING:
-                alertDialog.setMessage("You forgot your last name.");
+                alertDialog.setMessage(getString(R.string.alert_last_name_missing));
                 break;
             case ALERT_INVALID_EMAIL:
-                alertDialog.setMessage("You entered an invalid email.");
+                alertDialog.setMessage(getString(R.string.alert_invalid_email));
                 break;
             case ALERT_SHORT_USERNAME:
-                alertDialog.setMessage("Username must be at least six characters long.");
+                alertDialog.setMessage(getString(R.string.alert_username_too_short));
                 break;
             case ALERT_PASSWORD_TOO_SHORT:
-                alertDialog.setMessage("Password must be at least six characters long.");
+                alertDialog.setMessage(getString(R.string.alert_password_too_short));
                 break;
             case ALERT_PASSWORD_MISMATCH:
-                alertDialog.setMessage("Passwords do not match.");
+                alertDialog.setMessage(getString(R.string.alert_passwords_do_not_match));
                 break;
         }
 
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Got it!",
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.got_it),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();

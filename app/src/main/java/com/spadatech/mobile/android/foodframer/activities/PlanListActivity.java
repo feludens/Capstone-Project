@@ -31,6 +31,9 @@ import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
 
+/**
+ * Created by Felipe S. Pereira
+ */
 public class PlanListActivity extends AppCompatActivity implements PlanAdapter.OnPlanClickListener, NewPlanDialogFragment.OnCreatePlanClickListener {
 
     private RecyclerView mRecyclerView;
@@ -65,8 +68,8 @@ public class PlanListActivity extends AppCompatActivity implements PlanAdapter.O
 
         Realm realm = Realm.getDefaultInstance();
         RealmResults<User> result = realm.where(User.class)
-                .equalTo("username", mUserInfo.get(SessionManager.KEY_USERNAME))
-                .equalTo("email", mUserInfo.get(SessionManager.KEY_EMAIL))
+                .equalTo(SessionManager.KEY_USERNAME, mUserInfo.get(SessionManager.KEY_USERNAME))
+                .equalTo(SessionManager.KEY_EMAIL, mUserInfo.get(SessionManager.KEY_EMAIL))
                 .findAll();
 
         List<Plan> mPlanList;
@@ -116,8 +119,8 @@ public class PlanListActivity extends AppCompatActivity implements PlanAdapter.O
 
             Realm realm = Realm.getDefaultInstance();
             User user = realm.where(User.class)
-                    .equalTo("username", mUserInfo.get(SessionManager.KEY_USERNAME))
-                    .equalTo("email", mUserInfo.get(SessionManager.KEY_EMAIL))
+                    .equalTo(SessionManager.KEY_USERNAME, mUserInfo.get(SessionManager.KEY_USERNAME))
+                    .equalTo(SessionManager.KEY_EMAIL, mUserInfo.get(SessionManager.KEY_EMAIL))
                     .findFirst();
 
             realm.beginTransaction();
@@ -157,8 +160,8 @@ public class PlanListActivity extends AppCompatActivity implements PlanAdapter.O
 
         Realm realm = Realm.getDefaultInstance();
         RealmResults<User> result = realm.where(User.class)
-                .equalTo("username", mUserInfo.get(SessionManager.KEY_USERNAME))
-                .equalTo("email", mUserInfo.get(SessionManager.KEY_EMAIL))
+                .equalTo(SessionManager.KEY_USERNAME, mUserInfo.get(SessionManager.KEY_USERNAME))
+                .equalTo(SessionManager.KEY_EMAIL, mUserInfo.get(SessionManager.KEY_EMAIL))
                 .findAll();
 
         if(!result.isEmpty())

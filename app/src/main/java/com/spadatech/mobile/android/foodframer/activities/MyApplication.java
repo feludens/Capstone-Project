@@ -13,7 +13,6 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        // The realm file will be located in Context.getFilesDir() with name "foodframer.realm"
         RealmConfiguration config = new RealmConfiguration.Builder(this)
                 .name("foodframer.realm")
                 .deleteRealmIfMigrationNeeded()
