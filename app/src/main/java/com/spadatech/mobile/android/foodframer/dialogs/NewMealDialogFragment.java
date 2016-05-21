@@ -80,29 +80,10 @@ public class NewMealDialogFragment extends DialogFragment{
                     Toast.makeText(getActivity(), "Enter a Dish Name.", Toast.LENGTH_SHORT).show();
                 }else{
 
-//                    Realm realm = Realm.getDefaultInstance();
-//                    RealmList<Meal> meals = RealmHelper.get().getCurrentWeekdayMeal(getActivity());
-//                    Weekday weekday = RealmHelper.get().getCurrentWeekday(getActivity());
-//
-//                    realm.beginTransaction();
-//                    Meal meal = realm.copyToRealm(new Meal());
-//                    meal.setMealName("MealPlaceHolderName");
-//                    weekday.getMeals().add(meal);
-//                    realm.commitTransaction();
-//
-//                    Meal mealz = RealmHelper.get().getMeal(getActivity(), "MealPlaceHolderName");
-//
                     realm.beginTransaction();
                     MealItem newItem = realm.createObject(MealItem.class);
                     newItem.setMealItemName(mMealItemName.getText().toString());
                     realm.commitTransaction();
-//
-
-
-//                    realm.beginTransaction();
-//
-//                    MealItem newItem = realm.createObject(MealItem.class);
-//                    realm.commitTransaction();
 
                     realm.beginTransaction();
                     mNewMealItemList.add(newItem);
@@ -152,14 +133,6 @@ public class NewMealDialogFragment extends DialogFragment{
                     realm.commitTransaction();
 
                     mMeal = mealz;
-
-//                    Meal meal = RealmHelper.get().getMeal(getActivity(), "MealPlaceHolderName");
-//
-//                    realm.beginTransaction();
-//                    meal.setMealName(mMealName.getText().toString());
-//                    meal.setMealNotes(mMealNote.getText().toString());
-//                    meal.setMealItemList(mNewMealItemList);
-//                    realm.commitTransaction();
 
                     mListener.onCreateMealClicked(mealz);
                 }
