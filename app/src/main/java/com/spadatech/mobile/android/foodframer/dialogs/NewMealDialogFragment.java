@@ -35,8 +35,6 @@ public class NewMealDialogFragment extends DialogFragment{
     private EditText mMealName;
     private EditText mMealItemName;
     private EditText mMealNote;
-    private Button mAddButton;
-    private RecyclerView mRecyclerView;
     private RealmList<MealItem> mNewMealItemList;
     private Meal mMeal;
     private MealItemListAdapter mAdapter;
@@ -58,8 +56,8 @@ public class NewMealDialogFragment extends DialogFragment{
         mMealName = (EditText) v.findViewById(R.id.et_new_meal_name);
         mMealNote = (EditText) v.findViewById(R.id.et_new_meal_notes);
         mMealItemName = (EditText) v.findViewById(R.id.et_new_meal_item_name);
-        mAddButton = (Button) v.findViewById(R.id.button_add_new_meal);
-        mRecyclerView = (RecyclerView) v.findViewById(R.id.rv_new_meals);
+        Button mAddButton = (Button) v.findViewById(R.id.button_add_new_meal);
+        RecyclerView mRecyclerView = (RecyclerView) v.findViewById(R.id.rv_new_meals);
         mNewMealItemList = new RealmList<>();
 
         final Realm realm = Realm.getDefaultInstance();
@@ -71,9 +69,6 @@ public class NewMealDialogFragment extends DialogFragment{
         mAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Create new GroceryItem realm object
-                // Add new grocery item to the list
-
                 if(mMealName.getText().toString().isEmpty()){
                     Toast.makeText(getActivity(), "Enter a Meal Name.", Toast.LENGTH_SHORT).show();
                 }else if(mMealItemName.getText().toString().isEmpty()){
@@ -103,7 +98,7 @@ public class NewMealDialogFragment extends DialogFragment{
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if(mNewMealItemList.isEmpty()){
-                    Toast.makeText(getActivity(), "Add at least one Dish.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getString(R.string.toast_add_one_dish), Toast.LENGTH_SHORT).show();
                 }else {
                     Realm realm = Realm.getDefaultInstance();
                     realm.beginTransaction();

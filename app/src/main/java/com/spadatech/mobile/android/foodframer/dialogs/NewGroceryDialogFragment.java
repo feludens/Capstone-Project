@@ -63,11 +63,8 @@ public class NewGroceryDialogFragment extends DialogFragment{
         mAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Create new GroceryItem realm object
-                // Add new grocery item to the list
-
                 if(mEditText.getText().toString().isEmpty()){
-                    Toast.makeText(getActivity(), "Enter a value", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.toast_enter_a_value, Toast.LENGTH_SHORT).show();
                 }else{
                     Realm realm = Realm.getDefaultInstance();
                     realm.beginTransaction();
