@@ -1,24 +1,25 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory
-        android:title="Notification">
+    <!-- Future Update -->
+    <!--<PreferenceCategory-->
+        <!--android:title="Notification">-->
 
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="notifications_grocery"
-            android:title="Groceries" />
+        <!--<SwitchPreference-->
+            <!--android:defaultValue="true"-->
+            <!--android:key="notifications_grocery"-->
+            <!--android:title="Groceries" />-->
 
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="notifications_meal"
-            android:title="Meals" />
+        <!--<SwitchPreference-->
+            <!--android:defaultValue="true"-->
+            <!--android:key="notifications_meal"-->
+            <!--android:title="Meals" />-->
 
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="notifications_prepday"
-            android:title="Prepday" />
+        <!--<SwitchPreference-->
+            <!--android:defaultValue="true"-->
+            <!--android:key="notifications_prepday"-->
+            <!--android:title="Prepday" />-->
 
-    </PreferenceCategory>
+    <!--</PreferenceCategory>-->
 
     <PreferenceCategory
         android:title="Account">

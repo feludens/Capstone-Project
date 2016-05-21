@@ -130,6 +130,7 @@ public class PlanListActivity extends AppCompatActivity implements PlanAdapter.O
             realm.beginTransaction();
             Plan newPlan = realm.createObject(Plan.class);
             newPlan.setName(planName);
+            newPlan.setImage(R.drawable.food);
             realm.commitTransaction();
 
             realm.beginTransaction();
