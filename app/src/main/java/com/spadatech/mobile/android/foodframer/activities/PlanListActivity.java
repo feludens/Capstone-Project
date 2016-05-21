@@ -35,17 +35,14 @@ public class PlanListActivity extends AppCompatActivity implements PlanAdapter.O
 
     private RecyclerView mRecyclerView;
     private LinearLayout mEmptyPlanListView;
-    private List<Plan> mPlanList;
     private PlanAdapter mAdapter;
-    private SessionManager mSessionManager;
     private HashMap<String, String> mUserInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plan_list);
-        mSessionManager = SessionManager.get(this);
-        mUserInfo = mSessionManager.getUserInfo();
+        mUserInfo = SessionManager.get(this).getUserInfo();
         mEmptyPlanListView = (LinearLayout) findViewById(R.id.ll_plan_lis_empty);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -72,6 +69,7 @@ public class PlanListActivity extends AppCompatActivity implements PlanAdapter.O
                 .equalTo("email", mUserInfo.get(SessionManager.KEY_EMAIL))
                 .findAll();
 
+        List<Plan> mPlanList;
         if(result.size() > 0) {
             mPlanList = result.first().getPlanList();
         }else{
@@ -89,19 +87,14 @@ public class PlanListActivity extends AppCompatActivity implements PlanAdapter.O
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_plan_list, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
@@ -156,11 +149,9 @@ public class PlanListActivity extends AppCompatActivity implements PlanAdapter.O
 
     public boolean isNewPlanValid(String planName) {
         boolean isValid = false;
-        String alertType;
 
         if(planName.isEmpty()) {
-//            alertType = AlertHelper.AlertType.ALERT_MISSING_PLAN_NAME;
-            AlertHelper.showAlertDialog(this, "Missing plan name");
+            AlertHelper.showAlertDialog(this, getString(R.string.alert_missing_plan_name));
             return isValid;
         }
 
@@ -177,8 +168,7 @@ public class PlanListActivity extends AppCompatActivity implements PlanAdapter.O
             tempPlan.setName(planName);
             for (Plan plan: plans) {
                 if(plan.getName().equals(planName)){
-//                    alertType = AlertHelper.AlertType.ALERT_MISSING_PLAN_NAME;
-                    AlertHelper.showAlertDialog(this, "Plan already exists");
+                    AlertHelper.showAlertDialog(this, getString(R.string.alert_plan_already_exists));
                     return isValid;
                 }
             }
