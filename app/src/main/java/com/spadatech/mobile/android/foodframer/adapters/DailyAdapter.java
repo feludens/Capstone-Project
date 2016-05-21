@@ -12,7 +12,6 @@ import com.spadatech.mobile.android.foodframer.R;
 import com.spadatech.mobile.android.foodframer.helpers.Constants;
 import com.spadatech.mobile.android.foodframer.helpers.PlanHelper;
 import com.spadatech.mobile.android.foodframer.helpers.RealmHelper;
-import com.spadatech.mobile.android.foodframer.helpers.WeekdayHelper;
 import com.spadatech.mobile.android.foodframer.models.Grocery;
 import com.spadatech.mobile.android.foodframer.models.GroceryItem;
 import com.spadatech.mobile.android.foodframer.models.Meal;
@@ -25,7 +24,6 @@ import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmList;
-import io.realm.RealmResults;
 
 /**
  * Created by Felipe S. Pereira on 5/12/16.
@@ -140,9 +138,6 @@ public class DailyAdapter<T> extends RecyclerView.Adapter<DailyAdapter.ViewHolde
             Grocery grocery = (Grocery) mDataSet.get(position);
             RealmList<GroceryItem> groceries = grocery.getmGroceryItemList();
 
-
-//            realm.commitTransaction();
-
             GroceryItemListAdapter mAdapter = new GroceryItemListAdapter(groceries, false);
             holder.recyclerView.setAdapter(mAdapter);
         }
@@ -181,38 +176,39 @@ public class DailyAdapter<T> extends RecyclerView.Adapter<DailyAdapter.ViewHolde
 
             MealItemListAdapter mAdapter = new MealItemListAdapter(meals, false);
             holder.recyclerView.setAdapter(mAdapter);
-        }
-        else {
+        } else {
             PrepViewHolder holder = (PrepViewHolder) viewHolder;
 
             LinearLayoutManager llm = new LinearLayoutManager(mContext);
             holder.recyclerView.setLayoutManager(llm);
 
-            Plan plan = PlanHelper.get().getActivePlan();
-            Weekday weekday = WeekdayHelper.get().getWeekday();
-
-            RealmList<MealItem> mealItems;
-            Realm realm = Realm.getDefaultInstance();
-            realm.beginTransaction();
-
-            RealmResults<Plan> planResult = realm.where(Plan.class)
-                    .equalTo("name", plan.getName())
-                    .findAll();
-
-            RealmList<Weekday> weeekdayList = planResult.first().getWeekdaysList();
-            int index = weeekdayList.indexOf(weekday);
+//            Plan plan = PlanHelper.get().getActivePlan();
+//            Weekday weekday = WeekdayHelper.get().getWeekday();
+//
+//            RealmList<MealItem> mealItems;
+//            Realm realm = Realm.getDefaultInstance();
+//            realm.beginTransaction();
+//
+//            RealmResults<Plan> planResult = realm.where(Plan.class)
+//                    .equalTo("name", plan.getName())
+//                    .findAll();
+//
+//            RealmList<Weekday> weeekdayList = planResult.first().getWeekdaysList();
+//            int index = weeekdayList.indexOf(weekday);
 //
 //            if(planResult.first().getWeekdaysList().get(index).getMeals() != null ||
 //                    !planResult.first().getWeekdaysList().get(index).getMeals().isEmpty()){
 //
 //            }
 
-            Prep prep = planResult.first().getWeekdaysList().get(index).getPrepdays().get(0);
+//            Prep prep = planResult.first().getWeekdaysList().get(index).getPrepdays().get(0);
 
+
+
+            Prep prep = (Prep) mDataSet.get(position);
             holder.prepdayName.setText(prep.getPrepName());
 
-            mealItems = prep.getmMealItemsList();
-            realm.commitTransaction();
+            RealmList<MealItem> mealItems = prep.getmMealItemsList();
 
             PrepMealItemListAdapter mAdapter = new PrepMealItemListAdapter(mealItems, false);
             holder.recyclerView.setAdapter(mAdapter);
