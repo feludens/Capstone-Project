@@ -38,6 +38,9 @@ public class DailyPlanActivity extends AppCompatActivity
     private DailyAdapter mMealsAdapter;
     private DailyAdapter mPrepdaysAdapter;
 
+    private RecyclerView mRecyclerViewGroceries;
+    private RecyclerView mRecyclerViewMeals;
+    private RecyclerView mRecyclerViewPrepdays;
     private RealmList<Grocery> groceries;
     private RealmList<Meal> meals;
     private RealmList<Prep> prepdays;
@@ -61,9 +64,9 @@ public class DailyPlanActivity extends AppCompatActivity
         mTransparentScreen = (LinearLayout) findViewById(R.id.ll_transparent_screen);
         mEmptyPlanListView = (LinearLayout) findViewById(R.id.ll_daily_list_empty);
 
-        RecyclerView mRecyclerViewGroceries = (RecyclerView) findViewById(R.id.rv_daily_groceries);
-        RecyclerView mRecyclerViewMeals = (RecyclerView) findViewById(R.id.rv_daily_meals);
-        RecyclerView mRecyclerViewPrepdays = (RecyclerView) findViewById(R.id.rv_daily_prepdays);
+        mRecyclerViewGroceries = (RecyclerView) findViewById(R.id.rv_daily_groceries);
+        mRecyclerViewMeals = (RecyclerView) findViewById(R.id.rv_daily_meals);
+        mRecyclerViewPrepdays = (RecyclerView) findViewById(R.id.rv_daily_prepdays);
         mRecyclerViewGroceries.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerViewMeals.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerViewPrepdays.setLayoutManager(new LinearLayoutManager(this));
@@ -212,8 +215,18 @@ public class DailyPlanActivity extends AppCompatActivity
             mEmptyPlanListView.setVisibility(View.GONE);
         }
 
-        mMealsAdapter.swap(meals);
-        mPrepdaysAdapter.swap(prepdays);
-        mAdapter.swap(groceries);
+        //TODO: I currently had to re-create the adapter instead of swapping the data source.
+        //TODO: that is do to the limitations of Realm. Keep an eye for changes then update this!
+
+//        mMealsAdapter.swap(meals);
+//        mPrepdaysAdapter.swap(prepdays);
+//        mAdapter.swap(groceries);
+
+        mAdapter = new DailyAdapter(groceries);
+        mMealsAdapter = new DailyAdapter(meals);
+        mPrepdaysAdapter = new DailyAdapter(prepdays);
+        mRecyclerViewGroceries.setAdapter(mAdapter);
+        mRecyclerViewMeals.setAdapter(mMealsAdapter);
+        mRecyclerViewPrepdays.setAdapter(mPrepdaysAdapter);
     }
 }

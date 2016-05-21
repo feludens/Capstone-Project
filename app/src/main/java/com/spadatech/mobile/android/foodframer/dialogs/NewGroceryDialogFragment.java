@@ -135,7 +135,7 @@ public class NewGroceryDialogFragment extends DialogFragment{
                     realm.commitTransaction();
                 }
 
-                mListener.onCreateGroceryClicked(mNewGroceriesList);
+                mListener.onCreateGroceryClicked();
 
 
             }
@@ -170,6 +170,6 @@ public class NewGroceryDialogFragment extends DialogFragment{
     }
 
     public interface OnCreateGroceryClickListener{
-        void onCreateGroceryClicked(RealmList groceries);
+        void onCreateGroceryClicked();
     }
 }

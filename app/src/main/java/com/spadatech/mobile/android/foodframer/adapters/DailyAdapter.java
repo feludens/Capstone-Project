@@ -18,7 +18,6 @@ import com.spadatech.mobile.android.foodframer.models.Prep;
 
 import java.util.List;
 
-import io.realm.Realm;
 import io.realm.RealmList;
 
 /**
@@ -28,7 +27,6 @@ public class DailyAdapter<T> extends RecyclerView.Adapter<DailyAdapter.ViewHolde
     private static final String TAG = "DailyAdapter";
 
     private List<T> mDataSet;
-    private RecyclerView mRecyclerView;
     private Context mContext;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -165,15 +163,15 @@ public class DailyAdapter<T> extends RecyclerView.Adapter<DailyAdapter.ViewHolde
         }
     }
 
-    public void swap(List<T> newDataSet){
-        Realm realm = Realm.getDefaultInstance();
-        if (mDataSet != null) {
-            mDataSet.clear();
-            mDataSet.addAll(newDataSet);
-        }
-        else {
-            mDataSet = newDataSet;
-        }
-        notifyDataSetChanged();
-    }
+//    NEEDED TO BE REMOVED BECAUSE OF REALM
+//    public void swap(List<T> newDataSet){
+//        if (mDataSet != null) {
+//            mDataSet.clear();
+//            mDataSet.addAll(newDataSet);
+//        }
+//        else {
+//            mDataSet = newDataSet;
+//        }
+//        notifyDataSetChanged();
+//    }
 }

@@ -142,7 +142,7 @@ public class NewPrepdayDialogFragment extends DialogFragment{
 
                     mPrepday = prepz;
 
-                    mListener.onCreatePrepdayClicked(mPrepday);
+                    mListener.onCreatePrepdayClicked();
 
 
                 }
@@ -178,6 +178,6 @@ public class NewPrepdayDialogFragment extends DialogFragment{
     }
 
     public interface OnCreatePrepdayClickListener {
-        void onCreatePrepdayClicked(Prep prepday);
+        void onCreatePrepdayClicked();
     }
 }

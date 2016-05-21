@@ -134,7 +134,7 @@ public class NewMealDialogFragment extends DialogFragment{
 
                     mMeal = mealz;
 
-                    mListener.onCreateMealClicked(mealz);
+                    mListener.onCreateMealClicked();
                 }
             }
         });
@@ -168,6 +168,6 @@ public class NewMealDialogFragment extends DialogFragment{
     }
 
     public interface OnCreateMealClickListener {
-        void onCreateMealClicked(Meal meal);
+        void onCreateMealClicked();
     }
 }
