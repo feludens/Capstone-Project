@@ -16,6 +16,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/tv_grocery_name"
             android:textSize="16sp"
+            android:textStyle="bold"
             android:text="Shopping List"
             android:padding="10dp"
             />

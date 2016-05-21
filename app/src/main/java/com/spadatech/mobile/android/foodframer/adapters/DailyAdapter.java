@@ -39,11 +39,11 @@ public class DailyAdapter<T> extends RecyclerView.Adapter<DailyAdapter.ViewHolde
 
     public class GroceryViewHolder extends ViewHolder {
         RecyclerView recyclerView;
-        TextView planName;
+        TextView groceryListName;
 
         public GroceryViewHolder(View v, List List) {
             super(v);
-            this.planName = (TextView) v.findViewById(R.id.tv_grocery_name);
+            this.groceryListName = (TextView) v.findViewById(R.id.tv_grocery_name);
             this.recyclerView = (RecyclerView) v.findViewById(R.id.rv_groceries);
         }
     }
@@ -109,6 +109,7 @@ public class DailyAdapter<T> extends RecyclerView.Adapter<DailyAdapter.ViewHolde
 
             LinearLayoutManager llm = new LinearLayoutManager(mContext);
             holder.recyclerView.setLayoutManager(llm);
+            holder.groceryListName.setText(holder.groceryListName.getText().toString().toUpperCase());
 
             Grocery grocery = (Grocery) mDataSet.get(position);
             RealmList<GroceryItem> groceries = grocery.getmGroceryItemList();
@@ -125,7 +126,7 @@ public class DailyAdapter<T> extends RecyclerView.Adapter<DailyAdapter.ViewHolde
             RealmList<MealItem> meals;
             Meal meal = (Meal) mDataSet.get(position);
 
-            holder.mealName.setText(meal.getMealName());
+            holder.mealName.setText(meal.getMealName().toUpperCase());
             holder.mealNotes.setText(meal.getMealNotes());
 
             meals = meal.getmMealItemList();
@@ -139,7 +140,7 @@ public class DailyAdapter<T> extends RecyclerView.Adapter<DailyAdapter.ViewHolde
             holder.recyclerView.setLayoutManager(llm);
 
             Prep prep = (Prep) mDataSet.get(position);
-            holder.prepdayName.setText(prep.getPrepName());
+            holder.prepdayName.setText(prep.getPrepName().toUpperCase());
 
             RealmList<MealItem> mealItems = prep.getmMealItemsList();
 
