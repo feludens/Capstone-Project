@@ -1,6 +1,7 @@
 package com.spadatech.mobile.android.foodframer.adapters;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,7 +61,7 @@ public class PrepMealItemListAdapter extends RecyclerView.Adapter<PrepMealItemLi
         String note = mealItem.getMealItemNotes();
 
         MealViewHolder holder = (MealViewHolder) viewHolder;
-        holder.name.setText(name);
+        holder.name.setText(Html.fromHtml("<u>" + name + "</u>"));
         holder.note.setText(note);
 
         if(mIsEditMode){
