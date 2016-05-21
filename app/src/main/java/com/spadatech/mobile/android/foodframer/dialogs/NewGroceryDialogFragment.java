@@ -100,14 +100,16 @@ public class NewGroceryDialogFragment extends DialogFragment{
 
                 Weekday weekday = RealmHelper.get().getCurrentWeekday(getActivity());
 
-                realm.beginTransaction();
-                mGrocery = realm.createObject(Grocery.class);
-                mGrocery.setGroceryName("Grocery List");
-                mGrocery.setWeekdayName(weekday.getWeekdayName());
-                realm.commitTransaction();
+                if(weekday.getGroceries() == null || weekday.getGroceries().isEmpty()) {
+                    realm.beginTransaction();
+                    mGrocery = realm.createObject(Grocery.class);
+                    mGrocery.setGroceryName("Grocery List");
+                    mGrocery.setWeekdayName(weekday.getWeekdayName());
+                    realm.commitTransaction();
+                }
 
                 Grocery grocery1 = realm.where(Grocery.class).equalTo("weekdayName", weekday.getWeekdayName())
-                        .equalTo("mGroceryName", mGrocery.getGroceryName()).findAll().first();
+                        .equalTo("mGroceryName", "Grocery List").findAll().first();
 
                 realm.beginTransaction();
                 for(int i = 0; i < mNewGroceriesList.size(); i++){
@@ -119,11 +121,13 @@ public class NewGroceryDialogFragment extends DialogFragment{
                 }
                 realm.commitTransaction();
 
-                Grocery groceryz = realm.where(Grocery.class).equalTo("weekdayName", weekday.getWeekdayName())
-                        .equalTo("mGroceryName", mGrocery.getGroceryName()).findAll().first();
-                realm.beginTransaction();
-                weekday.getGroceries().add(groceryz);
-                realm.commitTransaction();
+                if(weekday.getGroceries() == null || weekday.getGroceries().isEmpty()) {
+                    Grocery groceryz = realm.where(Grocery.class).equalTo("weekdayName", weekday.getWeekdayName())
+                            .equalTo("mGroceryName", "Grocery List").findAll().first();
+                    realm.beginTransaction();
+                    weekday.getGroceries().add(groceryz);
+                    realm.commitTransaction();
+                }
 
                 mListener.onCreateGroceryClicked(mNewGroceriesList);
 
