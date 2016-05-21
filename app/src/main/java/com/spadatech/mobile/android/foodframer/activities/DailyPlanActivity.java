@@ -297,6 +297,7 @@ public class DailyPlanActivity extends AppCompatActivity
         }
     }
 
+
     private void refreshViews() {
         if(mEmptyPlanListView.getVisibility() == View.VISIBLE){
 //            mRecyclerViewGroceries.setVisibility(View.VISIBLE);
@@ -304,8 +305,26 @@ public class DailyPlanActivity extends AppCompatActivity
 //            mRecyclerViewPrepdays.setVisibility(View.VISIBLE);
             mEmptyPlanListView.setVisibility(View.GONE);
         }
-        mMealsAdapter.notifyDataSetChanged();
-        mPrepdaysAdapter.notifyDataSetChanged();
-        mAdapter.notifyDataSetChanged();
+
+//        runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                mMealsAdapter.notifyDataSetChanged();
+//                mPrepdaysAdapter.notifyDataSetChanged();
+//                mAdapter.notifyDataSetChanged();
+//            }
+//        });
+
+//        mAdapter = new DailyAdapter(groceries);
+//        mMealsAdapter = new DailyAdapter(meals);
+//        mPrepdaysAdapter = new DailyAdapter(prepdays);
+//        mRecyclerViewGroceries.setAdapter(mAdapter);
+//        mRecyclerViewMeals.setAdapter(mMealsAdapter);
+//        mRecyclerViewPrepdays.setAdapter(mPrepdaysAdapter);
+
+        mMealsAdapter.swap(meals);
+        mPrepdaysAdapter.swap(prepdays);
+        mAdapter.swap(groceries);
+
     }
 }

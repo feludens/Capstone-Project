@@ -161,6 +161,16 @@ public class DailyAdapter<T> extends RecyclerView.Adapter<DailyAdapter.ViewHolde
         } else{
             return Constants.VIEW_TYPE_PREP;
         }
+    }
 
+    public void swap(List<T> newDataSet){
+        if (mDataSet != null) {
+            mDataSet.clear();
+            mDataSet.addAll(newDataSet);
+        }
+        else {
+            mDataSet = newDataSet;
+        }
+        notifyDataSetChanged();
     }
 }
