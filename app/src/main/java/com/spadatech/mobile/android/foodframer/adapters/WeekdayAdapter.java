@@ -1,5 +1,6 @@
 package com.spadatech.mobile.android.foodframer.adapters;
 
+import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,18 +10,16 @@ import com.spadatech.mobile.android.foodframer.R;
 import com.spadatech.mobile.android.foodframer.models.Weekday;
 import com.spadatech.mobile.android.foodframer.viewholders.WeekdayViewHolder;
 
-import java.util.List;
-
 /**
  * Created by Felipe S. Pereira on 4/14/16.
  */
 public class WeekdayAdapter extends RecyclerView.Adapter<WeekdayViewHolder> implements WeekdayViewHolder.OnItemClickListener {
 
-    private List<Weekday> mWeekdayList;
+    private Cursor mWeekdayCursor;
     private OnWeekdayClickListener mListener;
 
-    public WeekdayAdapter(List<Weekday> weekdayList, OnWeekdayClickListener listener){
-        this.mWeekdayList = weekdayList;
+    public WeekdayAdapter(OnWeekdayClickListener listener, Cursor cursor){
+        this.mWeekdayCursor = cursor;
         this.mListener = listener;
     }
 
@@ -33,13 +32,14 @@ public class WeekdayAdapter extends RecyclerView.Adapter<WeekdayViewHolder> impl
 
     @Override
     public void onBindViewHolder(WeekdayViewHolder holder, int position) {
-//        holder.dayName.setText(mWeekdayList.get(position).getWeekdayName());
-//        holder.dayImage.setImageResource(mWeekdayList.get(position).getImage());
+        mWeekdayCursor.moveToPosition(position);
+        holder.dayName.setText(mWeekdayCursor.getString(mWeekdayCursor.getColumnIndex(Weekday.KEY_WEEKDAY_NAME)));
+        holder.dayImage.setImageResource(mWeekdayCursor.getInt(mWeekdayCursor.getColumnIndex(Weekday.KEY_WEEKDAY_IMAGE)));
     }
 
     @Override
     public int getItemCount() {
-        return mWeekdayList.size();
+        return mWeekdayCursor.getCount();
     }
 
     @Override
@@ -49,7 +49,14 @@ public class WeekdayAdapter extends RecyclerView.Adapter<WeekdayViewHolder> impl
 
     @Override
     public void onItemClicked(int position) {
-        mListener.onWeekdayClicked(mWeekdayList.get(position));
+        Weekday selectedWeekday = new Weekday();
+        selectedWeekday.setId(mWeekdayCursor.getString(mWeekdayCursor.getColumnIndex(Weekday.KEY_WEEKDAY_ID)));
+        selectedWeekday.setName(mWeekdayCursor.getString(mWeekdayCursor.getColumnIndex(Weekday.KEY_WEEKDAY_NAME)));
+        selectedWeekday.setImage(mWeekdayCursor.getInt(mWeekdayCursor.getColumnIndex(Weekday.KEY_WEEKDAY_IMAGE)));
+        selectedWeekday.setOrder(mWeekdayCursor.getInt(mWeekdayCursor.getColumnIndex(Weekday.KEY_WEEKDAY_ORDER)));
+        selectedWeekday.setPlanId(mWeekdayCursor.getString(mWeekdayCursor.getColumnIndex(Weekday.KEY_WEEKDAY_PLAN_ID)));
+
+        mListener.onWeekdayClicked(selectedWeekday);
     }
 
     public interface OnWeekdayClickListener {

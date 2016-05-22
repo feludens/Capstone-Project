@@ -48,4 +48,8 @@ public class WeekdayHelper {
     public void setWeekday(Weekday weekday) {
         this.mWeekday = weekday;
     }
+
+    public static List<String> getWeekdayNameList() {
+        return mWeekdayNameList;
+    }
 }

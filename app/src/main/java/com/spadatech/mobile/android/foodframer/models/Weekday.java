@@ -11,11 +11,15 @@ public class Weekday {
     // Table Columns
     public static final String KEY_WEEKDAY_ID = "WeekdayId";
     public static final String KEY_WEEKDAY_NAME = "WeekdayName";
+    public static final String KEY_WEEKDAY_ORDER = "WeekdayOrder";
+    public static final String KEY_WEEKDAY_IMAGE = "WeekdayImage";
     public static final String KEY_WEEKDAY_PLAN_ID = "PlanId";
 
     private String id;
     private String name;
     private String planId;
+    private int order;
+    private int image;
 
     public String getId() {
         return id;
@@ -39,5 +43,21 @@ public class Weekday {
 
     public void setPlanId(String planId) {
         this.planId = planId;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
+    }
+
+    public int getImage() {
+        return image;
+    }
+
+    public void setImage(int image) {
+        this.image = image;
     }
 }

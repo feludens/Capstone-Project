@@ -34,7 +34,6 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanViewHolder> implements
     public void onBindViewHolder(PlanViewHolder holder, int position) {
         mPlanCursor.moveToPosition(position);
 
-
         holder.planName.setText(mPlanCursor.getString(mPlanCursor.getColumnIndex(Plan.KEY_PLAN_NAME)));
         holder.planImage.setImageResource(mPlanCursor.getInt(mPlanCursor.getColumnIndex(Plan.KEY_PLAN_IMAGE)));
     }
@@ -52,7 +51,7 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanViewHolder> implements
     @Override
     public void onItemClicked(int position) {
         Plan selectedPlan = new Plan();
-        selectedPlan.setId(mPlanCursor.getString(mPlanCursor.getColumnIndex(Plan.KEY_PLAN_ID)));
+        selectedPlan.setId(mPlanCursor.getInt(mPlanCursor.getColumnIndex(Plan.KEY_PLAN_ID)));
         selectedPlan.setName(mPlanCursor.getString(mPlanCursor.getColumnIndex(Plan.KEY_PLAN_NAME)));
         selectedPlan.setImage(mPlanCursor.getInt(mPlanCursor.getColumnIndex(Plan.KEY_PLAN_IMAGE)));
         selectedPlan.setUsername(mPlanCursor.getString(mPlanCursor.getColumnIndex(Plan.KEY_PLAN_USERNAME)));

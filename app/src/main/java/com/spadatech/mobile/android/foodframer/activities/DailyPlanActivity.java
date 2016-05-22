@@ -1,7 +1,11 @@
 package com.spadatech.mobile.android.foodframer.activities;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -14,6 +18,7 @@ import com.spadatech.mobile.android.foodframer.adapters.DailyAdapter;
 import com.spadatech.mobile.android.foodframer.dialogs.NewGroceryDialogFragment;
 import com.spadatech.mobile.android.foodframer.dialogs.NewMealDialogFragment;
 import com.spadatech.mobile.android.foodframer.dialogs.NewPrepdayDialogFragment;
+import com.spadatech.mobile.android.foodframer.helpers.WeekdayHelper;
 import com.spadatech.mobile.android.foodframer.models.Weekday;
 
 import io.realm.Realm;
@@ -22,8 +27,11 @@ import io.realm.Realm;
  * Created by Felipe S. Pereira
  */
 public class DailyPlanActivity extends AppCompatActivity
-        implements FloatingActionsMenu.OnFloatingActionsMenuUpdateListener, NewGroceryDialogFragment.OnCreateGroceryClickListener, NewMealDialogFragment.OnCreateMealClickListener, NewPrepdayDialogFragment.OnCreatePrepdayClickListener {
+        implements FloatingActionsMenu.OnFloatingActionsMenuUpdateListener, NewGroceryDialogFragment.OnCreateGroceryClickListener, NewMealDialogFragment.OnCreateMealClickListener, NewPrepdayDialogFragment.OnCreatePrepdayClickListener, LoaderManager.LoaderCallbacks<Cursor> {
 
+    private static final int GROCERY_LOADER = 0;
+    private static final int MEAL_LOADER = 1;
+    private static final int PREPDAY_LOADER = 2;
     private LinearLayout mEmptyPlanListView;
     private LinearLayout mTransparentScreen;
     private Weekday mWeekday;
@@ -42,12 +50,12 @@ public class DailyPlanActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_daily_plan);
-//
-//        mWeekday = WeekdayHelper.get().getWeekday();
-//
-//        if(getSupportActionBar() != null){
-//            getSupportActionBar().setTitle(mWeekday.getWeekdayName() + getResources().getText(R.string.title_daily_plan));
-//        }
+
+        mWeekday = WeekdayHelper.get().getWeekday();
+
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setTitle(mWeekday.getName() + getResources().getText(R.string.title_daily_plan));
+        }
 //
 //        groceries = new RealmList<>();
 //        meals = new RealmList<>();
@@ -221,5 +229,34 @@ public class DailyPlanActivity extends AppCompatActivity
 //        mRecyclerViewGroceries.setAdapter(mAdapter);
 //        mRecyclerViewMeals.setAdapter(mMealsAdapter);
 //        mRecyclerViewPrepdays.setAdapter(mPrepdaysAdapter);
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        CursorLoader cursorLoader = null;
+        switch (id){
+            case GROCERY_LOADER:
+
+                break;
+
+            case MEAL_LOADER:
+
+                break;
+
+            case PREPDAY_LOADER:
+
+                break;
+        }
+        return cursorLoader;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
     }
 }

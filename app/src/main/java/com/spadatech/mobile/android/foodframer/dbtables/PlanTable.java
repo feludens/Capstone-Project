@@ -64,7 +64,7 @@ public class PlanTable {
         if (cursor.moveToFirst()) {
             do {
                 Plan planResult = new Plan();
-                planResult.setId(cursor.getString(cursor.getColumnIndex(Plan.KEY_PLAN_ID)));
+                planResult.setId(cursor.getInt(cursor.getColumnIndex(Plan.KEY_PLAN_ID)));
                 planResult.setName(cursor.getString(cursor.getColumnIndex(Plan.KEY_PLAN_NAME)));
                 planResult.setImage(cursor.getInt(cursor.getColumnIndex(Plan.KEY_PLAN_IMAGE)));
                 planResult.setUsername(userName);

@@ -19,7 +19,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.spadatech.mobile.android.foodframer.R;
 import com.spadatech.mobile.android.foodframer.adapters.PlanAdapter;
@@ -27,8 +26,10 @@ import com.spadatech.mobile.android.foodframer.dialogs.NewPlanDialogFragment;
 import com.spadatech.mobile.android.foodframer.helpers.AlertHelper;
 import com.spadatech.mobile.android.foodframer.helpers.DatabaseHelper;
 import com.spadatech.mobile.android.foodframer.helpers.PlanHelper;
+import com.spadatech.mobile.android.foodframer.helpers.WeekdayHelper;
 import com.spadatech.mobile.android.foodframer.managers.SessionManager;
 import com.spadatech.mobile.android.foodframer.models.Plan;
+import com.spadatech.mobile.android.foodframer.models.Weekday;
 
 import java.util.HashMap;
 import java.util.List;
@@ -119,9 +120,8 @@ public class PlanListActivity extends AppCompatActivity implements PlanAdapter.O
     @Override
     public void onPlanClicked(Plan plan) {
         PlanHelper.get().setActivePlan(plan);
-//        Intent intent = new Intent(this, WeekdayListActivity.class);
-//        startActivity(intent);
-        Toast.makeText(this, "PLAN CLICKED!", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(this, WeekdayListActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -141,9 +141,44 @@ public class PlanListActivity extends AppCompatActivity implements PlanAdapter.O
             Uri uri = DatabaseHelper.PLAN_CONTENT_URI;
             getContentResolver().insert(uri, values);
 
+
+            String whereClause = "planname = ? AND Username = ?";
+            String[] selectionArgs = {newPlan.getName(), newPlan.getUsername()};
+            Cursor cursor = null;
+
+            Uri urii = DatabaseHelper.PLAN_CONTENT_URI;
+            cursor = getContentResolver().query(urii, null, whereClause, selectionArgs, null);
+            int planId = 0;
+
+
+            if(cursor != null) {
+                if(cursor.getCount() > 0) {
+                    while (cursor.moveToNext()) {
+                        planId = cursor.getInt(cursor.getColumnIndex(Plan.KEY_PLAN_ID));
+                        newPlan.setId(planId);
+                    }
+                }
+            }
+
+            createWeekdays(planId);
             refreshViews();
         }
 
+    }
+
+    private void createWeekdays(int planId) {
+        for(int i = 0; i < WeekdayHelper.getWeekdayNameList().size(); i ++){
+            int resourceId = getResources().getIdentifier(WeekdayHelper.getWeekdayNameList().get(i).toLowerCase(), "drawable", getPackageName());
+
+            ContentValues values = new ContentValues();
+            values.put(Weekday.KEY_WEEKDAY_NAME, WeekdayHelper.getWeekdayNameList().get(i));
+            values.put(Weekday.KEY_WEEKDAY_PLAN_ID, planId);
+            values.put(Weekday.KEY_WEEKDAY_ORDER, i+1);
+            values.put(Weekday.KEY_WEEKDAY_IMAGE, resourceId);
+
+            Uri uri = DatabaseHelper.WEEKDAY_CONTENT_URI;
+            getContentResolver().insert(uri, values);
+        }
     }
 
     private void refreshViews() {

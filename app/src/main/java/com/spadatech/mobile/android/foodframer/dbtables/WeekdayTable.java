@@ -26,6 +26,8 @@ public class WeekdayTable {
         return "CREATE TABLE IF NOT EXISTS " + Weekday.TABLE  + "("
                 + Weekday.KEY_WEEKDAY_ID  + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + Weekday.KEY_WEEKDAY_NAME  + " TEXT,"
+                + Weekday.KEY_WEEKDAY_IMAGE  + " INTEGER,"
+                + Weekday.KEY_WEEKDAY_ORDER  + " INTEGER,"
                 + Weekday.KEY_WEEKDAY_PLAN_ID  + " TEXT )";
     }
 
@@ -35,6 +37,8 @@ public class WeekdayTable {
         ContentValues values = new ContentValues();
         values.put(Weekday.KEY_WEEKDAY_ID, weekday.getId());
         values.put(Weekday.KEY_WEEKDAY_NAME, weekday.getName());
+        values.put(Weekday.KEY_WEEKDAY_IMAGE, weekday.getImage());
+        values.put(Weekday.KEY_WEEKDAY_ORDER, weekday.getOrder());
         values.put(Weekday.KEY_WEEKDAY_PLAN_ID, weekday.getPlanId());
 
         // Inserting Row
@@ -62,6 +66,8 @@ public class WeekdayTable {
                 Weekday weekdayResult = new Weekday();
                 weekdayResult.setId(cursor.getString(cursor.getColumnIndex(Weekday.KEY_WEEKDAY_ID)));
                 weekdayResult.setName(cursor.getString(cursor.getColumnIndex(Weekday.KEY_WEEKDAY_NAME)));
+                weekdayResult.setImage(cursor.getInt(cursor.getColumnIndex(Weekday.KEY_WEEKDAY_IMAGE)));
+                weekdayResult.setOrder(cursor.getInt(cursor.getColumnIndex(Weekday.KEY_WEEKDAY_ORDER)));
                 weekdayResult.setPlanId(planId);
 
                 weekdays.add(weekdayResult);
