@@ -1,25 +1,31 @@
 package com.spadatech.mobile.android.foodframer.models;
 
-import io.realm.RealmList;
-import io.realm.RealmObject;
 
 /**
  * Created by Felipe S. Pereira on 4/13/16.
  */
-public class Plan extends RealmObject{
+public class Plan {
+
+    // Table name
+    public static final String TABLE = "Plans";
+
+    // Table Columns
+    public static final String KEY_PLAN_ID = "PlanId";
+    public static final String KEY_PLAN_NAME = "PlanName";
+    public static final String KEY_PLAN_IMAGE = "PlanImage";
+    public static final String KEY_PLAN_USERNAME = "Username";
+
     private String id;
     private String name;
+    private String username;
     private int image;
-    private RealmList<Weekday> weekdays;
 
-    public Plan() {
+    public String getId() {
+        return id;
     }
 
-    public Plan(String name, int image, String id, RealmList<Weekday> weekdays) {
-        this.name = name;
-        this.image = image;
+    public void setId(String id) {
         this.id = id;
-        this.weekdays = weekdays;
     }
 
     public String getName() {
@@ -30,27 +36,19 @@ public class Plan extends RealmObject{
         this.name = name;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public int getImage() {
         return image;
     }
 
     public void setImage(int image) {
         this.image = image;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public RealmList<Weekday> getWeekdaysList() {
-        return weekdays;
-    }
-
-    public void setWeekdaysList(RealmList<Weekday> weekdaysList) {
-        this.weekdays = weekdaysList;
     }
 }

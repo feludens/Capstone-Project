@@ -19,7 +19,7 @@ import com.spadatech.mobile.android.foodframer.helpers.RealmHelper;
 import com.spadatech.mobile.android.foodframer.helpers.WeekdayHelper;
 import com.spadatech.mobile.android.foodframer.models.Grocery;
 import com.spadatech.mobile.android.foodframer.models.Meal;
-import com.spadatech.mobile.android.foodframer.models.Prep;
+import com.spadatech.mobile.android.foodframer.models.PrepDay;
 import com.spadatech.mobile.android.foodframer.models.Weekday;
 
 import io.realm.Realm;
@@ -43,7 +43,7 @@ public class DailyPlanActivity extends AppCompatActivity
     private RecyclerView mRecyclerViewPrepdays;
     private RealmList<Grocery> groceries;
     private RealmList<Meal> meals;
-    private RealmList<Prep> prepdays;
+    private RealmList<PrepDay> prepdays;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,46 +1,53 @@
 package com.spadatech.mobile.android.foodframer.models;
 
-import io.realm.RealmList;
-import io.realm.RealmObject;
-
 /**
  * Created by Felipe S. Pereira on 4/13/16.
  */
-public class Meal extends RealmObject {
-    private String mMealName;
-    private String mMealNotes;
-    private RealmList<MealItem> mMealItemList;
+public class Meal {
 
-    public Meal() {
+    // Table name
+    public static final String TABLE = "Meals";
+
+    // Table Columns
+    public static final String KEY_MEAL_ID = "MealId";
+    public static final String KEY_MEAL_NAME = "MealName";
+    public static final String KEY_MEAL_NOTE = "MealNotes";
+    public static final String KEY_MEAL_WEEKDAY_ID = "WeekdayId";
+
+    private String id;
+    private String name;
+    private String note;
+    private String weekdayId;
+
+    public String getId() {
+        return id;
     }
 
-    public Meal(String mMealName, String mMealNotes, RealmList<MealItem> mMealItemList) {
-        this.mMealName = mMealName;
-        this.mMealNotes = mMealNotes;
-        this.mMealItemList = mMealItemList;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getMealName() {
-        return mMealName;
+    public String getName() {
+        return name;
     }
 
-    public void setMealName(String mMealName) {
-        this.mMealName = mMealName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getMealNotes() {
-        return mMealNotes;
+    public String getNote() {
+        return note;
     }
 
-    public void setMealNotes(String mMealNotes) {
-        this.mMealNotes = mMealNotes;
+    public void setNote(String note) {
+        this.note = note;
     }
 
-    public RealmList<MealItem> getmMealItemList() {
-        return mMealItemList;
+    public String getWeekdayId() {
+        return weekdayId;
     }
 
-    public void setMealItemList(RealmList<MealItem> mMealItemList) {
-        this.mMealItemList = mMealItemList;
+    public void setWeekdayId(String weekdayId) {
+        this.weekdayId = weekdayId;
     }
 }

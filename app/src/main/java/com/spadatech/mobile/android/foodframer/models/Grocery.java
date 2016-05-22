@@ -1,63 +1,43 @@
 package com.spadatech.mobile.android.foodframer.models;
 
-import io.realm.RealmList;
-import io.realm.RealmObject;
-
 /**
  * Created by Felipe S. Pereira on 4/13/16.
  */
-public class Grocery extends RealmObject {
-    private String mGroceryName;
-    private String weekdayName;
-    private String planName;
-    private RealmList<GroceryItem> mGroceryItemList;
+public class Grocery {
 
-    public Grocery() {
+    // Table name
+    public static final String TABLE = "Groceries";
+
+    // Table Columns
+    public static final String KEY_GROCERY_ID = "GroceryId";
+    public static final String KEY_GROCERY_NAME = "GroceryName";
+    public static final String KEY_GROCERY_WEEKDAY_ID = "WeekdayId";
+
+    private String id;
+    private String name;
+    private String weekdayId;
+
+    public String getId() {
+        return id;
     }
 
-    public Grocery(String mGroceryName, RealmList<GroceryItem> mGroceryItemList) {
-        this.mGroceryName = mGroceryName;
-        this.mGroceryItemList = mGroceryItemList;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getGroceryName() {
-        return mGroceryName;
+    public String getName() {
+        return name;
     }
 
-    public void setGroceryName(String mGroceryName) {
-        this.mGroceryName = mGroceryName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public RealmList<GroceryItem> getmGroceryItemList() {
-        return mGroceryItemList;
+    public String getWeekdayId() {
+        return weekdayId;
     }
 
-    public void setGroceryItemList(RealmList<GroceryItem> mGroceryItemList) {
-        this.mGroceryItemList = mGroceryItemList;
-    }
-
-    public void addGroceryItem(GroceryItem item){
-        if(mGroceryItemList != null){
-            mGroceryItemList.add(item);
-        }else{
-            mGroceryItemList = new RealmList<>();
-            mGroceryItemList.add(item);
-        }
-    }
-
-    public String getWeekdayName() {
-        return weekdayName;
-    }
-
-    public void setWeekdayName(String weekdayName) {
-        this.weekdayName = weekdayName;
-    }
-
-    public String getPlanName() {
-        return planName;
-    }
-
-    public void setPlanName(String planName) {
-        this.planName = planName;
+    public void setWeekdayId(String weekdayId) {
+        this.weekdayId = weekdayId;
     }
 }

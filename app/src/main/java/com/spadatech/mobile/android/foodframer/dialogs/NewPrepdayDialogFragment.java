@@ -19,7 +19,7 @@ import com.spadatech.mobile.android.foodframer.R;
 import com.spadatech.mobile.android.foodframer.adapters.PrepdayItemListAdapter;
 import com.spadatech.mobile.android.foodframer.helpers.RealmHelper;
 import com.spadatech.mobile.android.foodframer.models.MealItem;
-import com.spadatech.mobile.android.foodframer.models.Prep;
+import com.spadatech.mobile.android.foodframer.models.PrepDay;
 import com.spadatech.mobile.android.foodframer.models.Weekday;
 
 import io.realm.Realm;
@@ -36,7 +36,7 @@ public class NewPrepdayDialogFragment extends DialogFragment{
     private EditText mItemName;
     private EditText mItemNote;
     private RealmList<MealItem> mNewPrepdayItemList;
-    private Prep mPrepday;
+    private PrepDay mPrepday;
     private PrepdayItemListAdapter mAdapter;
 
     public NewPrepdayDialogFragment() {
@@ -62,7 +62,7 @@ public class NewPrepdayDialogFragment extends DialogFragment{
 
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
-        mPrepday = realm.createObject(Prep.class);
+        mPrepday = realm.createObject(PrepDay.class);
         mPrepday.setPrepName("PrepdayPlaceHolderName");
         realm.commitTransaction();
 
@@ -112,12 +112,12 @@ public class NewPrepdayDialogFragment extends DialogFragment{
                     realm.commitTransaction();
 
                     realm.beginTransaction();
-                    Prep newPrep = realm.createObject(Prep.class);
+                    PrepDay newPrep = realm.createObject(PrepDay.class);
                     newPrep.setPrepName(mPrepday.getPrepName());
                     realm.commitTransaction();
 
                     realm.beginTransaction();
-                    Prep prep = realm.where(Prep.class).equalTo("mPrepName", mPrepday.getPrepName()).findAll().first();
+                    PrepDay prep = realm.where(PrepDay.class).equalTo("mPrepName", mPrepday.getPrepName()).findAll().first();
                     for(int i = 0; i < mNewPrepdayItemList.size(); i++){
                         MealItem item = mNewPrepdayItemList.get(i);
                         MealItem newItem = realm.createObject(MealItem.class);
@@ -128,7 +128,7 @@ public class NewPrepdayDialogFragment extends DialogFragment{
                     realm.commitTransaction();
 
                     Weekday weekday = RealmHelper.get().getCurrentWeekday(getActivity());
-                    Prep prepz = realm.where(Prep.class).equalTo("mPrepName", mPrepday.getPrepName()).findAll().first();
+                    PrepDay prepz = realm.where(PrepDay.class).equalTo("mPrepName", mPrepday.getPrepName()).findAll().first();
                     realm.beginTransaction();
                     weekday.getPrepdays().add(prepz);
                     realm.commitTransaction();

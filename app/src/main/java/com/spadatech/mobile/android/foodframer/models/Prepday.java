@@ -3,19 +3,19 @@ package com.spadatech.mobile.android.foodframer.models;
 /**
  * Created by Felipe S. Pereira on 4/13/16.
  */
-public class Weekday {
+public class PrepDay {
 
     // Table name
-    public static final String TABLE = "Weekdays";
+    public static final String TABLE = "PrepDays";
 
     // Table Columns
-    public static final String KEY_WEEKDAY_ID = "WeekdayId";
-    public static final String KEY_WEEKDAY_NAME = "WeekdayName";
-    public static final String KEY_WEEKDAY_PLAN_ID = "PlanId";
+    public static final String KEY_PREPDAY_ID = "PrepDayId";
+    public static final String KEY_PREPDAY_NAME = "PrepDayName";
+    public static final String KEY_PREPDAY_WEEKDAY_ID = "WeekdayId";
 
     private String id;
     private String name;
-    private String planId;
+    private String weekdayId;
 
     public String getId() {
         return id;
@@ -33,11 +33,11 @@ public class Weekday {
         this.name = name;
     }
 
-    public String getPlanId() {
-        return planId;
+    public String getWeekdayId() {
+        return weekdayId;
     }
 
-    public void setPlanId(String planId) {
-        this.planId = planId;
+    public void setWeekdayId(String weekdayId) {
+        this.weekdayId = weekdayId;
     }
 }

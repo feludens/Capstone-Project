@@ -1,35 +1,53 @@
 package com.spadatech.mobile.android.foodframer.models;
 
-import io.realm.RealmObject;
-
 /**
  * Created by Felipe S. Pereira on 4/13/16.
  */
-public class GroceryItem extends RealmObject {
-    private String mGroceryItemName;
-    private boolean mIsChecked;
+public class GroceryItem {
 
-    public GroceryItem() {
+    // Table name
+    public static final String TABLE = "GroceryItems";
+
+    // Table Columns
+    public static final String KEY_GROCERY_ITEM_ID = "GroceryItemId";
+    public static final String KEY_GROCERY_ITEM_NAME = "GrocerItemyName";
+    public static final String KEY_GROCERY_ITEM_CHECKED = "GrocerItemChecked";
+    public static final String KEY_GROCERY_ITEM_GROCERY_ID = "GroceryId";
+
+    private String id;
+    private String name;
+    private int checked;
+    private String groceryId;
+
+    public String getId() {
+        return id;
     }
 
-    public GroceryItem(String mGroceryItemName, boolean mIsChecked) {
-        this.mGroceryItemName = mGroceryItemName;
-        this.mIsChecked = mIsChecked;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getGroceryItemName() {
-        return mGroceryItemName;
+    public String getName() {
+        return name;
     }
 
-    public void setGroceryItemName(String mGroceryItemName) {
-        this.mGroceryItemName = mGroceryItemName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public boolean isIsChecked() {
-        return mIsChecked;
+    public int getChecked() {
+        return checked;
     }
 
-    public void setIsChecked(boolean mIsChecked) {
-        this.mIsChecked = mIsChecked;
+    public void setChecked(int checked) {
+        this.checked = checked;
+    }
+
+    public String getGroceryId() {
+        return groceryId;
+    }
+
+    public void setGroceryId(String groceryId) {
+        this.groceryId = groceryId;
     }
 }

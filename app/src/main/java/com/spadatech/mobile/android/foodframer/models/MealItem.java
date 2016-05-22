@@ -1,35 +1,43 @@
 package com.spadatech.mobile.android.foodframer.models;
 
-import io.realm.RealmObject;
-
 /**
  * Created by Felipe S. Pereira on 4/13/16.
  */
-public class MealItem extends RealmObject {
+public class MealItem {
+
+    // Table name
+    public static final String TABLE = "MealItems";
+
+    // Table Columns
+    public static final String KEY_MEAL_ITEM_ID = "MealItemId";
+    public static final String KEY_MEAL_ITEM_NAME = "MealItemName";
+    public static final String KEY_MEAL_ITEM_MEAL_ID = "MealId";
+
+    private String id;
     private String name;
-    private String notes;
+    private String mealId;
 
-    public MealItem() {
+    public String getId() {
+        return id;
     }
 
-    public MealItem(String name, String notes) {
-        this.name = name;
-        this.notes = notes;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getMealItemName() {
+    public String getName() {
         return name;
     }
 
-    public void setMealItemName(String mMealItemName) {
-        this.name = mMealItemName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getMealItemNotes() {
-        return notes;
+    public String getMealId() {
+        return mealId;
     }
 
-    public void setMealItemNotes(String notes) {
-        this.notes = notes;
+    public void setMealId(String mealId) {
+        this.mealId = mealId;
     }
 }

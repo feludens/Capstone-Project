@@ -8,7 +8,7 @@ import com.spadatech.mobile.android.foodframer.R;
 import java.util.regex.Pattern;
 
 /**
- * Created by pereirf on 4/24/16.
+ * Created by Felipe S. Pereira on 4/24/16.
  */
 public class AlertHelper {
 

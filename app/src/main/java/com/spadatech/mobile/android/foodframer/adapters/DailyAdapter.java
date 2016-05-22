@@ -14,7 +14,7 @@ import com.spadatech.mobile.android.foodframer.models.Grocery;
 import com.spadatech.mobile.android.foodframer.models.GroceryItem;
 import com.spadatech.mobile.android.foodframer.models.Meal;
 import com.spadatech.mobile.android.foodframer.models.MealItem;
-import com.spadatech.mobile.android.foodframer.models.Prep;
+import com.spadatech.mobile.android.foodframer.models.PrepDay;
 
 import java.util.List;
 
@@ -137,7 +137,7 @@ public class DailyAdapter<T> extends RecyclerView.Adapter<DailyAdapter.ViewHolde
             LinearLayoutManager llm = new LinearLayoutManager(mContext);
             holder.recyclerView.setLayoutManager(llm);
 
-            Prep prep = (Prep) mDataSet.get(position);
+            PrepDay prep = (PrepDay) mDataSet.get(position);
             holder.prepdayName.setText(prep.getPrepName().toUpperCase());
 
             RealmList<MealItem> mealItems = prep.getmMealItemsList();

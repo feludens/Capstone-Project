@@ -26,7 +26,13 @@
             android:name=".activities.SettingsActivity"
             android:label="@string/title_activity_settings" />
         <activity android:name=".activities.WeekdayListActivity" />
-        <activity android:name=".activities.DailyPlanActivity"></activity>
+        <activity android:name=".activities.DailyPlanActivity" />
+
+        <provider
+            android:name=".contentproviders.RealmContentProvider"
+            android:authorities="com.spadatech.mobile.android.foodframer.contentprovider.realm"
+            android:enabled="true"
+            android:exported="true"></provider>
     </application>
 
 </manifest>

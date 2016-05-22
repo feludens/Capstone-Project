@@ -1,44 +1,25 @@
 package com.spadatech.mobile.android.foodframer.models;
 
-import io.realm.RealmList;
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
-
 /**
  * Created by Felipe S. Pereira on 4/23/16.
  */
-public class User extends RealmObject {
+public class User {
 
-    @PrimaryKey private String username;
-    private String firstname;
-    private String lastname;
+    // Table name
+    public static final String TABLE = "Users";
+
+    // Table Columns
+    public static final String KEY_USER_EMAIL = "Email";
+    public static final String KEY_USER_FIRST_NAME = "FirstName";
+    public static final String KEY_USER_LAST_NAME = "LastName";
+    public static final String KEY_USER_USERNAME = "Username";
+    public static final String KEY_USER_PASSWORD = "Password";
+
     private String email;
+    private String firstName;
+    private String lastName;
+    private String username;
     private String password;
-    private RealmList<Plan> plans;
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getFirstName() {
-        return firstname;
-    }
-
-    public void setFirstName(String userFirstName) {
-        this.firstname = userFirstName;
-    }
-
-    public String getLastName() {
-        return lastname;
-    }
-
-    public void setLastName(String userLastName) {
-        this.lastname = userLastName;
-    }
 
     public String getEmail() {
         return email;
@@ -48,23 +29,35 @@ public class User extends RealmObject {
         this.email = email;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public RealmList<Plan> getPlanList() {
-        return plans;
-    }
-
-    public void setPlanList(RealmList<Plan> planList) {
-        this.plans = planList;
-    }
-
-    public void addPlan(Plan plan){
-        plans.add(plan);
     }
 }
