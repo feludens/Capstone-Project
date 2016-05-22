@@ -3,6 +3,8 @@ package com.spadatech.mobile.android.foodframer.helpers;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.spadatech.mobile.android.foodframer.App;
+
 /**
  * Created by Felipe S. Pereira on 5/21/16.
  */
@@ -19,7 +21,7 @@ public class DBHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
+//        db.execSQL();
     }
 
     @Override
