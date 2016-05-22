@@ -9,11 +9,10 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.spadatech.mobile.android.foodframer.R;
+import com.spadatech.mobile.android.foodframer.dbtables.UserTable;
 import com.spadatech.mobile.android.foodframer.helpers.AlertHelper;
 import com.spadatech.mobile.android.foodframer.managers.SessionManager;
 import com.spadatech.mobile.android.foodframer.models.User;
-
-import io.realm.Realm;
 
 /**
  * Created by Felipe S. Pereira
@@ -50,15 +49,15 @@ public class RegistrationActivity extends AppCompatActivity {
 
     public void registerNewUser(View v){
         if(validateUser()) {
-            Realm realm = Realm.getDefaultInstance();
-            realm.beginTransaction();
-            User mNewUser = realm.createObject(User.class);
-            mNewUser.setFirstName(mFirstName.getText().toString());
-            mNewUser.setLastName(mLastName.getText().toString());
-            mNewUser.setUsername(mUsername.getText().toString());
-            mNewUser.setEmail(mEmail.getText().toString());
-            mNewUser.setPassword(mPassword.getText().toString());
-            realm.commitTransaction();
+            User newUser = new User();
+            newUser.setFirstName(mFirstName.getText().toString());
+            newUser.setLastName(mLastName.getText().toString());
+            newUser.setUsername(mUsername.getText().toString());
+            newUser.setEmail(mEmail.getText().toString());
+            newUser.setPassword(mPassword.getText().toString());
+
+            UserTable userTable = new UserTable();
+            userTable.insert(newUser);
 
             SessionManager mSessionManager = new SessionManager(this);
             if(mSessionManager.createSession(mUsername.getText().toString(), mEmail.getText().toString())){

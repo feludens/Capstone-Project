@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.spadatech.mobile.android.foodframer.helpers.DatabaseHelper;
+import com.spadatech.mobile.android.foodframer.managers.DatabaseManager;
 
 /**
  * Created by Felipe S. Pereira on 5/21/16.
@@ -19,7 +20,7 @@ public class App extends Application {
         super.onCreate();
         context = this.getApplicationContext();
         databaseHelper = new DatabaseHelper();
-//        DatabaseManager.initializeInstance(dbHelper);
+        DatabaseManager.initializeInstance(databaseHelper);
     }
 
     public static Context getContext(){

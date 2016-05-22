@@ -1,4 +1,4 @@
-package com.spadatech.mobile.android.foodframer.database;
+package com.spadatech.mobile.android.foodframer.dbtables;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
