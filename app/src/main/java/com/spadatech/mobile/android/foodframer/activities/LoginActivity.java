@@ -2,6 +2,8 @@ package com.spadatech.mobile.android.foodframer.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +12,7 @@ import android.widget.EditText;
 
 import com.spadatech.mobile.android.foodframer.R;
 import com.spadatech.mobile.android.foodframer.dbtables.UserTable;
+import com.spadatech.mobile.android.foodframer.helpers.DatabaseHelper;
 import com.spadatech.mobile.android.foodframer.managers.SessionManager;
 import com.spadatech.mobile.android.foodframer.models.User;
 
@@ -33,25 +36,39 @@ public class LoginActivity extends AppCompatActivity {
 
         UserTable userTable = new UserTable();
         User user = null;
+        Cursor cursor = null;
 
         if(password != null) {
             if (username != null) {
                 if (!username.getText().toString().isEmpty()) {
+                    String whereClause;
+                    String[] selectionArgs = new String[0];
                     if (username.getText().toString().contains("@")) {
                         user = userTable.findUserByEmailAndPassword(username.getText().toString(), password.getText().toString());
+                        whereClause = "email = ? AND password = ?";
+                        selectionArgs[0] = username.getText().toString();
+                        selectionArgs[1] = password.getText().toString();
                     }else{
                         user = userTable.findUserByUsernameAndPassword(username.getText().toString(), password.getText().toString());
+                        whereClause = "username = ? AND password = ?";
+                        selectionArgs[0] = username.getText().toString();
+                        selectionArgs[1] = password.getText().toString();
                     }
+
+                    Uri uri = DatabaseHelper.USER_CONTENT_URI;
+                    cursor = getContentResolver().query(uri, null, whereClause, selectionArgs, null);
                 }
             }
         }
 
-        if(user != null){
-            SessionManager sessionManager = new SessionManager(this);
-            if(sessionManager.createSession(user.getUsername(), user.getEmail())){
-                Intent intent = new Intent(this, PlanListActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
+        if(cursor != null) {
+            while (cursor.moveToNext()) {
+                SessionManager sessionManager = new SessionManager(this);
+                if (sessionManager.createSession(user.getUsername(), user.getEmail())) {
+                    Intent intent = new Intent(this, PlanListActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                }
             }
         }else{
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();

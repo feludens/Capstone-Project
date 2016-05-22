@@ -29,10 +29,10 @@
         <activity android:name=".activities.DailyPlanActivity" />
 
         <provider
-            android:name=".contentproviders.RealmContentProvider"
-            android:authorities="com.spadatech.mobile.android.foodframer.contentprovider.realm"
+            android:name=".providers.FoodFramerProvider"
+            android:authorities="com.spadatech.mobile.android.foodframer.provider"
             android:enabled="true"
-            android:exported="true"></provider>
+            android:exported="true"/>
     </application>
 
 </manifest>
