@@ -14,16 +14,16 @@ public class PrepDayItem {
     public static final String KEY_PREPDAY_ITEM_NOTES = "PrepDayItemNotes";
     public static final String KEY_PREPDAY_ITEM_PREPDAY_ID = "PrepDayId";
 
-    private String id;
+    private int id;
     private String name;
     private String notes;
-    private String prepDayId;
+    private int prepDayId;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -43,11 +43,11 @@ public class PrepDayItem {
         this.notes = notes;
     }
 
-    public String getPrepDayId() {
+    public int getPrepDayId() {
         return prepDayId;
     }
 
-    public void setPrepDayId(String prepDayId) {
+    public void setPrepDayId(int prepDayId) {
         this.prepDayId = prepDayId;
     }
 }

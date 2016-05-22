@@ -8,7 +8,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.spadatech.mobile.android.foodframer.R;
-import com.spadatech.mobile.android.foodframer.models.MealItem;
+import com.spadatech.mobile.android.foodframer.models.PrepDayItem;
 
 import java.util.List;
 
@@ -55,13 +55,13 @@ public class PrepdayItemListAdapter extends RecyclerView.Adapter<PrepdayItemList
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-        MealItem mealItem = (MealItem) mList.get(position);
-//        String name = mealItem.getMealItemName();
-//        String note = mealItem.getMealItemNotes();
+        PrepDayItem prepDayItem = (PrepDayItem) mList.get(position);
+        String name = prepDayItem.getName();
+        String note = prepDayItem.getNotes();
 
         PrepdayViewHolder holder = (PrepdayViewHolder) viewHolder;
-//        holder.name.setText(name);
-//        holder.note.setText(note);
+        holder.name.setText(name);
+        holder.note.setText(note);
 
         if(mIsEditMode){
             holder.deleteButton.setVisibility(View.VISIBLE);

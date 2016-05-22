@@ -51,7 +51,7 @@ public class MealTable {
         mDatabaseHelper.close();
     }
 
-    public List<Meal> getMeals(String weekdayId){
+    public List<Meal> getMeals(int weekdayId){
         List<Meal> meals = new ArrayList<>();
         mDatabaseHelper = new DatabaseHelper(App.getContext());
         mDatabaseHelper.open();
@@ -62,7 +62,7 @@ public class MealTable {
         if (cursor.moveToFirst()) {
             do {
                 Meal mealResult = new Meal();
-                mealResult.setId(cursor.getString(cursor.getColumnIndex(Meal.KEY_MEAL_ID)));
+                mealResult.setId(cursor.getInt(cursor.getColumnIndex(Meal.KEY_MEAL_ID)));
                 mealResult.setName(cursor.getString(cursor.getColumnIndex(Meal.KEY_MEAL_NAME)));
                 mealResult.setNote(cursor.getString(cursor.getColumnIndex(Meal.KEY_MEAL_NOTE)));
                 mealResult.setWeekdayId(weekdayId);

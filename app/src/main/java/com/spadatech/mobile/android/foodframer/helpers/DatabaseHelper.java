@@ -11,6 +11,7 @@ import com.spadatech.mobile.android.foodframer.dbtables.GroceryTable;
 import com.spadatech.mobile.android.foodframer.dbtables.MealItemTable;
 import com.spadatech.mobile.android.foodframer.dbtables.MealTable;
 import com.spadatech.mobile.android.foodframer.dbtables.PlanTable;
+import com.spadatech.mobile.android.foodframer.dbtables.PrepDayItemTable;
 import com.spadatech.mobile.android.foodframer.dbtables.PrepdayTable;
 import com.spadatech.mobile.android.foodframer.dbtables.UserTable;
 import com.spadatech.mobile.android.foodframer.dbtables.WeekdayTable;
@@ -72,7 +73,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL(PrepdayTable.createTable());
         db.execSQL(GroceryItemTable.createTable());
         db.execSQL(MealItemTable.createTable());
-        db.execSQL(PrepdayTable.createTable());
+        db.execSQL(PrepDayItemTable.createTable());
     }
 
     @Override

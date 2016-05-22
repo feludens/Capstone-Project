@@ -15,6 +15,10 @@ import com.spadatech.mobile.android.foodframer.helpers.Constants;
 import com.spadatech.mobile.android.foodframer.helpers.DatabaseHelper;
 import com.spadatech.mobile.android.foodframer.models.Grocery;
 import com.spadatech.mobile.android.foodframer.models.GroceryItem;
+import com.spadatech.mobile.android.foodframer.models.Meal;
+import com.spadatech.mobile.android.foodframer.models.MealItem;
+import com.spadatech.mobile.android.foodframer.models.PrepDay;
+import com.spadatech.mobile.android.foodframer.models.PrepDayItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,11 +100,6 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-        String name = "";
-        boolean checked = false;
-        // Add logic to see if checkbox was checked or not
-        // Add logic to retrieve name from realm object
-
         if (viewHolder.getItemViewType() == Constants.VIEW_TYPE_GROCERY) {
             GroceryViewHolder holder = (GroceryViewHolder) viewHolder;
 
@@ -132,36 +131,67 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder> 
             GroceryItemListAdapter mAdapter = new GroceryItemListAdapter(mGroceryItemList, false);
             holder.recyclerView.setAdapter(mAdapter);
         }
-//        else if (viewHolder.getItemViewType() == Constants.VIEW_TYPE_MEAL) {
-//            MealViewHolder holder = (MealViewHolder) viewHolder;
-//
-//            LinearLayoutManager llm = new LinearLayoutManager(mContext);
-//            holder.recyclerView.setLayoutManager(llm);
-//
-//            RealmList<MealItem> meals;
-//            Meal meal = (Meal) mCursor.get(position);
-//
-//            holder.mealName.setText(meal.getMealName().toUpperCase());
-//            holder.mealNotes.setText(meal.getMealNotes());
-//
-//            meals = meal.getmMealItemList();
-//
-//            MealItemListAdapter mAdapter = new MealItemListAdapter(meals, false);
-//            holder.recyclerView.setAdapter(mAdapter);
-//        } else {
-//            PrepViewHolder holder = (PrepViewHolder) viewHolder;
-//
-//            LinearLayoutManager llm = new LinearLayoutManager(mContext);
-//            holder.recyclerView.setLayoutManager(llm);
-//
-//            PrepDay prep = (PrepDay) mCursor.get(position);
-//            holder.prepdayName.setText(prep.getPrepName().toUpperCase());
-//
-//            RealmList<MealItem> mealItems = prep.getmMealItemsList();
-//
-//            PrepMealItemListAdapter mAdapter = new PrepMealItemListAdapter(mealItems, false);
-//            holder.recyclerView.setAdapter(mAdapter);
-//        }
+        else if (viewHolder.getItemViewType() == Constants.VIEW_TYPE_MEAL) {
+            MealViewHolder holder = (MealViewHolder) viewHolder;
+
+            LinearLayoutManager llm = new LinearLayoutManager(mContext);
+            holder.recyclerView.setLayoutManager(llm);
+
+            mCursor.moveToPosition(position);
+            holder.mealName.setText(mCursor.getString(mCursor.getColumnIndex(Meal.KEY_MEAL_NAME)));
+            holder.mealNotes.setText(mCursor.getString(mCursor.getColumnIndex(Meal.KEY_MEAL_NOTE)));
+            int mealId = mCursor.getInt(mCursor.getColumnIndex(Meal.KEY_MEAL_ID));
+
+            Uri uri = DatabaseHelper.MEAL_ITEM_CONTENT_URI;
+            String whereClause = "MealId = " + mealId;
+            Cursor cursor = mContext.getContentResolver().query(uri, null, whereClause, null, null);
+            List<MealItem> mMealItemList = new ArrayList<>();
+
+            if (cursor != null) {
+                if (cursor.getCount() > 0) {
+                    while (cursor.moveToNext()) {
+                        MealItem item = new MealItem();
+                        item.setId(cursor.getInt(cursor.getColumnIndex(MealItem.KEY_MEAL_ITEM_ID)));
+                        item.setName(cursor.getString(cursor.getColumnIndex(MealItem.KEY_MEAL_ITEM_NAME)));
+                        item.setMealId(mealId);
+                        mMealItemList.add(item);
+                    }
+                }
+            }
+
+            MealItemListAdapter mAdapter = new MealItemListAdapter(mMealItemList, false);
+            holder.recyclerView.setAdapter(mAdapter);
+        } else {
+            PrepViewHolder holder = (PrepViewHolder) viewHolder;
+
+            LinearLayoutManager llm = new LinearLayoutManager(mContext);
+            holder.recyclerView.setLayoutManager(llm);
+
+            mCursor.moveToPosition(position);
+            holder.prepdayName.setText(mCursor.getString(mCursor.getColumnIndex(PrepDay.KEY_PREPDAY_NAME)));
+            int prepdayId = mCursor.getInt(mCursor.getColumnIndex(PrepDay.KEY_PREPDAY_ID));
+
+            Uri uri = DatabaseHelper.PREPDAY_ITEM_CONTENT_URI;
+            String whereClause = "PrepDayId = " + prepdayId;
+            Cursor cursor = mContext.getContentResolver().query(uri, null, whereClause, null, null);
+            List<PrepDayItem> mPreDayItemList = new ArrayList<>();
+
+            if (cursor != null) {
+                if (cursor.getCount() > 0) {
+                    while (cursor.moveToNext()) {
+                        PrepDayItem item = new PrepDayItem();
+                        item.setId(cursor.getInt(cursor.getColumnIndex(PrepDayItem.KEY_PREPDAY_ITEM_ID)));
+                        item.setName(cursor.getString(cursor.getColumnIndex(PrepDayItem.KEY_PREPDAY_ITEM_NAME)));
+                        item.setNotes(cursor.getString(cursor.getColumnIndex(PrepDayItem.KEY_PREPDAY_ITEM_NOTES)));
+                        item.setPrepDayId(prepdayId);
+                        mPreDayItemList.add(item);
+                    }
+                }
+            }
+
+            PrepdayItemListAdapter mAdapter = new PrepdayItemListAdapter(mPreDayItemList, false);
+            holder.recyclerView.setAdapter(mAdapter);
+        }
     }
 
     @Override
@@ -171,8 +201,13 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder> 
 
     @Override
     public int getItemViewType(int position) {
-        mCursor.getType(position);
-        return 0;
+        if(mCursor.getColumnName(0).contains("Grocery")){
+            return Constants.VIEW_TYPE_GROCERY;
+        }else if(mCursor.getColumnName(0).contains("Meal")){
+            return Constants.VIEW_TYPE_MEAL;
+        }else{
+            return Constants.VIEW_TYPE_PREP;
+        }
 
 //        if(mCursor.get(position) instanceof Grocery){
 //            return Constants.VIEW_TYPE_GROCERY;

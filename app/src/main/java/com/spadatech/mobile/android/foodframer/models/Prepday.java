@@ -13,15 +13,15 @@ public class PrepDay {
     public static final String KEY_PREPDAY_NAME = "PrepDayName";
     public static final String KEY_PREPDAY_WEEKDAY_ID = "WeekdayId";
 
-    private String id;
+    private int id;
     private String name;
-    private String weekdayId;
+    private int weekdayId;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -33,11 +33,11 @@ public class PrepDay {
         this.name = name;
     }
 
-    public String getWeekdayId() {
+    public int getWeekdayId() {
         return weekdayId;
     }
 
-    public void setWeekdayId(String weekdayId) {
+    public void setWeekdayId(int weekdayId) {
         this.weekdayId = weekdayId;
     }
 }

@@ -109,7 +109,7 @@ public class NewGroceryDialogFragment extends DialogFragment{
                     if (cursor != null) {
                         if (cursor.getCount() > 0) {
                             while (cursor.moveToNext()) {
-                                groceryId = cursor.getInt(cursor.getColumnIndex(Grocery.KEY_GROCERY_WEEKDAY_ID));
+                                groceryId = cursor.getInt(cursor.getColumnIndex(Grocery.KEY_GROCERY_ID));
                                 newGrocery.setId(groceryId);
                             }
                         }

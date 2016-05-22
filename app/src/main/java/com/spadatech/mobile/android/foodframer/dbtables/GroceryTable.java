@@ -26,7 +26,7 @@ public class GroceryTable {
         return "CREATE TABLE IF NOT EXISTS " + Grocery.TABLE  + "("
                 + Grocery.KEY_GROCERY_ID  + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + Grocery.KEY_GROCERY_NAME  + " TEXT,"
-                + Grocery.KEY_GROCERY_WEEKDAY_ID  + " TEXT )";
+                + Grocery.KEY_GROCERY_WEEKDAY_ID  + " INTEGER )";
     }
 
     public void insert(Grocery grocery) {

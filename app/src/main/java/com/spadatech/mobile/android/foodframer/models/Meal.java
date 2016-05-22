@@ -14,16 +14,16 @@ public class Meal {
     public static final String KEY_MEAL_NOTE = "MealNotes";
     public static final String KEY_MEAL_WEEKDAY_ID = "WeekdayId";
 
-    private String id;
+    private int id;
     private String name;
     private String note;
-    private String weekdayId;
+    private int weekdayId;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -43,11 +43,11 @@ public class Meal {
         this.note = note;
     }
 
-    public String getWeekdayId() {
+    public int getWeekdayId() {
         return weekdayId;
     }
 
-    public void setWeekdayId(String weekdayId) {
+    public void setWeekdayId(int weekdayId) {
         this.weekdayId = weekdayId;
     }
 }

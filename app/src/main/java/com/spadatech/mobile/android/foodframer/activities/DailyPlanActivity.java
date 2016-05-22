@@ -24,8 +24,6 @@ import com.spadatech.mobile.android.foodframer.helpers.DatabaseHelper;
 import com.spadatech.mobile.android.foodframer.helpers.WeekdayHelper;
 import com.spadatech.mobile.android.foodframer.models.Weekday;
 
-import io.realm.Realm;
-
 /**
  * Created by Felipe S. Pereira
  */
@@ -158,6 +156,7 @@ public class DailyPlanActivity extends AppCompatActivity
         }
     }
 
+    //TODO: delete below 4 methods - NO LONGER NEEDED
     @Override
     public void onCreateGroceryClicked() {
         updateRealm();
@@ -174,50 +173,6 @@ public class DailyPlanActivity extends AppCompatActivity
     }
 
     private void updateRealm(){
-        Realm realm = Realm.getDefaultInstance();
-
-        realm.beginTransaction();
-//        mWeekday = RealmHelper.get().getCurrentWeekday(this);
-        realm.commitTransaction();
-
-        populateDataSet();
-
-        refreshViews();
-    }
-
-    private void populateDataSet() {
-//        if(mWeekday.getGroceries() != null && !mWeekday.getGroceries().isEmpty()) {
-//            this.groceries = mWeekday.getGroceries();
-//        }
-//
-//        if(mWeekday.getMeals() != null && !mWeekday.getMeals().isEmpty()) {
-//            this.meals = mWeekday.getMeals();
-//        }
-//
-//        if(mWeekday.getPrepdays() != null && !mWeekday.getPrepdays().isEmpty()) {
-//            this.prepdays = mWeekday.getPrepdays();
-//        }
-    }
-
-
-    private void refreshViews() {
-        if(mEmptyPlanListView.getVisibility() == View.VISIBLE){
-            mEmptyPlanListView.setVisibility(View.GONE);
-        }
-
-        //TODO: I currently had to re-create the adapter instead of swapping the data source.
-        //TODO: that is do to the limitations of Realm. Keep an eye for changes then update this!
-
-//        mMealsAdapter.swap(meals);
-//        mPrepdaysAdapter.swap(prepdays);
-//        mAdapter.swap(groceries);
-//
-//        mAdapter = new DailyAdapter(groceries);
-//        mMealsAdapter = new DailyAdapter(meals);
-//        mPrepdaysAdapter = new DailyAdapter(prepdays);
-//        mRecyclerViewGroceries.setAdapter(mAdapter);
-//        mRecyclerViewMeals.setAdapter(mMealsAdapter);
-//        mRecyclerViewPrepdays.setAdapter(mPrepdaysAdapter);
     }
 
     @Override

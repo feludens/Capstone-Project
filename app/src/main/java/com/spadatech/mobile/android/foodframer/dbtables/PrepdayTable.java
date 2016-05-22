@@ -49,7 +49,7 @@ public class PrepdayTable {
         mDatabaseHelper.close();
     }
 
-    public List<PrepDay> getPrepdays(String weekdayId){
+    public List<PrepDay> getPrepdays(int weekdayId){
         List<PrepDay> prepDays = new ArrayList<>();
         mDatabaseHelper = new DatabaseHelper(App.getContext());
         mDatabaseHelper.open();
@@ -60,7 +60,7 @@ public class PrepdayTable {
         if (cursor.moveToFirst()) {
             do {
                 PrepDay prepDayResult = new PrepDay();
-                prepDayResult.setId(cursor.getString(cursor.getColumnIndex(PrepDay.KEY_PREPDAY_ID)));
+                prepDayResult.setId(cursor.getInt(cursor.getColumnIndex(PrepDay.KEY_PREPDAY_ID)));
                 prepDayResult.setName(cursor.getString(cursor.getColumnIndex(PrepDay.KEY_PREPDAY_NAME)));
                 prepDayResult.setWeekdayId(weekdayId);
 

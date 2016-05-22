@@ -49,7 +49,7 @@ public class MealItemTable {
         mDatabaseHelper.close();
     }
 
-    public List<MealItem> getMealItems(String mealId){
+    public List<MealItem> getMealItems(int mealId){
         List<MealItem> mealItems = new ArrayList<>();
         mDatabaseHelper = new DatabaseHelper(App.getContext());
         mDatabaseHelper.open();
@@ -60,7 +60,7 @@ public class MealItemTable {
         if (cursor.moveToFirst()) {
             do {
                 MealItem mealItemResult = new MealItem();
-                mealItemResult.setId(cursor.getString(cursor.getColumnIndex(MealItem.KEY_MEAL_ITEM_ID)));
+                mealItemResult.setId(cursor.getInt(cursor.getColumnIndex(MealItem.KEY_MEAL_ITEM_ID)));
                 mealItemResult.setName(cursor.getString(cursor.getColumnIndex(MealItem.KEY_MEAL_ITEM_NAME)));
                 mealItemResult.setMealId(mealId);
 

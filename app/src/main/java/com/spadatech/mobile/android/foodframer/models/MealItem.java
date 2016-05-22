@@ -13,15 +13,15 @@ public class MealItem {
     public static final String KEY_MEAL_ITEM_NAME = "MealItemName";
     public static final String KEY_MEAL_ITEM_MEAL_ID = "MealId";
 
-    private String id;
+    private int id;
     private String name;
-    private String mealId;
+    private int mealId;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -33,11 +33,11 @@ public class MealItem {
         this.name = name;
     }
 
-    public String getMealId() {
+    public int getMealId() {
         return mealId;
     }
 
-    public void setMealId(String mealId) {
+    public void setMealId(int mealId) {
         this.mealId = mealId;
     }
 }

@@ -26,6 +26,7 @@ public class PrepDayItemTable {
         return "CREATE TABLE IF NOT EXISTS " + PrepDayItem.TABLE  + "("
                 + PrepDayItem.KEY_PREPDAY_ITEM_ID  + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + PrepDayItem.KEY_PREPDAY_ITEM_NAME  + " TEXT,"
+                + PrepDayItem.KEY_PREPDAY_ITEM_NOTES  + " TEXT,"
                 + PrepDayItem.KEY_PREPDAY_ITEM_PREPDAY_ID  + " INTEGER )";
     }
 
@@ -35,6 +36,7 @@ public class PrepDayItemTable {
         ContentValues values = new ContentValues();
         values.put(PrepDayItem.KEY_PREPDAY_ITEM_ID, prepDayItem.getId());
         values.put(PrepDayItem.KEY_PREPDAY_ITEM_NAME, prepDayItem.getName());
+        values.put(PrepDayItem.KEY_PREPDAY_ITEM_NOTES, prepDayItem.getNotes());
         values.put(PrepDayItem.KEY_PREPDAY_ITEM_PREPDAY_ID, prepDayItem.getPrepDayId());
 
         // Inserting Row
@@ -49,7 +51,7 @@ public class PrepDayItemTable {
         mDatabaseHelper.close();
     }
 
-    public List<PrepDayItem> getPrepDayItems(String prepDayId){
+    public List<PrepDayItem> getPrepDayItems(int prepDayId){
         List<PrepDayItem> prepDayItems = new ArrayList<>();
         mDatabaseHelper = new DatabaseHelper(App.getContext());
         mDatabaseHelper.open();
@@ -60,7 +62,7 @@ public class PrepDayItemTable {
         if (cursor.moveToFirst()) {
             do {
                 PrepDayItem prepDayItemResult = new PrepDayItem();
-                prepDayItemResult.setId(cursor.getString(cursor.getColumnIndex(PrepDayItem.KEY_PREPDAY_ITEM_ID)));
+                prepDayItemResult.setId(cursor.getInt(cursor.getColumnIndex(PrepDayItem.KEY_PREPDAY_ITEM_ID)));
                 prepDayItemResult.setName(cursor.getString(cursor.getColumnIndex(PrepDayItem.KEY_PREPDAY_ITEM_NAME)));
                 prepDayItemResult.setPrepDayId(prepDayId);
 
