@@ -9,11 +9,9 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.spadatech.mobile.android.foodframer.R;
+import com.spadatech.mobile.android.foodframer.dbtables.UserTable;
 import com.spadatech.mobile.android.foodframer.managers.SessionManager;
 import com.spadatech.mobile.android.foodframer.models.User;
-
-import io.realm.Realm;
-import io.realm.RealmResults;
 
 /**
  * Created by Felipe S. Pereira on 4/30/16.
@@ -33,16 +31,24 @@ public class LoginActivity extends AppCompatActivity {
         EditText username = (EditText) findViewById(R.id.et_login_username);
         EditText password = (EditText) findViewById(R.id.et_login_password);
 
-        Realm realm = Realm.getDefaultInstance();
-        RealmResults<User> result = realm.where(User.class)
-                .equalTo(SessionManager.KEY_USERNAME, username.getText().toString())
-                .or()
-                .equalTo(SessionManager.KEY_EMAIL, username.getText().toString())
-                .findAll();
+        UserTable userTable = new UserTable();
+        User user = null;
 
-        if(result.size() > 0 && result.first().getPassword().equals(password.getText().toString())){
+        if(password != null) {
+            if (username != null) {
+                if (!username.getText().toString().isEmpty()) {
+                    if (username.getText().toString().contains("@")) {
+                        user = userTable.findUserByEmailAndPassword(username.getText().toString(), password.getText().toString());
+                    }else{
+                        user = userTable.findUserByUsernameAndPassword(username.getText().toString(), password.getText().toString());
+                    }
+                }
+            }
+        }
+
+        if(user != null){
             SessionManager sessionManager = new SessionManager(this);
-            if(sessionManager.createSession(result.first().getUsername(), result.first().getEmail())){
+            if(sessionManager.createSession(user.getUsername(), user.getEmail())){
                 Intent intent = new Intent(this, PlanListActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
