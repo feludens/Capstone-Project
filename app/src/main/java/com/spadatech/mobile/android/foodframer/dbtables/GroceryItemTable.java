@@ -27,7 +27,7 @@ public class GroceryItemTable {
                 + GroceryItem.KEY_GROCERY_ITEM_ID  + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + GroceryItem.KEY_GROCERY_ITEM_NAME  + " TEXT,"
                 + GroceryItem.KEY_GROCERY_ITEM_CHECKED  + " INTEGER,"
-                + GroceryItem.KEY_GROCERY_ITEM_GROCERY_ID  + " TEXT )";
+                + GroceryItem.KEY_GROCERY_ITEM_GROCERY_ID  + " INTEGER )";
     }
 
     public void insert(GroceryItem groceryItem) {
@@ -51,7 +51,7 @@ public class GroceryItemTable {
         mDatabaseHelper.close();
     }
 
-    public List<GroceryItem> getGroceryItems(String groceryId){
+    public List<GroceryItem> getGroceryItems(int groceryId){
         List<GroceryItem> groceryItems = new ArrayList<>();
         mDatabaseHelper = new DatabaseHelper(App.getContext());
         mDatabaseHelper.open();
@@ -62,7 +62,7 @@ public class GroceryItemTable {
         if (cursor.moveToFirst()) {
             do {
                 GroceryItem groceryItemResult = new GroceryItem();
-                groceryItemResult.setId(cursor.getString(cursor.getColumnIndex(GroceryItem.KEY_GROCERY_ITEM_ID)));
+                groceryItemResult.setId(cursor.getInt(cursor.getColumnIndex(GroceryItem.KEY_GROCERY_ITEM_ID)));
                 groceryItemResult.setName(cursor.getString(cursor.getColumnIndex(GroceryItem.KEY_GROCERY_ITEM_NAME)));
                 groceryItemResult.setChecked(cursor.getInt(cursor.getColumnIndex(GroceryItem.KEY_GROCERY_ITEM_NAME)));
                 groceryItemResult.setGroceryId(groceryId);

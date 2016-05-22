@@ -15,17 +15,17 @@ public class Weekday {
     public static final String KEY_WEEKDAY_IMAGE = "WeekdayImage";
     public static final String KEY_WEEKDAY_PLAN_ID = "PlanId";
 
-    private String id;
+    private int id;
     private String name;
     private String planId;
     private int order;
     private int image;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

@@ -26,7 +26,7 @@ public class PrepdayTable {
         return "CREATE TABLE IF NOT EXISTS " + PrepDay.TABLE  + "("
                 + PrepDay.KEY_PREPDAY_ID  + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + PrepDay.KEY_PREPDAY_NAME  + " TEXT,"
-                + PrepDay.KEY_PREPDAY_WEEKDAY_ID  + " TEXT )";
+                + PrepDay.KEY_PREPDAY_WEEKDAY_ID  + " INTEGER )";
     }
 
     public void insert(PrepDay prepDay) {

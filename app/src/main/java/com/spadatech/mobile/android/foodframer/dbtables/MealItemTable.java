@@ -26,7 +26,7 @@ public class MealItemTable {
         return "CREATE TABLE IF NOT EXISTS " + MealItem.TABLE  + "("
                 + MealItem.KEY_MEAL_ITEM_ID  + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + MealItem.KEY_MEAL_ITEM_NAME  + " TEXT,"
-                + MealItem.KEY_MEAL_ITEM_MEAL_ID  + " TEXT )";
+                + MealItem.KEY_MEAL_ITEM_MEAL_ID  + " INTEGER )";
     }
 
     public void insert(MealItem mealItem) {

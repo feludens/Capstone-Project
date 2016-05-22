@@ -49,7 +49,7 @@ public class GroceryTable {
         mDatabaseHelper.close();
     }
 
-    public List<Grocery> getGroceries(String weekdayId){
+    public List<Grocery> getGroceries(int weekdayId){
         List<Grocery> groceries = new ArrayList<>();
         mDatabaseHelper = new DatabaseHelper(App.getContext());
         mDatabaseHelper.open();
@@ -60,7 +60,7 @@ public class GroceryTable {
         if (cursor.moveToFirst()) {
             do {
                 Grocery groceryResult = new Grocery();
-                groceryResult.setId(cursor.getString(cursor.getColumnIndex(Grocery.KEY_GROCERY_ID)));
+                groceryResult.setId(cursor.getInt(cursor.getColumnIndex(Grocery.KEY_GROCERY_ID)));
                 groceryResult.setName(cursor.getString(cursor.getColumnIndex(Grocery.KEY_GROCERY_NAME)));
                 groceryResult.setWeekdayId(weekdayId);
 

@@ -27,7 +27,7 @@ public class PlanTable {
         return "CREATE TABLE IF NOT EXISTS " + Plan.TABLE  + "("
                 + Plan.KEY_PLAN_ID  + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + Plan.KEY_PLAN_NAME  + " TEXT,"
-                + Plan.KEY_PLAN_IMAGE  + " TEXT,"
+                + Plan.KEY_PLAN_IMAGE  + " INTEGER,"
                 + Plan.KEY_PLAN_USERNAME  + " TEXT )";
     }
 

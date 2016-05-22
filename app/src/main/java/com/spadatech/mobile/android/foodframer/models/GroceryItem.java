@@ -14,16 +14,16 @@ public class GroceryItem {
     public static final String KEY_GROCERY_ITEM_CHECKED = "GrocerItemChecked";
     public static final String KEY_GROCERY_ITEM_GROCERY_ID = "GroceryId";
 
-    private String id;
     private String name;
+    private int id;
     private int checked;
-    private String groceryId;
+    private int groceryId;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -43,11 +43,11 @@ public class GroceryItem {
         this.checked = checked;
     }
 
-    public String getGroceryId() {
+    public int getGroceryId() {
         return groceryId;
     }
 
-    public void setGroceryId(String groceryId) {
+    public void setGroceryId(int groceryId) {
         this.groceryId = groceryId;
     }
 }

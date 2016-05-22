@@ -27,7 +27,7 @@ public class MealTable {
                 + Meal.KEY_MEAL_ID  + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + Meal.KEY_MEAL_NAME  + " TEXT,"
                 + Meal.KEY_MEAL_NOTE  + " TEXT,"
-                + Meal.KEY_MEAL_WEEKDAY_ID  + " TEXT )";
+                + Meal.KEY_MEAL_WEEKDAY_ID  + " INTEGER )";
     }
 
     public void insert(Meal meal) {

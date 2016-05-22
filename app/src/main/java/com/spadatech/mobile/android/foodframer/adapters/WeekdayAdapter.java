@@ -49,8 +49,9 @@ public class WeekdayAdapter extends RecyclerView.Adapter<WeekdayViewHolder> impl
 
     @Override
     public void onItemClicked(int position) {
+        mWeekdayCursor.moveToPosition(position);
         Weekday selectedWeekday = new Weekday();
-        selectedWeekday.setId(mWeekdayCursor.getString(mWeekdayCursor.getColumnIndex(Weekday.KEY_WEEKDAY_ID)));
+        selectedWeekday.setId(mWeekdayCursor.getInt(mWeekdayCursor.getColumnIndex(Weekday.KEY_WEEKDAY_ID)));
         selectedWeekday.setName(mWeekdayCursor.getString(mWeekdayCursor.getColumnIndex(Weekday.KEY_WEEKDAY_NAME)));
         selectedWeekday.setImage(mWeekdayCursor.getInt(mWeekdayCursor.getColumnIndex(Weekday.KEY_WEEKDAY_IMAGE)));
         selectedWeekday.setOrder(mWeekdayCursor.getInt(mWeekdayCursor.getColumnIndex(Weekday.KEY_WEEKDAY_ORDER)));

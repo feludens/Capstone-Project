@@ -13,8 +13,6 @@ import com.spadatech.mobile.android.foodframer.models.GroceryItem;
 
 import java.util.List;
 
-import io.realm.Realm;
-
 /**
  * Created by Felipe S. Pereira on 5/13/16.
  */
@@ -57,12 +55,17 @@ public class GroceryItemListAdapter extends RecyclerView.Adapter<GroceryItemList
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         GroceryItem grocery = (GroceryItem) mList.get(position);
-//        String name = grocery.getGroceryItemName();
-//        boolean checked = grocery.isIsChecked();
+        String name = grocery.getName();
+        boolean checked;
+        if(grocery.getChecked() == 1){
+             checked = true;
+         }else{
+             checked = false;
+         }
 
         GroceryItemViewHolder holder = (GroceryItemViewHolder) viewHolder;
-//        holder.checkBox.setChecked(checked);
-//        holder.checkBox.setText(name);
+        holder.checkBox.setChecked(checked);
+        holder.checkBox.setText(name);
 
         if(mIsEditMode){
             holder.deleteButton.setVisibility(View.VISIBLE);
@@ -75,14 +78,14 @@ public class GroceryItemListAdapter extends RecyclerView.Adapter<GroceryItemList
             });
         }
 
+        //TODO: Update Database with checked checkbox
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Realm realm = Realm.getDefaultInstance();
-                realm.beginTransaction();
+                int checked = 0;
+                if(isChecked) checked = 1;
                 GroceryItem grocery = (GroceryItem) mList.get(position);
-//                grocery.setIsChecked(isChecked);
-                realm.commitTransaction();
+                grocery.setChecked(checked);
             }
         });
     }

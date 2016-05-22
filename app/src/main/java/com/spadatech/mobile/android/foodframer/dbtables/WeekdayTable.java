@@ -28,7 +28,7 @@ public class WeekdayTable {
                 + Weekday.KEY_WEEKDAY_NAME  + " TEXT,"
                 + Weekday.KEY_WEEKDAY_IMAGE  + " INTEGER,"
                 + Weekday.KEY_WEEKDAY_ORDER  + " INTEGER,"
-                + Weekday.KEY_WEEKDAY_PLAN_ID  + " TEXT )";
+                + Weekday.KEY_WEEKDAY_PLAN_ID  + " INTEGER )";
     }
 
     public void insert(Weekday weekday) {
@@ -64,7 +64,7 @@ public class WeekdayTable {
         if (cursor.moveToFirst()) {
             do {
                 Weekday weekdayResult = new Weekday();
-                weekdayResult.setId(cursor.getString(cursor.getColumnIndex(Weekday.KEY_WEEKDAY_ID)));
+                weekdayResult.setId(cursor.getInt(cursor.getColumnIndex(Weekday.KEY_WEEKDAY_ID)));
                 weekdayResult.setName(cursor.getString(cursor.getColumnIndex(Weekday.KEY_WEEKDAY_NAME)));
                 weekdayResult.setImage(cursor.getInt(cursor.getColumnIndex(Weekday.KEY_WEEKDAY_IMAGE)));
                 weekdayResult.setOrder(cursor.getInt(cursor.getColumnIndex(Weekday.KEY_WEEKDAY_ORDER)));

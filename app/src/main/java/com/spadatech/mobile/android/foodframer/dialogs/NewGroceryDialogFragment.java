@@ -3,10 +3,14 @@ package com.spadatech.mobile.android.foodframer.dialogs;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +20,13 @@ import android.widget.Toast;
 
 import com.spadatech.mobile.android.foodframer.R;
 import com.spadatech.mobile.android.foodframer.adapters.GroceryItemListAdapter;
+import com.spadatech.mobile.android.foodframer.helpers.DatabaseHelper;
+import com.spadatech.mobile.android.foodframer.helpers.WeekdayHelper;
 import com.spadatech.mobile.android.foodframer.models.Grocery;
+import com.spadatech.mobile.android.foodframer.models.GroceryItem;
 
-import io.realm.Realm;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Felipe S. Pereira on 5/6/16.
@@ -30,8 +38,7 @@ public class NewGroceryDialogFragment extends DialogFragment{
     private EditText mEditText;
     private Button mAddButton;
     private RecyclerView mRecyclerView;
-//    private RealmList<GroceryItem> mNewGroceriesList;
-    private Grocery mGrocery;
+    private List<GroceryItem> mGroceryItemList;
     GroceryItemListAdapter mAdapter;
 
     public NewGroceryDialogFragment() {
@@ -51,8 +58,7 @@ public class NewGroceryDialogFragment extends DialogFragment{
         mEditText = (EditText) v.findViewById(R.id.et_new_grocery_name);
         mAddButton = (Button) v.findViewById(R.id.button_add_new_grocery);
         mRecyclerView = (RecyclerView) v.findViewById(R.id.rv_new_groceries);
-//        mNewGroceriesList = new RealmList<>();
-        mGrocery = new Grocery();
+        mGroceryItemList = new ArrayList<>();
 
         mAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,17 +66,12 @@ public class NewGroceryDialogFragment extends DialogFragment{
                 if(mEditText.getText().toString().isEmpty()){
                     Toast.makeText(getActivity(), R.string.toast_enter_a_value, Toast.LENGTH_SHORT).show();
                 }else{
-                    Realm realm = Realm.getDefaultInstance();
-                    realm.beginTransaction();
-//
-//                    GroceryItem newItem = realm.createObject(GroceryItem.class);
-//                    newItem.setGroceryItemName(mEditText.getText().toString());
-//                    newItem.setIsChecked(false);
-//                    realm.commitTransaction();
-//
-//                    realm.beginTransaction();
-//                    mNewGroceriesList.add(newItem);
-                    realm.commitTransaction();
+
+                    GroceryItem newItem = new GroceryItem();
+                    newItem.setName(mEditText.getText().toString());
+                    newItem.setChecked(0);
+
+                    mGroceryItemList.add(newItem);
 
                     mAdapter.notifyDataSetChanged();
                     mEditText.setText("");
@@ -85,49 +86,53 @@ public class NewGroceryDialogFragment extends DialogFragment{
         alertDialogBuilder.setPositiveButton(R.string.create,  new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Realm realm = Realm.getDefaultInstance();
-                realm.beginTransaction();
-//                realm.copyToRealm(mNewGroceriesList);
-                realm.commitTransaction();
 
-//                Weekday weekday = RealmHelper.get().getCurrentWeekday(getActivity());
+                if(!mGroceryItemList.isEmpty()) {
+                    // Create new Grocery row
+                    Grocery newGrocery = new Grocery();
+                    newGrocery.setName("Grocery List");
+                    newGrocery.setWeekdayId(WeekdayHelper.get().getWeekday().getId());
 
-//                if(weekday.getGroceries() == null || weekday.getGroceries().isEmpty()) {
-//                    realm.beginTransaction();
-//                    mGrocery = realm.createObject(Grocery.class);
-//                    mGrocery.setGroceryName("Grocery List");
-//                    mGrocery.setWeekdayName(weekday.getWeekdayName());
-//                    mGrocery.setPlanName(PlanHelper.get().getActivePlan().getName());
-//                    realm.commitTransaction();
-//                }
-//
-//                Grocery grocery1 = realm.where(Grocery.class)
-//                        .equalTo("planName", PlanHelper.get().getActivePlan().getName())
-//                        .equalTo("weekdayName", weekday.getWeekdayName())
-//                        .equalTo("mGroceryName", "Grocery List").findAll().first();
-//
-//                realm.beginTransaction();
-//                for(int i = 0; i < mNewGroceriesList.size(); i++){
-//                    GroceryItem item = mNewGroceriesList.get(i);
-//                    GroceryItem newItem = realm.createObject(GroceryItem.class);
-//                    newItem.setGroceryItemName(item.getGroceryItemName());
-//                    newItem.setIsChecked(item.isIsChecked());
-//                    grocery1.getmGroceryItemList().add(newItem);
-//                }
-//                realm.commitTransaction();
-//
-//                if(weekday.getGroceries() == null || weekday.getGroceries().isEmpty()) {
-//                    Grocery groceryz = realm.where(Grocery.class)
-//                            .equalTo("planName", PlanHelper.get().getActivePlan().getName())
-//                            .equalTo("weekdayName", weekday.getWeekdayName())
-//                            .equalTo("mGroceryName", "Grocery List").findAll().first();
-//                    realm.beginTransaction();
-//                    weekday.getGroceries().add(groceryz);
-//                    realm.commitTransaction();
-//                }
+                    ContentValues values = new ContentValues();
+                    values.put(Grocery.KEY_GROCERY_NAME, newGrocery.getName());
+                    values.put(Grocery.KEY_GROCERY_WEEKDAY_ID, newGrocery.getWeekdayId());
 
-                mListener.onCreateGroceryClicked();
+                    Uri uri = DatabaseHelper.GROCERY_CONTENT_URI;
+                    getActivity().getContentResolver().insert(uri, values);
 
+                    // Try to query the newly created Grocery and get it's id
+                    String whereClause = "GroceryName = ? AND WeekdayId = ?";
+                    String[] selectionArgs = {newGrocery.getName(), newGrocery.getWeekdayId()+""};
+                    Cursor cursor = getActivity().getContentResolver().query(uri, null, whereClause, selectionArgs, null);
+                    int groceryId = 0;
+
+                    if (cursor != null) {
+                        if (cursor.getCount() > 0) {
+                            while (cursor.moveToNext()) {
+                                groceryId = cursor.getInt(cursor.getColumnIndex(Grocery.KEY_GROCERY_WEEKDAY_ID));
+                                newGrocery.setId(groceryId);
+                            }
+                        }
+                    }
+
+                    // Create new Grocery Items
+                    for(int i = 0; i < mGroceryItemList.size(); i++){
+                        ContentValues valuess = new ContentValues();
+                        valuess.put(GroceryItem.KEY_GROCERY_ITEM_NAME, mGroceryItemList.get(i).getName());
+                        valuess.put(GroceryItem.KEY_GROCERY_ITEM_CHECKED, false);
+                        valuess.put(GroceryItem.KEY_GROCERY_ITEM_GROCERY_ID, newGrocery.getId());
+
+                        Uri urii = DatabaseHelper.GROCERY_ITEM_CONTENT_URI;
+                        getActivity().getContentResolver().insert(urii, valuess);
+                    }
+
+                    mListener.onCreateGroceryClicked();
+                }
+                else{
+                    if(mEditText.getText().toString().isEmpty()){
+                        Toast.makeText(getActivity(), "Add at least one item to the list.", Toast.LENGTH_LONG).show();
+                    }
+                }
 
             }
         });
@@ -138,10 +143,10 @@ public class NewGroceryDialogFragment extends DialogFragment{
             }
         });
 
-//        mAdapter = new GroceryItemListAdapter(mNewGroceriesList, true);
-//        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-//        mRecyclerView.setLayoutManager(layoutManager);
-//        mRecyclerView.setAdapter(mAdapter);
+        mAdapter = new GroceryItemListAdapter(mGroceryItemList, true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setAdapter(mAdapter);
 
         return alertDialogBuilder.show();
     }

@@ -1,12 +1,14 @@
 package com.spadatech.mobile.android.foodframer.activities;
 
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -18,6 +20,7 @@ import com.spadatech.mobile.android.foodframer.adapters.DailyAdapter;
 import com.spadatech.mobile.android.foodframer.dialogs.NewGroceryDialogFragment;
 import com.spadatech.mobile.android.foodframer.dialogs.NewMealDialogFragment;
 import com.spadatech.mobile.android.foodframer.dialogs.NewPrepdayDialogFragment;
+import com.spadatech.mobile.android.foodframer.helpers.DatabaseHelper;
 import com.spadatech.mobile.android.foodframer.helpers.WeekdayHelper;
 import com.spadatech.mobile.android.foodframer.models.Weekday;
 
@@ -35,6 +38,7 @@ public class DailyPlanActivity extends AppCompatActivity
     private LinearLayout mEmptyPlanListView;
     private LinearLayout mTransparentScreen;
     private Weekday mWeekday;
+
     private DailyAdapter mAdapter;
     private DailyAdapter mMealsAdapter;
     private DailyAdapter mPrepdaysAdapter;
@@ -42,9 +46,6 @@ public class DailyPlanActivity extends AppCompatActivity
     private RecyclerView mRecyclerViewGroceries;
     private RecyclerView mRecyclerViewMeals;
     private RecyclerView mRecyclerViewPrepdays;
-//    private RealmList<Grocery> groceries;
-//    private RealmList<Meal> meals;
-//    private RealmList<PrepDay> prepdays;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,34 +57,22 @@ public class DailyPlanActivity extends AppCompatActivity
         if(getSupportActionBar() != null){
             getSupportActionBar().setTitle(mWeekday.getName() + getResources().getText(R.string.title_daily_plan));
         }
+
+        mTransparentScreen = (LinearLayout) findViewById(R.id.ll_transparent_screen);
+        mEmptyPlanListView = (LinearLayout) findViewById(R.id.ll_daily_list_empty);
+
+        mRecyclerViewGroceries = (RecyclerView) findViewById(R.id.rv_daily_groceries);
+        mRecyclerViewMeals = (RecyclerView) findViewById(R.id.rv_daily_meals);
+        mRecyclerViewPrepdays = (RecyclerView) findViewById(R.id.rv_daily_prepdays);
+        mRecyclerViewGroceries.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerViewMeals.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerViewPrepdays.setLayoutManager(new LinearLayoutManager(this));
+
+        getSupportLoaderManager().initLoader(GROCERY_LOADER, null, this);
+        getSupportLoaderManager().initLoader(MEAL_LOADER, null, this);
+        getSupportLoaderManager().initLoader(PREPDAY_LOADER, null, this);
 //
-//        groceries = new RealmList<>();
-//        meals = new RealmList<>();
-//        prepdays = new RealmList<>();
-//        populateDataSet();
-//
-//        mTransparentScreen = (LinearLayout) findViewById(R.id.ll_transparent_screen);
-//        mEmptyPlanListView = (LinearLayout) findViewById(R.id.ll_daily_list_empty);
-//
-//        mRecyclerViewGroceries = (RecyclerView) findViewById(R.id.rv_daily_groceries);
-//        mRecyclerViewMeals = (RecyclerView) findViewById(R.id.rv_daily_meals);
-//        mRecyclerViewPrepdays = (RecyclerView) findViewById(R.id.rv_daily_prepdays);
-//        mRecyclerViewGroceries.setLayoutManager(new LinearLayoutManager(this));
-//        mRecyclerViewMeals.setLayoutManager(new LinearLayoutManager(this));
-//        mRecyclerViewPrepdays.setLayoutManager(new LinearLayoutManager(this));
-//
-//        mAdapter = new DailyAdapter(groceries);
-//        mMealsAdapter = new DailyAdapter(meals);
-//        mPrepdaysAdapter = new DailyAdapter(prepdays);
-//        mRecyclerViewGroceries.setAdapter(mAdapter);
-//        mRecyclerViewMeals.setAdapter(mMealsAdapter);
-//        mRecyclerViewPrepdays.setAdapter(mPrepdaysAdapter);
-//
-//        if(meals.isEmpty() && groceries.isEmpty() && prepdays.isEmpty()){
-//            mEmptyPlanListView.setVisibility(View.VISIBLE);
-//        }
-//
-//        setFabOnClickListeners();
+        setFabOnClickListeners();
 
     }
 
@@ -234,25 +223,46 @@ public class DailyPlanActivity extends AppCompatActivity
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         CursorLoader cursorLoader = null;
+        String whereClause = "WeekdayId = ?";
+        String[] selectionArgs = {mWeekday.getId()+""};
+        Uri uri = null;
         switch (id){
             case GROCERY_LOADER:
-
+                uri = DatabaseHelper.GROCERY_CONTENT_URI;
                 break;
 
             case MEAL_LOADER:
-
+                uri = DatabaseHelper.MEAL_CONTENT_URI;
                 break;
 
             case PREPDAY_LOADER:
-
+                uri = DatabaseHelper.PREPDAY_CONTENT_URI;
                 break;
         }
+
+        cursorLoader = new CursorLoader(this, uri, null, whereClause, selectionArgs, null);
         return cursorLoader;
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        data.moveToFirst();
+        switch (loader.getId()){
+            case GROCERY_LOADER:
+                mAdapter = new DailyAdapter(this, data);
+                mRecyclerViewGroceries.setAdapter(mAdapter);
+                break;
 
+            case MEAL_LOADER:
+                mMealsAdapter = new DailyAdapter(this, data);
+                mRecyclerViewMeals.setAdapter(mMealsAdapter);
+                break;
+
+            case PREPDAY_LOADER:
+                mPrepdaysAdapter = new DailyAdapter(this, data);
+                mRecyclerViewPrepdays.setAdapter(mPrepdaysAdapter);
+                break;
+        }
     }
 
     @Override
