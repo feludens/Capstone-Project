@@ -1,6 +1,5 @@
 package com.spadatech.mobile.android.foodframer.dialogs;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentValues;
@@ -34,7 +33,6 @@ import java.util.List;
 public class NewPrepdayDialogFragment extends DialogFragment{
 
     public final String TAG = getClass().getSimpleName();
-    private OnCreatePrepdayClickListener mListener;
     private EditText mPrepdayName;
     private EditText mItemName;
     private EditText mItemNote;
@@ -129,8 +127,6 @@ public class NewPrepdayDialogFragment extends DialogFragment{
                         Uri urii = DatabaseHelper.PREPDAY_ITEM_CONTENT_URI;
                         getActivity().getContentResolver().insert(urii, valuess);
                     }
-
-                    mListener.onCreatePrepdayClicked();
                 }
             }
         });
@@ -147,23 +143,5 @@ public class NewPrepdayDialogFragment extends DialogFragment{
         mRecyclerView.setAdapter(mAdapter);
 
         return alertDialogBuilder.show();
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        if(activity instanceof OnCreatePrepdayClickListener){
-            mListener = (OnCreatePrepdayClickListener) activity;
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    public interface OnCreatePrepdayClickListener {
-        void onCreatePrepdayClicked();
     }
 }

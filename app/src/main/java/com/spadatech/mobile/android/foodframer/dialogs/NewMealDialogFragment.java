@@ -1,6 +1,5 @@
 package com.spadatech.mobile.android.foodframer.dialogs;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentValues;
@@ -34,7 +33,6 @@ import java.util.List;
 public class NewMealDialogFragment extends DialogFragment{
 
     public final String TAG = getClass().getSimpleName();
-    private OnCreateMealClickListener mListener;
     private EditText mMealName;
     private EditText mMealItemName;
     private EditText mMealNote;
@@ -127,8 +125,6 @@ public class NewMealDialogFragment extends DialogFragment{
                         Uri urii = DatabaseHelper.MEAL_ITEM_CONTENT_URI;
                         getActivity().getContentResolver().insert(urii, valuess);
                     }
-
-                    mListener.onCreateMealClicked();
                 }
             }
         });
@@ -145,23 +141,5 @@ public class NewMealDialogFragment extends DialogFragment{
         mRecyclerView.setAdapter(mAdapter);
 
         return alertDialogBuilder.show();
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        if(activity instanceof OnCreateMealClickListener){
-            mListener = (OnCreateMealClickListener) activity;
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    public interface OnCreateMealClickListener {
-        void onCreateMealClicked();
     }
 }

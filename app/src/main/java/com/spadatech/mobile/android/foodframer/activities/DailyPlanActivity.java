@@ -28,7 +28,7 @@ import com.spadatech.mobile.android.foodframer.models.Weekday;
  * Created by Felipe S. Pereira
  */
 public class DailyPlanActivity extends AppCompatActivity
-        implements FloatingActionsMenu.OnFloatingActionsMenuUpdateListener, NewGroceryDialogFragment.OnCreateGroceryClickListener, NewMealDialogFragment.OnCreateMealClickListener, NewPrepdayDialogFragment.OnCreatePrepdayClickListener, LoaderManager.LoaderCallbacks<Cursor> {
+        implements FloatingActionsMenu.OnFloatingActionsMenuUpdateListener, LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int GROCERY_LOADER = 0;
     private static final int MEAL_LOADER = 1;
@@ -154,25 +154,6 @@ public class DailyPlanActivity extends AppCompatActivity
         if (mTransparentScreen.getVisibility() == View.VISIBLE) {
             mTransparentScreen.setVisibility(View.GONE);
         }
-    }
-
-    //TODO: delete below 4 methods - NO LONGER NEEDED
-    @Override
-    public void onCreateGroceryClicked() {
-        updateRealm();
-    }
-
-    @Override
-    public void onCreatePrepdayClicked() {
-        updateRealm();
-    }
-
-    @Override
-    public void onCreateMealClicked() {
-        updateRealm();
-    }
-
-    private void updateRealm(){
     }
 
     @Override

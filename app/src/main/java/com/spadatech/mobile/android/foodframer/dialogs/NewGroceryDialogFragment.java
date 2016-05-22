@@ -1,6 +1,5 @@
 package com.spadatech.mobile.android.foodframer.dialogs;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentValues;
@@ -34,10 +33,7 @@ import java.util.List;
 public class NewGroceryDialogFragment extends DialogFragment{
 
     public final String TAG = getClass().getSimpleName();
-    private OnCreateGroceryClickListener mListener;
     private EditText mEditText;
-    private Button mAddButton;
-    private RecyclerView mRecyclerView;
     private List<GroceryItem> mGroceryItemList;
     GroceryItemListAdapter mAdapter;
 
@@ -56,8 +52,8 @@ public class NewGroceryDialogFragment extends DialogFragment{
         View v = inflater.inflate(R.layout.dialog_new_grocery, null);
 
         mEditText = (EditText) v.findViewById(R.id.et_new_grocery_name);
-        mAddButton = (Button) v.findViewById(R.id.button_add_new_grocery);
-        mRecyclerView = (RecyclerView) v.findViewById(R.id.rv_new_groceries);
+        Button mAddButton = (Button) v.findViewById(R.id.button_add_new_grocery);
+        RecyclerView mRecyclerView = (RecyclerView) v.findViewById(R.id.rv_new_groceries);
         mGroceryItemList = new ArrayList<>();
 
         mAddButton.setOnClickListener(new View.OnClickListener() {
@@ -125,8 +121,6 @@ public class NewGroceryDialogFragment extends DialogFragment{
                         Uri urii = DatabaseHelper.GROCERY_ITEM_CONTENT_URI;
                         getActivity().getContentResolver().insert(urii, valuess);
                     }
-
-                    mListener.onCreateGroceryClicked();
                 }
                 else{
                     if(mEditText.getText().toString().isEmpty()){
@@ -151,21 +145,4 @@ public class NewGroceryDialogFragment extends DialogFragment{
         return alertDialogBuilder.show();
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        if(activity instanceof OnCreateGroceryClickListener){
-            mListener = (OnCreateGroceryClickListener) activity;
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    public interface OnCreateGroceryClickListener{
-        void onCreateGroceryClicked();
-    }
 }
