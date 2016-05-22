@@ -71,34 +71,30 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 }
+                cursor.close();
             }else{
-                AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-                alertDialog.setTitle(getString(R.string.oooopsie));
-                alertDialog.setMessage(getString(R.string.alert_wrong_credentials));
-                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.got_it),
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                alertDialog.show();
+                showInvalidCredentialsPopup();
             }
         }else{
-            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-            alertDialog.setTitle(getString(R.string.oooopsie));
-            alertDialog.setMessage(getString(R.string.alert_wrong_credentials));
-            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.got_it),
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-            alertDialog.show();
+            showInvalidCredentialsPopup();
         }
     }
 
     public void createAccount(View v){
         Intent registrationIntent = new Intent(this, RegistrationActivity.class);
         startActivity(registrationIntent);
+    }
+
+    private void showInvalidCredentialsPopup(){
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle(getString(R.string.oooopsie));
+        alertDialog.setMessage(getString(R.string.alert_wrong_credentials));
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.got_it),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
     }
 }

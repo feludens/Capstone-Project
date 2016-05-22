@@ -68,9 +68,6 @@ public class RegistrationActivity extends AppCompatActivity {
             Uri uri = DatabaseHelper.USER_CONTENT_URI;
             getContentResolver().insert(uri, values);
 
-//            UserTable userTable = new UserTable();
-//            userTable.insert(newUser);
-
             SessionManager mSessionManager = new SessionManager(this);
             if(mSessionManager.createSession(newUser.getUsername(), newUser.getEmail())){
                 Intent intent = new Intent(this, PlanListActivity.class);

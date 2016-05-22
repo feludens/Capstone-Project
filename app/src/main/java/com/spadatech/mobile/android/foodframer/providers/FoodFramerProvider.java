@@ -119,6 +119,7 @@ public class FoodFramerProvider extends ContentProvider {
         }
 
         if (id > 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
             return ContentUris.withAppendedId(uri, id);
         }
         throw new SQLException("Error inserting into table.");
@@ -174,6 +175,7 @@ public class FoodFramerProvider extends ContentProvider {
         }
 
         Cursor cursor = qb.query(mDatabase, projection, selection, selectionArgs, null, null, null);
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
         return cursor;
     }
 

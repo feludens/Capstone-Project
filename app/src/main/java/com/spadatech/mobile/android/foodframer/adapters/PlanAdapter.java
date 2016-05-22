@@ -1,5 +1,6 @@
 package com.spadatech.mobile.android.foodframer.adapters;
 
+import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,18 +10,16 @@ import com.spadatech.mobile.android.foodframer.R;
 import com.spadatech.mobile.android.foodframer.models.Plan;
 import com.spadatech.mobile.android.foodframer.viewholders.PlanViewHolder;
 
-import java.util.List;
-
 /**
  * Created by Felipe S. Pereira on 4/14/16.
  */
 public class PlanAdapter extends RecyclerView.Adapter<PlanViewHolder> implements PlanViewHolder.OnItemClickListener {
 
-    private List<Plan> mPlanList;
+    private Cursor mPlanCursor;
     private OnPlanClickListener mListener;
 
-    public PlanAdapter(List<Plan> planList, OnPlanClickListener listener){
-        this.mPlanList = planList;
+    public PlanAdapter(OnPlanClickListener listener, Cursor cursor){
+        this.mPlanCursor = cursor;
         this.mListener = listener;
     }
 
@@ -33,13 +32,16 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanViewHolder> implements
 
     @Override
     public void onBindViewHolder(PlanViewHolder holder, int position) {
-        holder.planName.setText(mPlanList.get(position).getName());
-        holder.planImage.setImageResource(mPlanList.get(position).getImage());
+        mPlanCursor.moveToPosition(position);
+
+
+        holder.planName.setText(mPlanCursor.getString(mPlanCursor.getColumnIndex(Plan.KEY_PLAN_NAME)));
+        holder.planImage.setImageResource(mPlanCursor.getInt(mPlanCursor.getColumnIndex(Plan.KEY_PLAN_IMAGE)));
     }
 
     @Override
     public int getItemCount() {
-        return mPlanList.size();
+        return mPlanCursor.getCount();
     }
 
     @Override
@@ -49,7 +51,13 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanViewHolder> implements
 
     @Override
     public void onItemClicked(int position) {
-        mListener.onPlanClicked(mPlanList.get(position));
+        Plan selectedPlan = new Plan();
+        selectedPlan.setId(mPlanCursor.getString(mPlanCursor.getColumnIndex(Plan.KEY_PLAN_ID)));
+        selectedPlan.setName(mPlanCursor.getString(mPlanCursor.getColumnIndex(Plan.KEY_PLAN_NAME)));
+        selectedPlan.setImage(mPlanCursor.getInt(mPlanCursor.getColumnIndex(Plan.KEY_PLAN_IMAGE)));
+        selectedPlan.setUsername(mPlanCursor.getString(mPlanCursor.getColumnIndex(Plan.KEY_PLAN_USERNAME)));
+
+        mListener.onPlanClicked(selectedPlan);
     }
 
     public interface OnPlanClickListener {
