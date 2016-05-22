@@ -20,14 +20,14 @@ public class DatabaseManager {
         }
     }
 
-    public static synchronized DatabaseManager getInstance() {
-        if (instance == null) {
-            throw new IllegalStateException(DatabaseManager.class.getSimpleName() +
-                    " is not initialized, call initializeInstance(..) method first.");
-        }
-
-        return instance;
-    }
+//    public static synchronized DatabaseManager getInstance() {
+//        if (instance == null) {
+//            throw new IllegalStateException(DatabaseManager.class.getSimpleName() +
+//                    " is not initialized, call initializeInstance(..) method first.");
+//        }
+//
+//        return instance;
+//    }
 
     public synchronized SQLiteDatabase openDatabase() {
         mOpenCounter+=1;

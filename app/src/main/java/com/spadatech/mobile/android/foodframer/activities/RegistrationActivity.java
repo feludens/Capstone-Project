@@ -1,7 +1,9 @@
 package com.spadatech.mobile.android.foodframer.activities;
 
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -9,8 +11,8 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.spadatech.mobile.android.foodframer.R;
-import com.spadatech.mobile.android.foodframer.dbtables.UserTable;
 import com.spadatech.mobile.android.foodframer.helpers.AlertHelper;
+import com.spadatech.mobile.android.foodframer.helpers.DatabaseHelper;
 import com.spadatech.mobile.android.foodframer.managers.SessionManager;
 import com.spadatech.mobile.android.foodframer.models.User;
 
@@ -56,11 +58,21 @@ public class RegistrationActivity extends AppCompatActivity {
             newUser.setEmail(mEmail.getText().toString());
             newUser.setPassword(mPassword.getText().toString());
 
-            UserTable userTable = new UserTable();
-            userTable.insert(newUser);
+            ContentValues values = new ContentValues();
+            values.put(User.KEY_USER_EMAIL, newUser.getEmail());
+            values.put(User.KEY_USER_PASSWORD, newUser.getPassword());
+            values.put(User.KEY_USER_USERNAME, newUser.getUsername());
+            values.put(User.KEY_USER_LAST_NAME, newUser.getLastName());
+            values.put(User.KEY_USER_FIRST_NAME, newUser.getFirstName());
+
+            Uri uri = DatabaseHelper.USER_CONTENT_URI;
+            getContentResolver().insert(uri, values);
+
+//            UserTable userTable = new UserTable();
+//            userTable.insert(newUser);
 
             SessionManager mSessionManager = new SessionManager(this);
-            if(mSessionManager.createSession(mUsername.getText().toString(), mEmail.getText().toString())){
+            if(mSessionManager.createSession(newUser.getUsername(), newUser.getEmail())){
                 Intent intent = new Intent(this, PlanListActivity.class);
                 startActivity(intent);
             }

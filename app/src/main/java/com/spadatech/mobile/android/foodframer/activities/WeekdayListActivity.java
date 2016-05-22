@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 
 import com.spadatech.mobile.android.foodframer.R;
 import com.spadatech.mobile.android.foodframer.adapters.WeekdayAdapter;
-import com.spadatech.mobile.android.foodframer.helpers.PlanHelper;
 import com.spadatech.mobile.android.foodframer.helpers.WeekdayHelper;
 import com.spadatech.mobile.android.foodframer.models.Weekday;
 
@@ -30,8 +29,8 @@ public class WeekdayListActivity extends AppCompatActivity implements WeekdayAda
         LinearLayoutManager llm = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(llm);
 
-        WeekdayAdapter mAdapter = new WeekdayAdapter(PlanHelper.get().getActivePlan().getWeekdaysList(), this);
-        mRecyclerView.setAdapter(mAdapter);
+//        WeekdayAdapter mAdapter = new WeekdayAdapter(PlanHelper.get().getActivePlan().getWeekdaysList(), this);
+//        mRecyclerView.setAdapter(mAdapter);
 
     }
 

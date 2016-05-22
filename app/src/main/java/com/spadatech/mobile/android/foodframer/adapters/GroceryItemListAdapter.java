@@ -57,12 +57,12 @@ public class GroceryItemListAdapter extends RecyclerView.Adapter<GroceryItemList
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         GroceryItem grocery = (GroceryItem) mList.get(position);
-        String name = grocery.getGroceryItemName();
-        boolean checked = grocery.isIsChecked();
+//        String name = grocery.getGroceryItemName();
+//        boolean checked = grocery.isIsChecked();
 
         GroceryItemViewHolder holder = (GroceryItemViewHolder) viewHolder;
-        holder.checkBox.setChecked(checked);
-        holder.checkBox.setText(name);
+//        holder.checkBox.setChecked(checked);
+//        holder.checkBox.setText(name);
 
         if(mIsEditMode){
             holder.deleteButton.setVisibility(View.VISIBLE);
@@ -81,7 +81,7 @@ public class GroceryItemListAdapter extends RecyclerView.Adapter<GroceryItemList
                 Realm realm = Realm.getDefaultInstance();
                 realm.beginTransaction();
                 GroceryItem grocery = (GroceryItem) mList.get(position);
-                grocery.setIsChecked(isChecked);
+//                grocery.setIsChecked(isChecked);
                 realm.commitTransaction();
             }
         });

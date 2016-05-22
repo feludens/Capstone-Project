@@ -56,12 +56,12 @@ public class PrepdayItemListAdapter extends RecyclerView.Adapter<PrepdayItemList
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         MealItem mealItem = (MealItem) mList.get(position);
-        String name = mealItem.getMealItemName();
-        String note = mealItem.getMealItemNotes();
+//        String name = mealItem.getMealItemName();
+//        String note = mealItem.getMealItemNotes();
 
         PrepdayViewHolder holder = (PrepdayViewHolder) viewHolder;
-        holder.name.setText(name);
-        holder.note.setText(note);
+//        holder.name.setText(name);
+//        holder.note.setText(note);
 
         if(mIsEditMode){
             holder.deleteButton.setVisibility(View.VISIBLE);

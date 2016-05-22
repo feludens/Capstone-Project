@@ -2,9 +2,9 @@ package com.spadatech.mobile.android.foodframer.dbtables;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 
-import com.spadatech.mobile.android.foodframer.managers.DatabaseManager;
+import com.spadatech.mobile.android.foodframer.App;
+import com.spadatech.mobile.android.foodframer.helpers.DatabaseHelper;
 import com.spadatech.mobile.android.foodframer.models.MealItem;
 
 import java.util.ArrayList;
@@ -16,43 +16,46 @@ import java.util.List;
 public class MealItemTable {
 
     private MealItem mMealItem;
+    private DatabaseHelper mDatabaseHelper;
 
     public MealItemTable(){
         mMealItem = new MealItem();
     }
 
     public static String createTable(){
-        return "CREATE TABLE " + MealItem.TABLE  + "("
+        return "CREATE TABLE IF NOT EXISTS " + MealItem.TABLE  + "("
                 + MealItem.KEY_MEAL_ITEM_ID  + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + MealItem.KEY_MEAL_ITEM_NAME  + " TEXT,"
                 + MealItem.KEY_MEAL_ITEM_MEAL_ID  + " TEXT )";
     }
 
     public void insert(MealItem mealItem) {
-        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+        mDatabaseHelper = new DatabaseHelper(App.getContext());
+        mDatabaseHelper.open();
         ContentValues values = new ContentValues();
         values.put(MealItem.KEY_MEAL_ITEM_ID, mealItem.getId());
         values.put(MealItem.KEY_MEAL_ITEM_NAME, mealItem.getName());
         values.put(MealItem.KEY_MEAL_ITEM_MEAL_ID, mealItem.getMealId());
 
         // Inserting Row
-        db.insert(MealItem.TABLE, null, values);
-        DatabaseManager.getInstance().closeDatabase();
+        mDatabaseHelper.getDatabase().insert(MealItem.TABLE, null, values);
+        mDatabaseHelper.close();
     }
 
     public void delete( ) {
-        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
-        db.delete(MealItem.TABLE, null, null);
-        DatabaseManager.getInstance().closeDatabase();
+        mDatabaseHelper = new DatabaseHelper(App.getContext());
+        mDatabaseHelper.open();
+        mDatabaseHelper.getDatabase().delete(MealItem.TABLE, null, null);
+        mDatabaseHelper.close();
     }
 
     public List<MealItem> getMealItems(String mealId){
         List<MealItem> mealItems = new ArrayList<>();
-
-        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+        mDatabaseHelper = new DatabaseHelper(App.getContext());
+        mDatabaseHelper.open();
         String query = " SELECT * from " + MealItem.TABLE + " Where " + MealItem.KEY_MEAL_ITEM_MEAL_ID + "=" + mealId;
 
-        Cursor cursor = db.rawQuery(query, null);
+        Cursor cursor = mDatabaseHelper.getDatabase().rawQuery(query, null);
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
@@ -66,7 +69,7 @@ public class MealItemTable {
         }
 
         cursor.close();
-        DatabaseManager.getInstance().closeDatabase();
+        mDatabaseHelper.close();
 
         return mealItems;
     }

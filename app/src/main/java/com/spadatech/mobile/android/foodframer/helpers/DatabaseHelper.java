@@ -1,10 +1,19 @@
 package com.spadatech.mobile.android.foodframer.helpers;
 
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
+import android.util.Log;
 
-import com.spadatech.mobile.android.foodframer.App;
+import com.spadatech.mobile.android.foodframer.dbtables.GroceryItemTable;
+import com.spadatech.mobile.android.foodframer.dbtables.GroceryTable;
+import com.spadatech.mobile.android.foodframer.dbtables.MealItemTable;
+import com.spadatech.mobile.android.foodframer.dbtables.MealTable;
+import com.spadatech.mobile.android.foodframer.dbtables.PlanTable;
+import com.spadatech.mobile.android.foodframer.dbtables.PrepdayTable;
+import com.spadatech.mobile.android.foodframer.dbtables.UserTable;
+import com.spadatech.mobile.android.foodframer.dbtables.WeekdayTable;
 import com.spadatech.mobile.android.foodframer.models.Grocery;
 import com.spadatech.mobile.android.foodframer.models.GroceryItem;
 import com.spadatech.mobile.android.foodframer.models.Meal;
@@ -20,12 +29,14 @@ import com.spadatech.mobile.android.foodframer.models.Weekday;
  */
 public class DatabaseHelper extends SQLiteOpenHelper{
 
+    private SQLiteDatabase mDatabase;
+
     // DB Version
     private static final int DATABASE_VERSION = 1;
     // DB Name
     private static final String DATABASE_NAME = "sqliteFoodFramer.db";
     // Authority
-    public static final String AUTHORITY = "com.spadatech.mobile.android.foodframer.providers.userprovider";
+    public static final String AUTHORITY = "com.spadatech.mobile.android.foodframer.provider";
     // Content URIs
     public static final Uri USER_CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + User.TABLE);
     public static final Uri PLAN_CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + Plan.TABLE);
@@ -47,17 +58,49 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public static final int MEAL_ITEM = 8;
     public static final int PREPDAY_ITEM = 9;
 
-    public DatabaseHelper( ) {
-        super(App.getContext(), DATABASE_NAME, null, DATABASE_VERSION);
+    public DatabaseHelper(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-//        db.execSQL();
+        db.execSQL(UserTable.createTable());
+        db.execSQL(PlanTable.createTable());
+        db.execSQL(WeekdayTable.createTable());
+        db.execSQL(GroceryTable.createTable());
+        db.execSQL(MealTable.createTable());
+        db.execSQL(PrepdayTable.createTable());
+        db.execSQL(GroceryItemTable.createTable());
+        db.execSQL(MealItemTable.createTable());
+        db.execSQL(PrepdayTable.createTable());
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        Log.d(DatabaseHelper.class.getName(),
+                "Upgrading database from version " + oldVersion + " to "
+                        + newVersion + ", which will destroy all old data");
+        db.execSQL("DROP TABLE IF EXISTS " + User.TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + Plan.TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + Weekday.TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + Grocery.TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + Meal.TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + PrepDay.TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + GroceryItem.TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + MealItem.TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + PrepDayItem.TABLE);
+        onCreate(db);
+    }
 
+    public void open(){
+        mDatabase = this.getWritableDatabase();
+    }
+
+    public void close(){
+        this.close();
+    }
+
+    public SQLiteDatabase getDatabase() {
+        return mDatabase;
     }
 }

@@ -35,21 +35,19 @@ public class LoginActivity extends AppCompatActivity {
         EditText password = (EditText) findViewById(R.id.et_login_password);
 
         UserTable userTable = new UserTable();
-        User user = null;
+        User user = new User();
         Cursor cursor = null;
 
         if(password != null) {
             if (username != null) {
                 if (!username.getText().toString().isEmpty()) {
                     String whereClause;
-                    String[] selectionArgs = new String[0];
+                    String[] selectionArgs = new String[2];
                     if (username.getText().toString().contains("@")) {
-                        user = userTable.findUserByEmailAndPassword(username.getText().toString(), password.getText().toString());
                         whereClause = "email = ? AND password = ?";
                         selectionArgs[0] = username.getText().toString();
                         selectionArgs[1] = password.getText().toString();
                     }else{
-                        user = userTable.findUserByUsernameAndPassword(username.getText().toString(), password.getText().toString());
                         whereClause = "username = ? AND password = ?";
                         selectionArgs[0] = username.getText().toString();
                         selectionArgs[1] = password.getText().toString();
@@ -62,13 +60,28 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         if(cursor != null) {
-            while (cursor.moveToNext()) {
-                SessionManager sessionManager = new SessionManager(this);
-                if (sessionManager.createSession(user.getUsername(), user.getEmail())) {
-                    Intent intent = new Intent(this, PlanListActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
+            if(cursor.getCount() > 0) {
+                while (cursor.moveToNext()) {
+                    user.setUsername(cursor.getString(cursor.getColumnIndex(User.KEY_USER_USERNAME)));
+                    user.setEmail(cursor.getString(cursor.getColumnIndex(User.KEY_USER_EMAIL)));
+                    SessionManager sessionManager = new SessionManager(this);
+                    if (sessionManager.createSession(user.getUsername(), user.getEmail())) {
+                        Intent intent = new Intent(this, PlanListActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                    }
                 }
+            }else{
+                AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+                alertDialog.setTitle(getString(R.string.oooopsie));
+                alertDialog.setMessage(getString(R.string.alert_wrong_credentials));
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.got_it),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
             }
         }else{
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();

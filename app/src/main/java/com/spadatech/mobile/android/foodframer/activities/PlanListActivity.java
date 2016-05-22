@@ -18,18 +18,12 @@ import com.spadatech.mobile.android.foodframer.adapters.PlanAdapter;
 import com.spadatech.mobile.android.foodframer.dialogs.NewPlanDialogFragment;
 import com.spadatech.mobile.android.foodframer.helpers.AlertHelper;
 import com.spadatech.mobile.android.foodframer.helpers.PlanHelper;
-import com.spadatech.mobile.android.foodframer.helpers.WeekdayHelper;
 import com.spadatech.mobile.android.foodframer.managers.SessionManager;
 import com.spadatech.mobile.android.foodframer.models.Plan;
-import com.spadatech.mobile.android.foodframer.models.User;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import io.realm.Realm;
-import io.realm.RealmList;
-import io.realm.RealmResults;
 
 /**
  * Created by Felipe S. Pereira
@@ -67,25 +61,25 @@ public class PlanListActivity extends AppCompatActivity implements PlanAdapter.O
         mRecyclerView.setLayoutManager(llm);
 
         Realm realm = Realm.getDefaultInstance();
-        RealmResults<User> result = realm.where(User.class)
-                .equalTo(SessionManager.KEY_USERNAME, mUserInfo.get(SessionManager.KEY_USERNAME))
-                .equalTo(SessionManager.KEY_EMAIL, mUserInfo.get(SessionManager.KEY_EMAIL))
-                .findAll();
+//        RealmResults<User> result = realm.where(User.class)
+//                .equalTo(SessionManager.KEY_USERNAME, mUserInfo.get(SessionManager.KEY_USERNAME))
+//                .equalTo(SessionManager.KEY_EMAIL, mUserInfo.get(SessionManager.KEY_EMAIL))
+//                .findAll();
 
-        List<Plan> mPlanList;
-        if(result.size() > 0) {
-            mPlanList = result.first().getPlanList();
-        }else{
-            mPlanList = new ArrayList<>();
-        }
+//        List<Plan> mPlanList;
+//        if(result.size() > 0) {
+//            mPlanList = result.first().getPlanList();
+//        }else{
+//            mPlanList = new ArrayList<>();
+//        }
 
-        mAdapter = new PlanAdapter(mPlanList, this);
-        mRecyclerView.setAdapter(mAdapter);
-
-        if(mPlanList == null || mPlanList.isEmpty()){
-            mRecyclerView.setVisibility(View.GONE);
-            mEmptyPlanListView.setVisibility(View.VISIBLE);
-        }
+//        mAdapter = new PlanAdapter(mPlanList, this);
+//        mRecyclerView.setAdapter(mAdapter);
+//
+//        if(mPlanList == null || mPlanList.isEmpty()){
+//            mRecyclerView.setVisibility(View.GONE);
+//            mEmptyPlanListView.setVisibility(View.VISIBLE);
+//        }
     }
 
     @Override
@@ -117,27 +111,27 @@ public class PlanListActivity extends AppCompatActivity implements PlanAdapter.O
     public void onCreatePlanClicked(String planName) {
         if (isNewPlanValid(planName)) {
 
-            Realm realm = Realm.getDefaultInstance();
-            User user = realm.where(User.class)
-                    .equalTo(SessionManager.KEY_USERNAME, mUserInfo.get(SessionManager.KEY_USERNAME))
-                    .equalTo(SessionManager.KEY_EMAIL, mUserInfo.get(SessionManager.KEY_EMAIL))
-                    .findFirst();
-
-            realm.beginTransaction();
-            Plan newPlan = realm.createObject(Plan.class);
-            newPlan.setName(planName);
-            newPlan.setImage(R.drawable.food);
-            realm.commitTransaction();
-
-            realm.beginTransaction();
-            newPlan.setWeekdaysList(WeekdayHelper.newWeekdayList(realm, this, newPlan.getName()));
-            realm.commitTransaction();
-
-            realm.beginTransaction();
-            user.addPlan(newPlan);
-            realm.commitTransaction();
-
-            refreshViews();
+//            Realm realm = Realm.getDefaultInstance();
+//            User user = realm.where(User.class)
+//                    .equalTo(SessionManager.KEY_USERNAME, mUserInfo.get(SessionManager.KEY_USERNAME))
+//                    .equalTo(SessionManager.KEY_EMAIL, mUserInfo.get(SessionManager.KEY_EMAIL))
+//                    .findFirst();
+//
+//            realm.beginTransaction();
+//            Plan newPlan = realm.createObject(Plan.class);
+//            newPlan.setName(planName);
+//            newPlan.setImage(R.drawable.food);
+//            realm.commitTransaction();
+//
+//            realm.beginTransaction();
+//            newPlan.setWeekdaysList(WeekdayHelper.newWeekdayList(realm, this, newPlan.getName()));
+//            realm.commitTransaction();
+//
+//            realm.beginTransaction();
+//            user.addPlan(newPlan);
+//            realm.commitTransaction();
+//
+//            refreshViews();
         }
 
     }
@@ -158,25 +152,25 @@ public class PlanListActivity extends AppCompatActivity implements PlanAdapter.O
             return isValid;
         }
 
-        Realm realm = Realm.getDefaultInstance();
-        RealmResults<User> result = realm.where(User.class)
-                .equalTo(SessionManager.KEY_USERNAME, mUserInfo.get(SessionManager.KEY_USERNAME))
-                .equalTo(SessionManager.KEY_EMAIL, mUserInfo.get(SessionManager.KEY_EMAIL))
-                .findAll();
-
-        if(!result.isEmpty())
-        {
-            RealmList<Plan> plans = result.first().getPlanList();
-            Plan tempPlan = new Plan();
-            tempPlan.setName(planName);
-            for (Plan plan: plans) {
-                if(plan.getName().equals(planName)){
-                    AlertHelper.showAlertDialog(this, getString(R.string.alert_plan_already_exists));
-                    return isValid;
-                }
-            }
-            isValid = true;
-        }
+//        Realm realm = Realm.getDefaultInstance();
+//        RealmResults<User> result = realm.where(User.class)
+//                .equalTo(SessionManager.KEY_USERNAME, mUserInfo.get(SessionManager.KEY_USERNAME))
+//                .equalTo(SessionManager.KEY_EMAIL, mUserInfo.get(SessionManager.KEY_EMAIL))
+//                .findAll();
+//
+//        if(!result.isEmpty())
+//        {
+//            RealmList<Plan> plans = result.first().getPlanList();
+//            Plan tempPlan = new Plan();
+//            tempPlan.setName(planName);
+//            for (Plan plan: plans) {
+//                if(plan.getName().equals(planName)){
+//                    AlertHelper.showAlertDialog(this, getString(R.string.alert_plan_already_exists));
+//                    return isValid;
+//                }
+//            }
+//            isValid = true;
+//        }
 
         return isValid;
     }

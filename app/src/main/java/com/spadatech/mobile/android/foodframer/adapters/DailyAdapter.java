@@ -1,7 +1,6 @@
 package com.spadatech.mobile.android.foodframer.adapters;
 
 import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,14 +10,9 @@ import android.widget.TextView;
 import com.spadatech.mobile.android.foodframer.R;
 import com.spadatech.mobile.android.foodframer.helpers.Constants;
 import com.spadatech.mobile.android.foodframer.models.Grocery;
-import com.spadatech.mobile.android.foodframer.models.GroceryItem;
 import com.spadatech.mobile.android.foodframer.models.Meal;
-import com.spadatech.mobile.android.foodframer.models.MealItem;
-import com.spadatech.mobile.android.foodframer.models.PrepDay;
 
 import java.util.List;
-
-import io.realm.RealmList;
 
 /**
  * Created by Felipe S. Pereira on 5/12/16.
@@ -102,49 +96,49 @@ public class DailyAdapter<T> extends RecyclerView.Adapter<DailyAdapter.ViewHolde
         // Add logic to see if checkbox was checked or not
         // Add logic to retrieve name from realm object
 
-        if (viewHolder.getItemViewType() == Constants.VIEW_TYPE_GROCERY) {
-            GroceryViewHolder holder = (GroceryViewHolder) viewHolder;
-
-            LinearLayoutManager llm = new LinearLayoutManager(mContext);
-            holder.recyclerView.setLayoutManager(llm);
-            holder.groceryListName.setText(holder.groceryListName.getText().toString().toUpperCase());
-
-            Grocery grocery = (Grocery) mDataSet.get(position);
-            RealmList<GroceryItem> groceries = grocery.getmGroceryItemList();
-
-            GroceryItemListAdapter mAdapter = new GroceryItemListAdapter(groceries, false);
-            holder.recyclerView.setAdapter(mAdapter);
-        }
-        else if (viewHolder.getItemViewType() == Constants.VIEW_TYPE_MEAL) {
-            MealViewHolder holder = (MealViewHolder) viewHolder;
-
-            LinearLayoutManager llm = new LinearLayoutManager(mContext);
-            holder.recyclerView.setLayoutManager(llm);
-
-            RealmList<MealItem> meals;
-            Meal meal = (Meal) mDataSet.get(position);
-
-            holder.mealName.setText(meal.getMealName().toUpperCase());
-            holder.mealNotes.setText(meal.getMealNotes());
-
-            meals = meal.getmMealItemList();
-
-            MealItemListAdapter mAdapter = new MealItemListAdapter(meals, false);
-            holder.recyclerView.setAdapter(mAdapter);
-        } else {
-            PrepViewHolder holder = (PrepViewHolder) viewHolder;
-
-            LinearLayoutManager llm = new LinearLayoutManager(mContext);
-            holder.recyclerView.setLayoutManager(llm);
-
-            PrepDay prep = (PrepDay) mDataSet.get(position);
-            holder.prepdayName.setText(prep.getPrepName().toUpperCase());
-
-            RealmList<MealItem> mealItems = prep.getmMealItemsList();
-
-            PrepMealItemListAdapter mAdapter = new PrepMealItemListAdapter(mealItems, false);
-            holder.recyclerView.setAdapter(mAdapter);
-        }
+//        if (viewHolder.getItemViewType() == Constants.VIEW_TYPE_GROCERY) {
+//            GroceryViewHolder holder = (GroceryViewHolder) viewHolder;
+//
+//            LinearLayoutManager llm = new LinearLayoutManager(mContext);
+//            holder.recyclerView.setLayoutManager(llm);
+//            holder.groceryListName.setText(holder.groceryListName.getText().toString().toUpperCase());
+//
+//            Grocery grocery = (Grocery) mDataSet.get(position);
+//            RealmList<GroceryItem> groceries = grocery.getmGroceryItemList();
+//
+//            GroceryItemListAdapter mAdapter = new GroceryItemListAdapter(groceries, false);
+//            holder.recyclerView.setAdapter(mAdapter);
+//        }
+//        else if (viewHolder.getItemViewType() == Constants.VIEW_TYPE_MEAL) {
+//            MealViewHolder holder = (MealViewHolder) viewHolder;
+//
+//            LinearLayoutManager llm = new LinearLayoutManager(mContext);
+//            holder.recyclerView.setLayoutManager(llm);
+//
+//            RealmList<MealItem> meals;
+//            Meal meal = (Meal) mDataSet.get(position);
+//
+//            holder.mealName.setText(meal.getMealName().toUpperCase());
+//            holder.mealNotes.setText(meal.getMealNotes());
+//
+//            meals = meal.getmMealItemList();
+//
+//            MealItemListAdapter mAdapter = new MealItemListAdapter(meals, false);
+//            holder.recyclerView.setAdapter(mAdapter);
+//        } else {
+//            PrepViewHolder holder = (PrepViewHolder) viewHolder;
+//
+//            LinearLayoutManager llm = new LinearLayoutManager(mContext);
+//            holder.recyclerView.setLayoutManager(llm);
+//
+//            PrepDay prep = (PrepDay) mDataSet.get(position);
+//            holder.prepdayName.setText(prep.getPrepName().toUpperCase());
+//
+//            RealmList<MealItem> mealItems = prep.getmMealItemsList();
+//
+//            PrepMealItemListAdapter mAdapter = new PrepMealItemListAdapter(mealItems, false);
+//            holder.recyclerView.setAdapter(mAdapter);
+//        }
     }
 
     @Override

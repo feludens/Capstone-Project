@@ -54,10 +54,10 @@ public class MealItemListAdapter extends RecyclerView.Adapter<MealItemListAdapte
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         MealItem mealItem = (MealItem) mList.get(position);
-        String name = mealItem.getMealItemName();
+//        String name = mealItem.getMealItemName();
 
         MealViewHolder holder = (MealViewHolder) viewHolder;
-        holder.name.setText(name);
+//        holder.name.setText(name);
 
         if(mIsEditMode){
             holder.deleteButton.setVisibility(View.VISIBLE);

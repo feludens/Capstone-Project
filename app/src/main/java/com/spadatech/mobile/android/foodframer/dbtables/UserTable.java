@@ -2,9 +2,9 @@ package com.spadatech.mobile.android.foodframer.dbtables;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 
-import com.spadatech.mobile.android.foodframer.managers.DatabaseManager;
+import com.spadatech.mobile.android.foodframer.App;
+import com.spadatech.mobile.android.foodframer.helpers.DatabaseHelper;
 import com.spadatech.mobile.android.foodframer.models.User;
 
 /**
@@ -13,13 +13,14 @@ import com.spadatech.mobile.android.foodframer.models.User;
 public class UserTable {
 
     private User mUser;
+    private DatabaseHelper mDatabaseHelper;
 
     public UserTable(){
         mUser = new User();
     }
 
     public static String createTable(){
-        return "CREATE TABLE " + User.TABLE  + "("
+        return "CREATE TABLE IF NOT EXISTS " + User.TABLE  + "("
                 + User.KEY_USER_USERNAME  + " TEXT PRIMARY KEY,"
                 + User.KEY_USER_FIRST_NAME  + " TEXT,"
                 + User.KEY_USER_LAST_NAME  + " TEXT,"
@@ -28,7 +29,8 @@ public class UserTable {
     }
 
     public void insert(User user) {
-        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+        mDatabaseHelper = new DatabaseHelper(App.getContext());
+        mDatabaseHelper.open();
         ContentValues values = new ContentValues();
         values.put(User.KEY_USER_USERNAME, user.getUsername());
         values.put(User.KEY_USER_FIRST_NAME, user.getFirstName());
@@ -37,23 +39,24 @@ public class UserTable {
         values.put(User.KEY_USER_PASSWORD, user.getPassword());
 
         // Inserting Row
-        db.insert(User.TABLE, null, values);
-        DatabaseManager.getInstance().closeDatabase();
+        mDatabaseHelper.getDatabase().insert(User.TABLE, null, values);
+        mDatabaseHelper.close();
     }
 
     public void delete( ) {
-        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
-        db.delete(User.TABLE, null, null);
-        DatabaseManager.getInstance().closeDatabase();
+        mDatabaseHelper = new DatabaseHelper(App.getContext());
+        mDatabaseHelper.open();
+        mDatabaseHelper.getDatabase().delete(User.TABLE, null, null);
+        mDatabaseHelper.close();
     }
 
     public User findUserByEmailAndPassword(String email, String password){
         User user = null;
-
-        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+        mDatabaseHelper = new DatabaseHelper(App.getContext());
+        mDatabaseHelper.open();
         String query = " SELECT * from " + User.TABLE + " Where " + User.KEY_USER_EMAIL + "=" + email + " AND " + User.KEY_USER_PASSWORD + "=" + password;
 
-        Cursor cursor = db.rawQuery(query, null);
+        Cursor cursor = mDatabaseHelper.getDatabase().rawQuery(query, null);
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
@@ -69,18 +72,18 @@ public class UserTable {
         }
 
         cursor.close();
-        DatabaseManager.getInstance().closeDatabase();
+        mDatabaseHelper.close();
 
         return user;
     }
 
     public User findUserByUsernameAndPassword(String username, String password){
         User user = null;
-
-        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+        mDatabaseHelper = new DatabaseHelper(App.getContext());
+        mDatabaseHelper.open();
         String query = " SELECT * from " + User.TABLE + " Where " + User.KEY_USER_USERNAME + "=" + username + " AND " + User.KEY_USER_PASSWORD + "=" + password;
 
-        Cursor cursor = db.rawQuery(query, null);
+        Cursor cursor = mDatabaseHelper.getDatabase().rawQuery(query, null);
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
@@ -96,7 +99,7 @@ public class UserTable {
         }
 
         cursor.close();
-        DatabaseManager.getInstance().closeDatabase();
+        mDatabaseHelper.close();
 
         return user;
     }

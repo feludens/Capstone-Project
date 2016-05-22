@@ -1,10 +1,13 @@
 package com.spadatech.mobile.android.foodframer.providers;
 
 import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 
 import com.spadatech.mobile.android.foodframer.helpers.DatabaseHelper;
@@ -82,14 +85,49 @@ public class FoodFramerProvider extends ContentProvider {
 
     @Override
     public Uri insert(Uri uri, ContentValues values) {
-        // TODO: Implement this to handle requests to insert a new row.
-        throw new UnsupportedOperationException("Not yet implemented");
+        long id = 0;
+        switch (mUriMatcher.match(uri)) {
+            case DatabaseHelper.USER:
+                id = mDatabase.insert(User.TABLE, null, values);
+                break;
+            case DatabaseHelper.PLAN:
+                id = mDatabase.insert(Plan.TABLE, null, values);
+                break;
+            case DatabaseHelper.WEEKDAY:
+                id = mDatabase.insert(Weekday.TABLE, null, values);
+                break;
+            case DatabaseHelper.GROCERY:
+                id = mDatabase.insert(Grocery.TABLE, null, values);
+                break;
+            case DatabaseHelper.MEAL:
+                id = mDatabase.insert(Meal.TABLE, null, values);
+                break;
+            case DatabaseHelper.PREPDAY:
+                id = mDatabase.insert(PrepDay.TABLE, null, values);
+                break;
+            case DatabaseHelper.GROCERY_ITEM:
+                id = mDatabase.insert(GroceryItem.TABLE, null, values);
+                break;
+            case DatabaseHelper.MEAL_ITEM:
+                id = mDatabase.insert(MealItem.TABLE, null, values);
+                break;
+            case DatabaseHelper.PREPDAY_ITEM:
+                id = mDatabase.insert(PrepDayItem.TABLE, null, values);
+                break;
+            default:
+                id = 0;
+        }
+
+        if (id > 0) {
+            return ContentUris.withAppendedId(uri, id);
+        }
+        throw new SQLException("Error inserting into table.");
     }
 
     @Override
     public boolean onCreate() {
         boolean ret = true;
-        mDatabaseHelper = new DatabaseHelper();
+        mDatabaseHelper = new DatabaseHelper(getContext());
         mDatabase = mDatabaseHelper.getWritableDatabase();
 
         if (mDatabase == null) {
@@ -102,38 +140,41 @@ public class FoodFramerProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
-
+        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
         switch (mUriMatcher.match(uri)) {
             case DatabaseHelper.USER:
-                return DatabaseHelper.USER_CONTENT_URI.toString();
-
+                qb.setTables(User.TABLE);
+                break;
             case DatabaseHelper.PLAN:
-                return DatabaseHelper.PLAN_CONTENT_URI.toString();
-
+                qb.setTables(Plan.TABLE);
+                break;
             case DatabaseHelper.WEEKDAY:
-                return DatabaseHelper.WEEKDAY_CONTENT_URI.toString();
-
+                qb.setTables(Weekday.TABLE);
+                break;
             case DatabaseHelper.GROCERY:
-                return DatabaseHelper.GROCERY_CONTENT_URI.toString();
-
+                qb.setTables(Grocery.TABLE);
+                break;
             case DatabaseHelper.MEAL:
-                return DatabaseHelper.MEAL_CONTENT_URI.toString();
-
+                qb.setTables(Meal.TABLE);
+                break;
             case DatabaseHelper.PREPDAY:
-                return DatabaseHelper.PREPDAY_CONTENT_URI.toString();
-
+                qb.setTables(PrepDay.TABLE);
+                break;
             case DatabaseHelper.GROCERY_ITEM:
-                return DatabaseHelper.GROCERY_ITEM_CONTENT_URI.toString();
-
+                qb.setTables(GroceryItem.TABLE);
+                break;
             case DatabaseHelper.MEAL_ITEM:
-                return DatabaseHelper.MEAL_ITEM_CONTENT_URI.toString();
-
+                qb.setTables(MealItem.TABLE);
+                break;
             case DatabaseHelper.PREPDAY_ITEM:
-                return DatabaseHelper.PREPDAY_ITEM_CONTENT_URI.toString();
-
+                qb.setTables(PrepDayItem.TABLE);
+                break;
             default:
-                throw new IllegalArgumentException("Invalid URI: " + uri);
+                qb.setTables(User.TABLE);
         }
+
+        Cursor cursor = qb.query(mDatabase, projection, selection, selectionArgs, null, null, null);
+        return cursor;
     }
 
     @Override

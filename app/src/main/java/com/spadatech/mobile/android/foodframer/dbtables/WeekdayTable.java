@@ -2,9 +2,9 @@ package com.spadatech.mobile.android.foodframer.dbtables;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 
-import com.spadatech.mobile.android.foodframer.managers.DatabaseManager;
+import com.spadatech.mobile.android.foodframer.App;
+import com.spadatech.mobile.android.foodframer.helpers.DatabaseHelper;
 import com.spadatech.mobile.android.foodframer.models.Weekday;
 
 import java.util.ArrayList;
@@ -16,43 +16,46 @@ import java.util.List;
 public class WeekdayTable {
 
     private Weekday mWeekday;
+    private DatabaseHelper mDatabaseHelper;
 
     public WeekdayTable(){
         mWeekday = new Weekday();
     }
 
     public static String createTable(){
-        return "CREATE TABLE " + Weekday.TABLE  + "("
+        return "CREATE TABLE IF NOT EXISTS " + Weekday.TABLE  + "("
                 + Weekday.KEY_WEEKDAY_ID  + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + Weekday.KEY_WEEKDAY_NAME  + " TEXT,"
                 + Weekday.KEY_WEEKDAY_PLAN_ID  + " TEXT )";
     }
 
     public void insert(Weekday weekday) {
-        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+        mDatabaseHelper = new DatabaseHelper(App.getContext());
+        mDatabaseHelper.open();
         ContentValues values = new ContentValues();
         values.put(Weekday.KEY_WEEKDAY_ID, weekday.getId());
         values.put(Weekday.KEY_WEEKDAY_NAME, weekday.getName());
         values.put(Weekday.KEY_WEEKDAY_PLAN_ID, weekday.getPlanId());
 
         // Inserting Row
-        db.insert(Weekday.TABLE, null, values);
-        DatabaseManager.getInstance().closeDatabase();
+        mDatabaseHelper.getDatabase().insert(Weekday.TABLE, null, values);
+        mDatabaseHelper.close();
     }
 
     public void delete( ) {
-        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
-        db.delete(Weekday.TABLE, null, null);
-        DatabaseManager.getInstance().closeDatabase();
+        mDatabaseHelper = new DatabaseHelper(App.getContext());
+        mDatabaseHelper.open();
+        mDatabaseHelper.getDatabase().delete(Weekday.TABLE, null, null);
+        mDatabaseHelper.close();
     }
 
     public List<Weekday> getWeekdays(String planId){
         List<Weekday> weekdays = new ArrayList<>();
-
-        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+        mDatabaseHelper = new DatabaseHelper(App.getContext());
+        mDatabaseHelper.open();
         String query = " SELECT * from " + Weekday.TABLE + " Where " + Weekday.KEY_WEEKDAY_PLAN_ID + "=" + planId;
 
-        Cursor cursor = db.rawQuery(query, null);
+        Cursor cursor = mDatabaseHelper.getDatabase().rawQuery(query, null);
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
@@ -66,7 +69,7 @@ public class WeekdayTable {
         }
 
         cursor.close();
-        DatabaseManager.getInstance().closeDatabase();
+        mDatabaseHelper.close();
 
         return weekdays;
     }
