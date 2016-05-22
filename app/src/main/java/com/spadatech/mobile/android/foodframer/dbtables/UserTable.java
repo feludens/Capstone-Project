@@ -73,4 +73,31 @@ public class UserTable {
 
         return user;
     }
+
+    public User findUserByUsernameAndPassword(String username, String password){
+        User user = null;
+
+        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+        String query = " SELECT * from " + User.TABLE + " Where " + User.KEY_USER_USERNAME + "=" + username + " AND " + User.KEY_USER_PASSWORD + "=" + password;
+
+        Cursor cursor = db.rawQuery(query, null);
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                User userResult = new User();
+                userResult.setUsername(username);
+                userResult.setPassword(password);
+                userResult.setFirstName(cursor.getString(cursor.getColumnIndex(User.KEY_USER_FIRST_NAME)));
+                userResult.setLastName(cursor.getString(cursor.getColumnIndex(User.KEY_USER_LAST_NAME)));
+                userResult.setEmail(cursor.getString(cursor.getColumnIndex(User.KEY_USER_EMAIL)));
+
+                user = userResult;
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        DatabaseManager.getInstance().closeDatabase();
+
+        return user;
+    }
 }
