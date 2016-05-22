@@ -141,7 +141,6 @@ public class PlanListActivity extends AppCompatActivity implements PlanAdapter.O
             Uri uri = DatabaseHelper.PLAN_CONTENT_URI;
             getContentResolver().insert(uri, values);
 
-
             String whereClause = "planname = ? AND Username = ?";
             String[] selectionArgs = {newPlan.getName(), newPlan.getUsername()};
             Cursor cursor = null;

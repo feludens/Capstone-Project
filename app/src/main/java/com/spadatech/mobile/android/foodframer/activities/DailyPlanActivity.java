@@ -69,7 +69,7 @@ public class DailyPlanActivity extends AppCompatActivity
         getSupportLoaderManager().initLoader(GROCERY_LOADER, null, this);
         getSupportLoaderManager().initLoader(MEAL_LOADER, null, this);
         getSupportLoaderManager().initLoader(PREPDAY_LOADER, null, this);
-//
+
         setFabOnClickListeners();
 
     }
