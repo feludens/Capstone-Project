@@ -8,14 +8,14 @@ import com.spadatech.mobile.android.foodframer.App;
 /**
  * Created by Felipe S. Pereira on 5/21/16.
  */
-public class DBHelper extends SQLiteOpenHelper{
+public class DatabaseHelper extends SQLiteOpenHelper{
 
     // DB Version
     private static final int DATABASE_VERSION = 1;
     // DB Name
     private static final String DATABASE_NAME = "sqliteFoodFramer.db";
 
-    public DBHelper( ) {
+    public DatabaseHelper( ) {
         super(App.getContext(), DATABASE_NAME, null, DATABASE_VERSION);
     }
 
